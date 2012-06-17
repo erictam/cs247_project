@@ -5,6 +5,10 @@ CARD_COUNT is the constant 52
 cards_ is an array of pointers to cards
 */
 
+
+
+const int CARD_COUNT = 52;
+
 void shuffle(){
 	int n = CARD_COUNT;
 
