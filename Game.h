@@ -9,6 +9,10 @@
 
 class Game {
 public:
+    class QuitException {
+    public:
+        QuitException () {}
+    };
     Game ();
     ~Game ();
     void printDeck() {

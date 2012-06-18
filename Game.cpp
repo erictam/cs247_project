@@ -34,10 +34,11 @@ void Game::takeTurn () {
     Command c = players_[currentPlayer_ - 1]->takeTurn(playableCards);
 
     if (c.type == QUIT) {
-        exit(1);
+        throw QuitException();
     }
     else if (c.type == DECK) {
         printDeck(); 
+        return;
     }
     else if (c.type == PLAY) {
         std::cout<<"Player "<<currentPlayer_<<" plays "<<c.card<<"."<<std::endl;;
@@ -82,7 +83,12 @@ void Game::run () {
 
         determineFirstPlayer();
         while (currentTurn_ <= 52) {
-            takeTurn();
+            try {
+                takeTurn();
+            }
+            catch (QuitException& err ) {
+                return;
+            }
         }
         int score;
         std::vector<Card> discarded;

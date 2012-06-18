@@ -45,20 +45,18 @@ void Player::removeCardInHand (Card c) {
     }
 }
 
-bool Player::discardCard (Card c, std::vector<Card> playableCards) {
+void Player::discardCard (Card c, std::vector<Card> playableCards) {
     if (playableCards.size() != 0) {
-        std::cout<<"You have a legal play. You may not discard."<<std::endl;
-        return false;
+        throw StrategyHuman::IllegalMoveException("You have a legal play. You may not discard.");
     }
     for (int i = 0; (unsigned)i < hand_.size(); i++) {
         if (c == hand_[i]) {
             discarded_.push_back(c);    
-            removeCardInHand( c ); 
-            return true;
+            removeCardInHand( c );
+            return; 
         }
     }
-    std::cout<<"You do not hold the card. You may not discard it."<<std::endl;
-    return false;
+    throw StrategyHuman::IllegalMoveException("You do not hold the card. You may not discard it.");
 }
 
 int Player::getScore () {
@@ -87,15 +85,15 @@ void Player::printTable () {
     currentTable_->printTable();
 }
 
-bool Player::playCard (Card c, std::vector<Card> playableCards) {
+void Player::playCard (Card c, std::vector<Card> playableCards) {
     for (int i = 0; (unsigned)i < playableCards.size(); i++) {
         if (c == playableCards[i]) {
             currentTable_->addCardToTable( c );
             removeCardInHand( c ); 
-            return true;
+            return;
         }
     }
-    return false;
+    throw StrategyHuman::IllegalMoveException("This is not a legal play.");
 }
 
 Command Player::takeTurn (std::vector<Card> playableCards) {

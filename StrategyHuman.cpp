@@ -7,7 +7,6 @@ StrategyHuman::StrategyHuman (Player* p)
 
 Command StrategyHuman::takeTurn ( std::vector<Card> playableCards) {
     Command c;
-    bool validTurn = false;
     p_->printTable();
     p_->printHand();
 
@@ -27,20 +26,21 @@ Command StrategyHuman::takeTurn ( std::vector<Card> playableCards) {
             return c;
         }
         else if (c.type == PLAY) {
-            validTurn = p_->playCard(c.card, playableCards);
-            if (!validTurn) {
-                std::cout<<"This is not a legal play."<<std::endl;
-            }
-            else {
+            try {
+                p_->playCard(c.card, playableCards);
                 return c;
+            }
+            catch (IllegalMoveException& err){
+                std::cout<<err.msg()<<std::endl;
             }
         }
         else if (c.type == DISCARD) {
-            validTurn = p_->discardCard(c.card, playableCards);
-            if (!validTurn) {
-            }
-            else {
+            try {
+                p_->discardCard(c.card, playableCards);
                 return c;
+            }
+            catch (IllegalMoveException& err){
+                std::cout<<err.msg()<<std::endl;
             }
         }
         else if (c.type == RAGEQUIT) {
