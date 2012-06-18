@@ -1,6 +1,6 @@
 CXX = g++
 CXXFLAGS = -g -Wall
-OBJECTS = straightsTestHarness.o Command.o Card.o Deck.o Player.o PlayerHuman.o PlayerComputer.o Hand.o Game.o Table.o
+OBJECTS = straightsTestHarness.o Command.o Card.o Deck.o Player.o PlayerHuman.o PlayerComputer.o Hand.o Game.o Table.o Strategy.o StrategyHuman.o StrategyComputer.o
 EXEC = straight
 
 ${EXEC} : ${OBJECTS}
@@ -18,7 +18,7 @@ Card.o : Card.cpp Card.h
 Deck.o : Deck.cpp Deck.h Card.h
 	${CXX} ${CXXFLAGS} -c Deck.cpp
 
-Player.o : Player.cpp Player.h Hand.h Table.h
+Player.o : Player.cpp Player.h Hand.h Table.h Strategy.h StrategyHuman.h StrategyComputer.h
 	${CXX} ${CXXFLAGS} -c Player.cpp
 
 PlayerHuman.o : PlayerHuman.cpp PlayerHuman.h Player.h
@@ -35,6 +35,15 @@ Game.o : Game.cpp Game.h Deck.h Player.h Table.h
 
 Table.o : Table.cpp Table.h Card.h
 	${CXX} ${CXXFLAGS} -c Table.cpp
+
+Strategy.o : Strategy.cpp Strategy.h Player.h
+	${CXX} ${CXXFLAGS} -c Strategy.cpp
+
+StrategyHuman.o : StrategyHuman.cpp StrategyHuman.h Strategy.h
+	${CXX} ${CXXFLAGS} -c StrategyHuman.cpp
+
+StrategyComputer.o : StrategyComputer.cpp StrategyComputer.h Strategy.h
+	${CXX} ${CXXFLAGS} -c StrategyComputer.cpp
 
 clean :
 	rm *.o

@@ -13,19 +13,8 @@ int main(int argc, char* argv[]) {
     }
 
     Game game;
+    game.run();
 
-    /*game.printDeck();
-
-
-    game.printPlayerHand(1);
-    game.printPlayerHand(2);
-    game.printPlayerHand(3);
-    game.printPlayerHand(4);*/
-    
-    game.determineFirstPlayer();
-
-    while (true) { 
-        game.takeTurn();
-    }
+    return 0;
     
 }

@@ -1,12 +1,10 @@
-#include "PlayerComputer.h"
-#include <iostream>
-#include <sstream>
+#include "StrategyComputer.h"
 
-PlayerComputer::PlayerComputer ( Table& table) 
-    : Player( table) {
+StrategyComputer::StrategyComputer (Player& p)
+    : Strategy(p) {
 }
 
-Command PlayerComputer::takeTurn (std::vector<Card> playableCards) {
+Command StrategyComputer::takeTurn ( std::vector<Card> playableCards) {
     std::string suits[SUIT_COUNT] = {"C", "D", "H", "S"};
     std::string ranks[RANK_COUNT] = {"A", "2", "3", "4", "5", "6",
 		"7", "8", "9", "10", "J", "Q", "K"};

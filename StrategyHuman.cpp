@@ -1,10 +1,10 @@
-#include "PlayerHuman.h"
+#include "StrategyHuman.h"
 
-PlayerHuman::PlayerHuman ( Table& table ) 
-    : Player( table) {
+StrategyHuman::StrategyHuman (Player* p)
+    : Strategy(p) {
 }
 
-Command PlayerHuman::takeTurn (std::vector<Card> playableCards) {
+Command StrategyHuman::takeTurn ( std::vector<Card> playableCards) {
     Command c;
     bool validTurn = false;
     printTable();
@@ -26,7 +26,7 @@ Command PlayerHuman::takeTurn (std::vector<Card> playableCards) {
             return c;
         }
         else if (c.type == PLAY) {
-            //validTurn = playCard(c.card, playableCards);
+            validTurn = playCard(c.card, playableCards);
             if (!validTurn) {
                 std::cout<<"This is not a legal play."<<std::endl;
             }
@@ -43,4 +43,5 @@ Command PlayerHuman::takeTurn (std::vector<Card> playableCards) {
             }
         }
     }
+
 }

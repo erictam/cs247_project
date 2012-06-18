@@ -16,11 +16,15 @@ public:
     void printPlayerHand (int p);
     void takeTurn ();
     void determineFirstPlayer ();
+    void printTable ();
+    void run ();
 private:
     Deck deck_;
     Player* players_[4];
+    int playerScores[4];
     Table table_;
     int currentPlayer_;
+    int currentTurn_;
 };
 
 #endif

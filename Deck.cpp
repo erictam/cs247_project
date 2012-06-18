@@ -6,15 +6,12 @@
 
 const int CARD_COUNT = 52;
 
-Deck::Deck ()
-    /*: cards ( { Card( (Suit)0, (Rank)0) }*/ {
+Deck::Deck () {
     for (int i = 0; i < SUIT_COUNT; i++) {
         for (int j = 0; j < RANK_COUNT; j++) {
             cards_.push_back( Card((Suit)i, (Rank)j) );
         }
     }
-
-    shuffle();
 }
 
 void Deck::printDeck () {

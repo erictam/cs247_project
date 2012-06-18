@@ -6,9 +6,14 @@
 
 class Table {
 public:
-    bool isLegalCard (Card c);
+    Table ();
+    void addCardToTable (Card);
+    bool isLegalCard (Card);
+    void printTable();
+    void clearTable();
 private:
-    std::vector <Card> cards_;
+    bool cardsInPlay[4][13];
+    bool firstCard_;
 };
 
 #endif
