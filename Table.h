@@ -6,14 +6,13 @@
 
 class Table {
 public:
-    Table ();
-    void addCardToTable (Card);
-    bool isLegalCard (Card);
-    void printTable();
-    void clearTable();
+    Table ();                           //public constructor
+    void addCardToTable (Card);         //method to add new card to table
+    bool isLegalCard (Card);            //method to check if card can be played next
+    void printTable();                  //method to print current cards on table
+    void clearTable();                  //method to clear the table of cards
 private:
     bool cardsInPlay[4][13];
-    bool firstCard_;
 };
 
 #endif

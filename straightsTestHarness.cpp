@@ -3,17 +3,15 @@
 #include "Game.h"
 
 int main(int argc, char* argv[]) {
-    Command command;
-    std::string input;
     int randSeed;
 
+    //seed the random number generator
     if (argc > 1) {
         randSeed = atoi(argv[1]);
         srand48 (randSeed);
     }
-
-    //Game game;
-    //game.run();
+    
+    //create a new game and run it
     Game* game = new Game();
     game->run();
     

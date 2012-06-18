@@ -8,11 +8,11 @@
 
 class Deck {
 public:
-    Deck ();
-    void printDeck ();
-    void shuffle ();
-    std::vector <Card> deal (int);
-    int findCardInDeck (Card c);
+    Deck ();                            //public constructor
+    void printDeck ();                  //method to print out entire deck
+    void shuffle ();                    //method to shuffle contents of deck
+    std::vector <Card> deal (int player);   //method to deal cards to the player
+    int findCardInDeck (Card c);        //method to find the position of a card in deck
 private:
     std::vector <Card> cards_;
 };

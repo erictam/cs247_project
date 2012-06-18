@@ -6,23 +6,29 @@
 
 const int CARD_COUNT = 52;
 
+//public constructor
 Deck::Deck () {
     for (int i = 0; i < SUIT_COUNT; i++) {
         for (int j = 0; j < RANK_COUNT; j++) {
+            //create one of every card and add to vector
             cards_.push_back( Card((Suit)i, (Rank)j) );
         }
     }
 }
 
+//method to print out entire deck
 void Deck::printDeck () {
     for (int i = 0; (unsigned)i < cards_.size(); i++) {
+        //print out each card
         std::cout<<cards_[i]<<" ";
         if (i % 13 == 12) {
+            //start printing on a new line when next player's hand
             std::cout<<std::endl;
         }
     }
 }
 
+//method to shuffle contents of deck
 void Deck::shuffle(){
 	int n = CARD_COUNT;
 
@@ -35,14 +41,17 @@ void Deck::shuffle(){
 	}
 }
 
+//method to deal cards to the player
 std::vector<Card> Deck::deal(int player) {
     std::vector<Card> returnVector;
     for (int i = (player - 1) * 13 ; i < player * 13; i++) {
+        //push the 13 cards that will make up the player's hand
         returnVector.push_back(cards_[i]);
     }
     return returnVector;
 }
 
+//method to find the position of a card in deck
 int Deck::findCardInDeck (Card c) {
     for (int i = 0; i < 52; i++) {
         if (cards_[i] == c ) {

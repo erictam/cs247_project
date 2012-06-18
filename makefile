@@ -18,7 +18,7 @@ Card.o : Card.cpp Card.h
 Deck.o : Deck.cpp Deck.h Card.h
 	${CXX} ${CXXFLAGS} -c Deck.cpp
 
-Player.o : Player.cpp Player.h Hand.h Table.h Strategy.h StrategyHuman.h StrategyComputer.h
+Player.o : Player.cpp Player.h Table.h Strategy.h StrategyHuman.h StrategyComputer.h
 	${CXX} ${CXXFLAGS} -c Player.cpp
 
 Game.o : Game.cpp Game.h Deck.h Player.h Table.h

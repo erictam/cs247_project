@@ -5,8 +5,8 @@
 
 class StrategyComputer : public Strategy {
 public:
-    StrategyComputer (Player* p);
-    Command takeTurn ( std::vector<Card> playableCards);
+    StrategyComputer (Player* p);                                   //public constructor
+    Command takeTurn ( std::vector<Card>& playableCards);           //implementation of virtual method takeTurn.  Player takes his turn and plays it.
 };
 
 #endif
