@@ -30,8 +30,6 @@ private:
     std::vector<Card> hand_;
     std::vector<Card> discarded_;
     Table* currentTable_;
-    friend class StrategyHuman;
-    friend class StrategyComputer;
     Strategy* currentStrategy_;
     Deck* deck_;
 };
