@@ -21,7 +21,7 @@ Game::Game() : currentPlayer_(0), currentTurn_(1) {
         players_[i-1] = new Player(table_, strategy, deck_);
         
         //set the players' score to 0 initially
-        playerScores[i-1] = 0;
+        playerScores_[i-1] = 0;
     }
 }
 
@@ -142,13 +142,13 @@ void Game::run () {
             std::cout<<std::endl;
 
             //print out score
-            std::cout<<"Player "<<i<<"'s score: "<<playerScores[i-1]<<" + "<<score<<" = "<<playerScores[i-1] + score<<std::endl;
+            std::cout<<"Player "<<i<<"'s score: "<<playerScores_[i-1]<<" + "<<score<<" = "<<playerScores_[i-1] + score<<std::endl;
 
             //increment score accordingly
-            playerScores[i-1] += score;
+            playerScores_[i-1] += score;
 
             //game is finished ONLY if someone has a score of 80+
-            if (playerScores[i-1] >= 80) {
+            if (playerScores_[i-1] >= 80) {
                 gameIsComplete = true;
             }
         }
@@ -157,7 +157,7 @@ void Game::run () {
     //figure out who the winner and print a message about the winner
     int winner = 0;
     for (int i = 1; i < NUM_PLAYERS; i++) {
-        if (playerScores[i] < playerScores[winner]) {
+        if (playerScores_[i] < playerScores_[winner]) {
             winner = i;
         }
     }

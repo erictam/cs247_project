@@ -12,7 +12,7 @@ public:
     void printTable();                  //method to print current cards on table
     void clearTable();                  //method to clear the table of cards
 private:
-    bool cardsInPlay[4][13];
+    bool cardsInPlay_[4][13];
 };
 
 #endif
