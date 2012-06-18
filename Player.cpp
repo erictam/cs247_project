@@ -14,8 +14,9 @@ Player::Player ( Table& table, std::string strategy)
 }
 
 Player::~Player () {
-    delete currentStrategy_;
-    delete currentTable_;
+    if (currentStrategy_ != NULL) {
+        delete currentStrategy_;
+    }
 }
 
 void Player::printHand() {

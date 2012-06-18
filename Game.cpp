@@ -25,7 +25,6 @@ Game::~Game() {
 void Game::printPlayerHand (int p) {
     assert (1 <= p && p <= 4);
     std::cout<<"Player "<< p <<"'s hand : ";
-    //std::cout<<"Your hand:";
     players_[p - 1]->printHand();;
 }
 
@@ -113,5 +112,5 @@ void Game::run () {
     }
 
     std::cout<<"Player "<<winner + 1<<" wins!"<<std::endl;
-    exit(1);
+
 }
