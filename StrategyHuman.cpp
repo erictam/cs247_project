@@ -1,4 +1,5 @@
 #include "StrategyHuman.h"
+#include <iostream>
 
 StrategyHuman::StrategyHuman (Player* p)
     : Strategy(p) {
@@ -7,8 +8,8 @@ StrategyHuman::StrategyHuman (Player* p)
 Command StrategyHuman::takeTurn ( std::vector<Card> playableCards) {
     Command c;
     bool validTurn = false;
-    printTable();
-    printHand();
+    p_->printTable();
+    p_->printHand();
 
     std::cout<<"Legal Plays:";
     for (int i = 0; (unsigned)i < playableCards.size(); i++) {
@@ -26,7 +27,7 @@ Command StrategyHuman::takeTurn ( std::vector<Card> playableCards) {
             return c;
         }
         else if (c.type == PLAY) {
-            validTurn = playCard(c.card, playableCards);
+            validTurn = p_->playCard(c.card, playableCards);
             if (!validTurn) {
                 std::cout<<"This is not a legal play."<<std::endl;
             }
@@ -35,12 +36,16 @@ Command StrategyHuman::takeTurn ( std::vector<Card> playableCards) {
             }
         }
         else if (c.type == DISCARD) {
-            validTurn = discardCard(c.card, playableCards);
+            validTurn = p_->discardCard(c.card, playableCards);
             if (!validTurn) {
             }
             else {
                 return c;
             }
+        }
+        else if (c.type == RAGEQUIT) {
+             p_->rageQuit();
+            return c;
         }
     }
 

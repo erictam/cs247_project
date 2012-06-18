@@ -1,13 +1,26 @@
 #include <iostream>
 #include "Player.h"
+#include "StrategyHuman.h"
+#include "StrategyComputer.h"
 
-Player::Player ( Table& table) 
+Player::Player ( Table& table, std::string strategy) 
     : currentTable_(&table) {
-    currentStrategy_ = new StrategyHuman(this);
+    delete currentStrategy_;
+    if (strategy == "h" || strategy == "H") {
+        currentStrategy_ = new StrategyHuman(this);
+    }
+    else if (strategy == "c" || strategy == "C") {
+        currentStrategy_ = new StrategyComputer(this);
+    }
+}
+
+Player::~Player () {
+    delete currentStrategy_;
+    delete currentTable_;
 }
 
 void Player::printHand() {
-    
+    std::cout<<"Your hand:";
     for (int i = 0; (unsigned)i < hand_.size(); i++) {
         std::cout<<" "<<hand_[i];
     }
@@ -88,4 +101,10 @@ bool Player::playCard (Card c, std::vector<Card> playableCards) {
 Command Player::takeTurn (std::vector<Card> playableCards) {
     Command c = currentStrategy_->takeTurn( playableCards);
     return c;
+}
+
+void Player::rageQuit () {
+    Strategy* temp = currentStrategy_;
+    currentStrategy_ = new StrategyComputer(this);
+    delete temp;
 }

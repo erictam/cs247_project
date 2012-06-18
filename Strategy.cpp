@@ -3,3 +3,7 @@
 Strategy::Strategy (Player* p)
     : p_(p) {
 }
+
+Strategy::~Strategy () {
+    p_ = NULL;
+}

@@ -20,9 +20,9 @@ Command StrategyComputer::takeTurn ( std::vector<Card> playableCards) {
     }
     else {
         command += "discard " ;
-        command += ranks[p_->hand_[0].getRank()];
-        command += suits[p_->hand_[0].getSuit()];
-        p_->discardCard (p_->hand_[0], playableCards);
+        command += ranks[hand_[0].getRank()];
+        command += suits[hand_[0].getSuit()];
+        p_->discardCard (hand_[0], playableCards);
     }
     std::stringstream ss(command);
     ss>>c;

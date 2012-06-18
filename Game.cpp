@@ -4,20 +4,22 @@
 
 Game::Game() : currentPlayer_(0), currentTurn_(1) {
     table_ = Table();
-    std::string input;
+    std::string strategy;
     for (int i = 1; i <= 4; i++) {
         std::cout<<"Is player "<<i<<" a human(h) or a computer(c)?\n>";
-        std::cin>>input;
-        assert (input == "c" || input == "C" || input == "H" || input == "h");
+        std::cin>>strategy;
+        assert (strategy == "c" || strategy == "C" || strategy == "H" || strategy == "h");
 
-        if (input == "h" || input == "H") {
-            players_[i-1] = new PlayerHuman( table_);
-        }
-        else if (input == "c" || input == "C") {
-            players_[i-1] = new PlayerComputer( table_);
-        }
+        delete players_[i-1];
+        players_[i-1] = new Player(table_, strategy);
 
         playerScores[i-1] = 0;
+    }
+}
+
+Game::~Game() {
+    for (int i = 0; i < 4; i++) {
+        delete players_[i];
     }
 }
 
@@ -45,7 +47,12 @@ void Game::takeTurn () {
     else if (c.type == DISCARD) {
         std::cout<<"Player "<<currentPlayer_<<" discards "<<c.card<<"."<<std::endl;
     }
+    else if (c.type == RAGEQUIT) {
+        std::cout<<"Player "<<currentPlayer_<<" ragequits. A computer will now take over."<<std::endl;
+        return;
+    }
 
+    currentTurn_++;
     currentPlayer_++;
     if (currentPlayer_ == 5) {
         currentPlayer_ = 1;
@@ -78,7 +85,6 @@ void Game::run () {
         determineFirstPlayer();
         while (currentTurn_ <= 52) {
             takeTurn();
-            currentTurn_++;
         }
         int score;
         std::vector<Card> discarded;

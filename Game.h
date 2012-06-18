@@ -10,6 +10,7 @@
 class Game {
 public:
     Game ();
+    ~Game ();
     void printDeck() {
         deck_.printDeck();
     }
