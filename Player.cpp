@@ -5,7 +5,6 @@
 
 Player::Player ( Table& table, std::string strategy) 
     : currentTable_(&table) {
-    delete currentStrategy_;
     if (strategy == "h" || strategy == "H") {
         currentStrategy_ = new StrategyHuman(this);
     }

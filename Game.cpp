@@ -4,13 +4,12 @@
 
 Game::Game() : currentPlayer_(0), currentTurn_(1) {
     table_ = Table();
-    std::string strategy;
+    std::string strategy = "";
     for (int i = 1; i <= 4; i++) {
         std::cout<<"Is player "<<i<<" a human(h) or a computer(c)?\n>";
         std::cin>>strategy;
         assert (strategy == "c" || strategy == "C" || strategy == "H" || strategy == "h");
 
-        delete players_[i-1];
         players_[i-1] = new Player(table_, strategy);
 
         playerScores[i-1] = 0;
