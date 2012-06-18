@@ -2,11 +2,14 @@
 #include <iostream>
 #include "Game.h"
 
+const int NUM_PLAYERS = 4;
+const int CARD_COUNT = 52;
+
 //public constructor
 Game::Game() : currentPlayer_(0), currentTurn_(1) {
     table_ = Table();
     std::string strategy = "";
-    for (int i = 1; i <= 4; i++) {
+    for (int i = 1; i <= NUM_PLAYERS; i++) {
         //create 4 new players
         std::cout<<"Is player "<<i<<" a human(h) or a computer(c)?\n>";
         std::cin>>strategy;
@@ -24,7 +27,7 @@ Game::Game() : currentPlayer_(0), currentTurn_(1) {
 
 //public destructor
 Game::~Game() {
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < NUM_PLAYERS; i++) {
         //delete each of the players
         delete players_[i];
     }
@@ -32,7 +35,7 @@ Game::~Game() {
 
 //method to print player p's hand
 void Game::printPlayerHand (int p) {
-    assert (1 <= p && p <= 4);
+    assert (1 <= p && p <= NUM_PLAYERS);
     std::cout<<"Player "<< p <<"'s hand : ";
     players_[p - 1]->printHand();;
 }
@@ -44,6 +47,7 @@ void Game::takeTurn () {
     Command c = players_[currentPlayer_ - 1]->takeTurn();
 
     if (c.type == QUIT) {
+        // throw QuitException if quitting the game
         throw QuitException();
     }
     else if (c.type == DECK) {
@@ -65,7 +69,7 @@ void Game::takeTurn () {
 
     //increment currentPlayer_ and loop back to 1st player.
     currentPlayer_++;
-    if (currentPlayer_ == 5) {
+    if (currentPlayer_ == NUM_PLAYERS + 1) {
         currentPlayer_ = 1;
     }
 }
@@ -96,7 +100,7 @@ void Game::run () {
         table_.clearTable();
 
         //clear each player of their hand and discarded pile, and deal a new hand to each player
-        for (int i = 1; i <= 4; i++) {
+        for (int i = 1; i <= NUM_PLAYERS; i++) {
             players_[i-1]->clearPlayer();
             std::vector<Card> hand = deck_.deal(i);
             players_[i-1]->assignHand(hand);
@@ -107,7 +111,7 @@ void Game::run () {
 
         //we will always have 52 turns in one round.
         //so takeTurn 52 times
-        while (currentTurn_ <= 52) {
+        while (currentTurn_ <= CARD_COUNT) {
             try {
                 takeTurn();
             }
@@ -123,7 +127,7 @@ void Game::run () {
         //this will hold the discard pile of the player
         std::vector<Card> discarded;
 
-        for (int i = 1; i <= 4; i++) {
+        for (int i = 1; i <= NUM_PLAYERS; i++) {
             //get discarded pile
             discarded = players_[i-1]->getDiscarded();
 
@@ -152,7 +156,7 @@ void Game::run () {
 
     //figure out who the winner and print a message about the winner
     int winner = 0;
-    for (int i = 1; i < 4; i++) {
+    for (int i = 1; i < NUM_PLAYERS; i++) {
         if (playerScores[i] < playerScores[winner]) {
             winner = i;
         }

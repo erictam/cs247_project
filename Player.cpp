@@ -47,6 +47,7 @@ std::vector<Card> Player::getPlayableCards () {
 
 //method to get player to take his turn
 Command Player::takeTurn () {
+    // get list of playable cards
     std::vector<Card> playableCards = getPlayableCards();
     
     //call the takeTurn method of the strategy
@@ -57,6 +58,7 @@ Command Player::takeTurn () {
 //method to get player to play a card onto table
 void Player::playCard (Card c, std::vector<Card>& playableCards) {
     for (int i = 0; (unsigned)i < playableCards.size(); i++) {
+        // add card to table of played cards if valid
         if (c == playableCards[i]) {
 
             //add the card to the table, and remove the card from your hand
@@ -130,9 +132,11 @@ void Player::printTable () {
 
 //method to get player to ragequit
 void Player::rageQuit () {
+    // set pointer to human strategy
     Strategy* temp = currentStrategy_;
     //change to computer strategy
     currentStrategy_ = new StrategyComputer(this);
+    // delete human strategy associated with this player
     delete temp;
 }
 

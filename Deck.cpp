@@ -22,7 +22,7 @@ void Deck::printDeck () {
         //print out each card
         std::cout<<cards_[i]<<" ";
         if (i % 13 == 12) {
-            //start printing on a new line when next player's hand
+            //start printing on a new line for next player's hand
             std::cout<<std::endl;
         }
     }
@@ -35,6 +35,7 @@ void Deck::shuffle(){
 	while ( n > 1 ) {
 		int k = (int) (lrand48() % n);
 		--n;
+        // save card in slot n temporarily during the swap
 		Card c = cards_[n];
 		cards_[n] = cards_[k];
 		cards_[k] = c;
@@ -44,6 +45,8 @@ void Deck::shuffle(){
 //method to deal cards to the player
 std::vector<Card> Deck::deal(int player) {
     std::vector<Card> returnVector;
+    // player is an int from 1 to 4, where i is the indices in the deck that
+    // contains each player's cards
     for (int i = (player - 1) * 13 ; i < player * 13; i++) {
         //push the 13 cards that will make up the player's hand
         returnVector.push_back(cards_[i]);
@@ -53,7 +56,7 @@ std::vector<Card> Deck::deal(int player) {
 
 //method to find the position of a card in deck
 int Deck::findCardInDeck (Card c) {
-    for (int i = 0; i < 52; i++) {
+    for (int i = 0; i < CARD_COUNT; i++) {
         if (cards_[i] == c ) {
             return i;
         }
