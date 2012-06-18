@@ -15,9 +15,6 @@ public:
     };
     Game ();
     ~Game ();
-    void printDeck() {
-        deck_.printDeck();
-    }
     void printPlayerHand (int p);
     void takeTurn ();
     void determineFirstPlayer ();

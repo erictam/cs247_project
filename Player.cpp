@@ -3,8 +3,8 @@
 #include "StrategyHuman.h"
 #include "StrategyComputer.h"
 
-Player::Player ( Table& table, std::string strategy) 
-    : currentTable_(&table) {
+Player::Player ( Table& table, std::string strategy, Deck& deck) 
+    : currentTable_(&table), deck_(&deck) {
     if (strategy == "h" || strategy == "H") {
         currentStrategy_ = new StrategyHuman(this);
     }

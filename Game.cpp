@@ -10,7 +10,7 @@ Game::Game() : currentPlayer_(0), currentTurn_(1) {
         std::cin>>strategy;
         assert (strategy == "c" || strategy == "C" || strategy == "H" || strategy == "h");
 
-        players_[i-1] = new Player(table_, strategy);
+        players_[i-1] = new Player(table_, strategy, deck_);
 
         playerScores[i-1] = 0;
     }
@@ -37,7 +37,6 @@ void Game::takeTurn () {
         throw QuitException();
     }
     else if (c.type == DECK) {
-        printDeck(); 
         return;
     }
     else if (c.type == PLAY) {

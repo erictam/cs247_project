@@ -23,7 +23,7 @@ Command StrategyHuman::takeTurn ( std::vector<Card> playableCards) {
             return c;
         }
         else if (c.type == DECK) {
-            return c;
+            p_->printDeck();
         }
         else if (c.type == PLAY) {
             try {

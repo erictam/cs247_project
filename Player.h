@@ -6,12 +6,13 @@
 #include "Card.h"
 #include "Command.h"
 #include "Table.h"
+#include "Deck.h"
 
 class Strategy;
 
 class Player {
 public:
-    Player ( Table& table, std::string strategy);
+    Player ( Table& table, std::string strategy, Deck& deck);
     ~Player ();
     void printHand ();
     std::vector<Card> getPlayableCards();
@@ -25,6 +26,9 @@ public:
     void assignHand (std::vector<Card> cards);
     void printTable ();
     void rageQuit ();
+    void printDeck() {
+        deck_->printDeck();
+    }
 protected:
     std::vector<Card> hand_;
     std::vector<Card> discarded_;
@@ -32,6 +36,7 @@ protected:
     friend class StrategyHuman;
     friend class StrategyComputer;
     Strategy* currentStrategy_;
+    Deck* deck_;
 };
 
 #endif
