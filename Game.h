@@ -22,7 +22,7 @@ public:
 private:
     Deck deck_;
     Player* players_[4];
-    int playerScores[4];
+    int playerScores_[4];
     Table table_;
     int currentPlayer_;
     int currentTurn_;
