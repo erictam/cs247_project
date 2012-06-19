@@ -32,6 +32,7 @@ private:
     Table* currentTable_;
     Strategy* currentStrategy_;
     Deck* deck_;
+    friend class StrategyComputer;
 };
 
 #endif
