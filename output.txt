@@ -2,248 +2,107 @@ Is player 1 a human(h) or a computer(c)?
 >Is player 2 a human(h) or a computer(c)?
 >Is player 3 a human(h) or a computer(c)?
 >Is player 4 a human(h) or a computer(c)?
->A new round begins. It's player 2's turn to play.
-Player 2 plays 7S.
-Player 3 discards 3H.
-Player 4 plays 7D.
-Player 1 plays 6D.
-Player 2 plays 7H.
-Player 3 plays 6H.
-Player 4 plays 8D.
-Player 1 discards 2H.
-Player 2 plays 5H.
-Player 3 plays 8H.
-Player 4 plays 9D.
-Player 1 plays 9H.
-Player 2 plays 6S.
-Player 3 plays 5S.
-Player 4 plays 4H.
-Player 1 plays 10H.
-Player 2 plays 8S.
-Player 3 plays 4S.
-Player 4 plays JH.
-Player 1 plays 9S.
-Player 2 plays 10S.
-Player 3 plays 3S.
-Player 4 discards 2C.
-Player 1 plays 2S.
-Player 2 plays 7C.
-Player 3 plays JS.
-Player 4 plays 6C.
-Player 1 plays QS.
-Player 2 plays 5D.
-Player 3 plays 4D.
-Player 4 plays 5C.
-Player 1 plays 8C.
-Player 2 plays 9C.
-Player 3 plays 3D.
-Player 4 plays 2D.
-Player 1 discards KD.
-Player 2 plays 4C.
-Player 3 plays KS.
-Player 4 plays 3C.
-Player 1 discards KH.
-Player 2 plays 10D.
-Player 3 plays QH.
-Player 4 plays AD.
-Player 1 plays JD.
-Player 2 discards QC.
-Player 3 plays AS.
-Player 4 plays 10C.
-Player 1 discards AC.
-Player 2 discards KC.
-Player 3 plays JC.
-Player 4 plays QD.
-Player 1 discards AH.
-Player 1's discards: 2H KD KH AC AH
-Player 1's score: 0 + 30 = 30
-Player 2's discards: QC KC
-Player 2's score: 0 + 25 = 25
-Player 3's discards: 3H
-Player 3's score: 0 + 3 = 3
-Player 4's discards: 2C
-Player 4's score: 0 + 2 = 2
-A new round begins. It's player 2's turn to play.
-Player 2 plays 7S.
-Player 3 plays 7H.
-Player 4 discards QD.
-Player 1 plays 6S.
-Player 2 plays 5S.
-Player 3 plays 6H.
-Player 4 discards 2C.
-Player 1 plays 4S.
-Player 2 plays 8H.
-Player 3 plays 3S.
-Player 4 plays 9H.
-Player 1 plays 7D.
-Player 2 plays 10H.
-Player 3 discards AD.
-Player 4 plays JH.
-Player 1 plays 8S.
-Player 2 plays 8D.
-Player 3 plays 9S.
-Player 4 plays QH.
-Player 1 plays 5H.
-Player 2 plays 9D.
-Player 3 plays 4H.
-Player 4 plays 6D.
-Player 1 plays 10D.
-Player 2 plays JD.
-Player 3 discards AS.
-Player 4 plays 2S.
-Player 1 plays 3H.
-Player 2 plays 5D.
-Player 3 discards 9C.
-Player 4 plays 10S.
-Player 1 plays 2H.
-Player 2 plays KH.
-Player 3 plays AH.
-Player 4 discards 6C.
-Player 1 plays 7C.
-Player 2 plays 8C.
-Player 3 plays JS.
-Player 4 discards 3C.
-Player 1 plays 4D.
-Player 2 discards 10C.
-Player 3 plays QS.
-Player 4 discards KD.
-Player 1 plays 3D.
-Player 2 discards JC.
-Player 3 plays KS.
-Player 4 plays 2D.
-Player 1 discards 4C.
-Player 2 discards QC.
-Player 3 discards AC.
-Player 4 discards 5C.
-Player 1 discards KC.
-Player 1's discards: 4C KC
-Player 1's score: 30 + 17 = 47
-Player 2's discards: 10C JC QC
-Player 2's score: 25 + 33 = 58
-Player 3's discards: AD AS 9C AC
-Player 3's score: 3 + 12 = 15
-Player 4's discards: QD 2C 6C 3C KD 5C
-Player 4's score: 2 + 41 = 43
-A new round begins. It's player 4's turn to play.
-Player 4 plays 7S.
-Player 1 discards 4C.
-Player 2 plays 6S.
-Player 3 plays 7H.
-Player 4 plays 7D.
-Player 1 plays 8D.
-Player 2 discards 4H.
-Player 3 plays 6D.
-Player 4 plays 9D.
-Player 1 plays 10D.
-Player 2 discards 3S.
-Player 3 plays 7C.
-Player 4 plays 8C.
-Player 1 plays JD.
-Player 2 discards AH.
-Player 3 plays 6C.
-Player 4 plays 9C.
-Player 1 plays 8H.
-Player 2 plays 5C.
-Player 3 plays 9H.
-Player 4 plays QD.
-Player 1 plays 10C.
-Player 2 plays 10H.
-Player 3 plays 5S.
-Player 4 plays 4S.
-Player 1 plays JH.
-Player 2 plays KD.
-Player 3 plays 8S.
-Player 4 plays QH.
-Player 1 plays 6H.
-Player 2 plays JC.
-Player 3 plays 9S.
-Player 4 plays KH.
-Player 1 plays 5H.
-Player 2 plays 10S.
-Player 3 plays 5D.
-Player 4 plays JS.
-Player 1 discards AS.
-Player 2 plays QS.
-Player 3 discards 2H.
-Player 4 plays 4D.
-Player 1 plays 3D.
-Player 2 plays QC.
-Player 3 discards AC.
-Player 4 plays 2D.
-Player 1 plays KC.
-Player 2 plays KS.
-Player 3 discards 2C.
-Player 4 discards 2S.
-Player 1 plays AD.
-Player 2 discards 3C.
-Player 3 discards 3H.
-Player 1's discards: 4C AS
-Player 1's score: 47 + 5 = 52
-Player 2's discards: 4H 3S AH 3C
-Player 2's score: 58 + 11 = 69
-Player 3's discards: 2H AC 2C 3H
-Player 3's score: 15 + 8 = 23
-Player 4's discards: 2S
-Player 4's score: 43 + 2 = 45
-A new round begins. It's player 1's turn to play.
-Player 1 plays 7S.
-Player 2 plays 7C.
-Player 3 plays 6S.
-Player 4 plays 7H.
-Player 1 plays 6H.
-Player 2 plays 5H.
-Player 3 plays 8C.
-Player 4 plays 6C.
-Player 1 plays 4H.
-Player 2 plays 8S.
-Player 3 plays 9C.
-Player 4 plays 5C.
-Player 1 plays 3H.
-Player 2 plays 10C.
-Player 3 plays 2H.
-Player 4 plays 5S.
-Player 1 plays AH.
-Player 2 plays 4S.
-Player 3 discards 3C.
-Player 4 plays 4C.
-Player 1 discards 2S.
-Player 2 plays JC.
-Player 3 discards 3D.
-Player 4 plays QC.
-Player 1 plays KC.
-Player 2 plays 9S.
-Player 3 discards 9D.
-Player 4 plays 3S.
-Player 1 discards 5D.
-Player 2 plays 10S.
-Player 3 discards 10H.
-Player 4 plays JS.
-Player 1 discards JD.
-Player 2 plays QS.
-Player 3 discards AD.
-Player 4 plays KS.
-Player 1 discards JH.
-Player 2 plays 8H.
-Player 3 plays 9H.
-Player 4 plays 7D.
-Player 1 plays 6D.
-Player 2 discards KH.
-Player 3 discards QD.
-Player 4 discards 10D.
-Player 1 plays 8D.
-Player 2 discards KD.
-Player 3 discards 4D.
-Player 4 discards QH.
-Player 1 discards 2C.
-Player 2 discards 2D.
-Player 3 discards AS.
-Player 4 discards AC.
-Player 1's discards: 2S 5D JD JH 2C
-Player 1's score: 52 + 31 = 83
-Player 2's discards: KH KD 2D
-Player 2's score: 69 + 28 = 97
-Player 3's discards: 3C 3D 9D 10H AD QD 4D AS
-Player 3's score: 23 + 43 = 66
-Player 4's discards: 10D QH AC
-Player 4's score: 45 + 23 = 68
-Player 3 wins!
+>A new round begins. It's player 3's turn to play.
+Cards on the table:
+Clubs:
+Diamonds:
+Hearts:
+Spades:
+Your hand: 7S 7C QD 6C 2H 6D 3C 9C 5H 3D AD 5S 8H
+Legal Plays: 7S
+>Player 3 plays 7S.
+Cards on the table:
+Clubs:
+Diamonds:
+Hearts:
+Spades: 7
+Your hand: QC 2S 8D JS QS AS JD 4C 7H 9D 5C AH 9H
+Legal Plays: 7H
+>You have a legal play. You may not discard.
+>This is not a legal play.
+>This is not a legal play.
+>Player 4 plays 7H.
+Cards on the table:
+Clubs:
+Diamonds:
+Hearts: 7
+Spades: 7
+Your hand: 10S 2D 3S KH 3H 2C 5D 10C 8S 10D AC KC QH
+Legal Plays: 8S
+>This is not a legal play.
+>This is not a legal play.
+>You have a legal play. You may not discard.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>Player 1 plays 8S.
+Cards on the table:
+Clubs:
+Diamonds:
+Hearts: 7
+Spades: 7 8
+Your hand: 4D JH 6H JC KD 8C 7D 10H 4H 9S 6S 4S KS
+Legal Plays: 6H 7D 9S 6S
+>This is not a legal play.
+>This is not a legal play.
+>Player 2 plays 9S.
+Cards on the table:
+Clubs:
+Diamonds:
+Hearts: 7
+Spades: 7 8 9
+Your hand: 7C QD 6C 2H 6D 3C 9C 5H 3D AD 5S 8H
+Legal Plays: 7C 8H
+>This is not a legal play.
+>This is not a legal play.
+>You have a legal play. You may not discard.
+>This is not a legal play.
+>Player 3 plays 7C.
+Cards on the table:
+Clubs: 7
+Diamonds:
+Hearts: 7
+Spades: 7 8 9
+Your hand: QC 2S 8D JS QS AS JD 4C 9D 5C AH 9H
+Legal Plays:
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>You do not hold the card. You may not discard it.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>You do not hold the card. You may not discard it.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>Player 4 discards QC.
+Cards on the table:
+Clubs: 7
+Diamonds:
+Hearts: 7
+Spades: 7 8 9
+Your hand: 10S 2D 3S KH 3H 2C 5D 10C 10D AC KC QH
+Legal Plays: 10S
+>This is not a legal play.
+>This is not a legal play.
+>You have a legal play. You may not discard.
+>You have a legal play. You may not discard.
+>This is not a legal play.
+>This is not a legal play.
+>You have a legal play. You may not discard.
+>This is not a legal play.
+>
