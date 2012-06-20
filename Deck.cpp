@@ -17,7 +17,7 @@ Deck::Deck () {
 }
 
 //method to print out entire deck
-void Deck::printDeck () {
+void Deck::printDeck () const {
     for (int i = 0; (unsigned)i < cards_.size(); i++) {
         //print out each card
         std::cout<<cards_[i]<<" ";
@@ -29,7 +29,7 @@ void Deck::printDeck () {
 }
 
 //method to shuffle contents of deck
-void Deck::shuffle(){
+void Deck::shuffle() {
 	int n = CARD_COUNT;
 
 	while ( n > 1 ) {
@@ -43,7 +43,7 @@ void Deck::shuffle(){
 }
 
 //method to deal cards to the player
-std::vector<Card> Deck::deal(int player) {
+std::vector<Card> Deck::deal(int player) const {
     std::vector<Card> returnVector;
     // player is an int from 1 to 4, where i is the indices in the deck that
     // contains each player's cards
@@ -55,7 +55,7 @@ std::vector<Card> Deck::deal(int player) {
 }
 
 //method to find the position of a card in deck
-int Deck::findCardInDeck (Card c) {
+int Deck::findCardInDeck (Card c) const {
     for (int i = 0; i < CARD_COUNT; i++) {
         if (cards_[i] == c ) {
             return i;

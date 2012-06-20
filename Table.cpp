@@ -18,7 +18,7 @@ void Table::addCardToTable (Card c) {
 }
 
 //method to check if card can be played next
-bool Table::isLegalCard (Card c) {
+bool Table::isLegalCard (Card c) const {
     Suit suit = c.getSuit();
     Rank rank = c.getRank();
 
@@ -50,7 +50,7 @@ bool Table::isLegalCard (Card c) {
 }
 
 //method to print current cards on table
-void Table::printTable () {
+void Table::printTable () const {
     std::string ranks[RANK_COUNT] = {"A", "2", "3", "4", "5", "6",
 		"7", "8", "9", "10", "J", "Q", "K"};
     for (int i = 0; i < SUIT_COUNT; i++) {

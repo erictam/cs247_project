@@ -4,6 +4,7 @@
 
 const int NUM_PLAYERS = 4;
 const int CARD_COUNT = 52;
+const int MAX_SCORE = 80;
 
 //public constructor
 Game::Game() : currentPlayer_(0), currentTurn_(1) {
@@ -34,7 +35,7 @@ Game::~Game() {
 }
 
 //method to print player p's hand
-void Game::printPlayerHand (int p) {
+void Game::printPlayerHand (int p) const {
     assert (1 <= p && p <= NUM_PLAYERS);
     std::cout<<"Player "<< p <<"'s hand : ";
     players_[p - 1]->printHand();;
@@ -81,7 +82,7 @@ void Game::determineFirstPlayer () {
 }
 
 //method to print current cards on the table
-void Game::printTable () {
+void Game::printTable () const {
     std::cout<<"Cards on the table:"<<std::endl;
     table_.printTable();
 }
@@ -147,8 +148,8 @@ void Game::run () {
             //increment score accordingly
             playerScores_[i-1] += score;
 
-            //game is finished ONLY if someone has a score of 80+
-            if (playerScores_[i-1] >= 80) {
+            //game is finished ONLY if someone has a score of 80+ (max score)
+            if (playerScores_[i-1] >= MAX_SCORE) {
                 gameIsComplete = true;
             }
         }

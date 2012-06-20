@@ -25,7 +25,7 @@ Player::~Player () {
 }
 
 //method to print the hand of the player
-void Player::printHand() {
+void Player::printHand() const {
     std::cout<<"Your hand:";
     for (int i = 0; (unsigned)i < hand_.size(); i++) {
         std::cout<<" "<<hand_[i];
@@ -34,7 +34,7 @@ void Player::printHand() {
 }
 
 //method to get a list of playable cards in the player's hand
-std::vector<Card> Player::getPlayableCards () {
+std::vector<Card> Player::getPlayableCards () const {
     std::vector<Card> playableCards;
     for (int i = 0; (unsigned)i < hand_.size(); i++) {
         //check if the card is a legal card based on the currentTable_
@@ -99,7 +99,7 @@ void Player::removeCardInHand (Card c) {
 }
 
 //method to get score calculated based on discard pile
-int Player::getScore () {
+int Player::getScore () const {
     int score = 0;
     for (int i = 0; (unsigned)i < discarded_.size(); i++) {
         //sum up the ranks of each discarded card.  A = 1, J = 11, Q = 12, K = 13
@@ -109,7 +109,7 @@ int Player::getScore () {
 }
 
 //method to get list of discarded cards
-std::vector<Card> Player::getDiscarded() {
+std::vector<Card> Player::getDiscarded() const {
     return discarded_;
 }
 
@@ -125,7 +125,7 @@ void Player::assignHand (std::vector<Card> cards) {
 }
 
 //method to print cards currently on table
-void Player::printTable () {
+void Player::printTable () const {
     std::cout<<"Cards on the table:"<<std::endl;
     currentTable_->printTable();
 }
@@ -141,6 +141,6 @@ void Player::rageQuit () {
 }
 
 //method to print the deck (only needed to deck command) 
-void Player::printDeck() {                                              
+void Player::printDeck() const {                                              
         deck_->printDeck();
 }
