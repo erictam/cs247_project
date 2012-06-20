@@ -8,8 +8,11 @@ int main(int argc, char* argv[]) {
     //seed the random number generator
     if (argc > 1) {
         randSeed = atoi(argv[1]);
-        srand48 (randSeed);
     }
+    else {
+        randSeed = 0;
+    }
+    srand48 (randSeed);
     
     //create a new game and run it
     Game* game = new Game();
