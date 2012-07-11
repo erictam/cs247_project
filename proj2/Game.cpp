@@ -10,7 +10,7 @@ const int MAX_SCORE = 80;
 Game::Game() : currentPlayer_(0), currentTurn_(1) {
     table_ = Table();
     std::string strategy = "";
-    for (int i = 1; i <= NUM_PLAYERS; i++) {
+    /*for (int i = 1; i <= NUM_PLAYERS; i++) {
         //create 4 new players
         std::cout<<"Is player "<<i<<" a human(h) or a computer(c)?\n>";
         std::cin>>strategy;
@@ -23,7 +23,7 @@ Game::Game() : currentPlayer_(0), currentTurn_(1) {
         
         //set the players' score to 0 initially
         playerScores_[i-1] = 0;
-    }
+    }*/
 }
 
 //public destructor
@@ -183,7 +183,7 @@ std::vector<Card> Game::getHand(int player) {
     return players_[player]->getHand();
 }
 
-bool** Game::getTable() {
+bool* Game::getTable() {
     return table_.getTable();
 }
 
@@ -192,6 +192,12 @@ int Game::getCurrentPlayer() {
     return currentPlayer_;
 }
 
-bool getCurrentPlayerType() {
-    
+bool Game::getCurrentPlayerType() {
+    return true;
+}
+
+void Game::newGame() {
+    currentPlayer_ = 12;
+    std::cout<<"something";
+    notify();
 }

@@ -7,12 +7,12 @@
 class Facade {
     public:
         virtual ~Facade() {}
-        virtual int getScore(int player) {}
-        virtual int getDiscarded(int player) {}
-        virtual std::vector<Card> getHand(int player) {}
-        virtual bool** getTable() {}
-        virtual int getCurrentPlayer() {}
-        virtual bool getCurrentPlayerType() {}
+        virtual int getScore(int player) = 0;
+        virtual int getDiscarded(int player) = 0;
+        virtual std::vector<Card> getHand(int player) = 0;
+        virtual bool* getTable() = 0;
+        virtual int getCurrentPlayer() = 0;
+        virtual bool getCurrentPlayerType() = 0;
     protected:
         Facade() {} //abstract base class
     private:

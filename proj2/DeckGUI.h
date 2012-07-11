@@ -16,8 +16,8 @@
 using std::vector;
 
 // Enumerated types to define the face and suit values.
-enum Faces { ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING };
-enum Suits { DIAMOND, CLUB, HEART, SPADE };
+enum Faces { ACE_, TWO_, THREE_, FOUR_, FIVE_, SIX_, SEVEN_, EIGHT_, NINE_, TEN_, JACK_, QUEEN_, KING_ };
+enum Suits { DIAMOND_, CLUB_, HEART_, SPADE_ };
 
 class DeckGUI {
 public:

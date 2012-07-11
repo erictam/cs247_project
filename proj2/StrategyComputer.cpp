@@ -38,6 +38,6 @@ Command StrategyComputer::takeTurn ( std::vector<Card>& playableCards) {
 
     //convert the command string to a command object
     std::stringstream ss(command);
-    ss>>c;
+    //ss>>c;
     return c;
 }

@@ -24,7 +24,7 @@ Command StrategyHuman::takeTurn ( std::vector<Card>& playableCards) {
     //loop until valid command is input
     while (true) {
         std::cout<<">";
-        std::cin>>c;
+        //std::cin>>c;
         if (c.type == QUIT) {
             //return the quit command. This will eventually result in throwing Game::QuitException
             return c;

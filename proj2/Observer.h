@@ -3,10 +3,10 @@
 
 #include <gtkmm.h>
 
-class Observer : public Gtk::Window{
+class Observer{
     public:
         virtual ~Observer() {}
-        virtual void update() {};
+        virtual void update() = 0;
 
     protected:
         Observer() {} //abstract base class

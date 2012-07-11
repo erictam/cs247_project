@@ -12,9 +12,12 @@
 
 #include "DeckGUI.h"
 
-class OtherWorld : public Observer {
+class Game;
+class Controller;
+
+class OtherWorld : public Observer, public Gtk::Window {
 public:
-	OtherWorld();
+	OtherWorld( Controller*, Game* );
 	virtual ~OtherWorld();
 	
 private:
@@ -29,6 +32,14 @@ private:
     Gtk::Table                      table;
     Gtk::Button                     newGameButton;
     Gtk::Button                     endGameButton;
+
+    Game*                           game_;
+
+    Controller*                     controller_;
+
+    void update();
+    void newGameButtonClicked();
+
 }; // OtherWorld
 
 #endif

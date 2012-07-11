@@ -14,7 +14,7 @@ void Table::addCardToTable (Card c) {
     Rank rank = c.getRank();
     
     //set the boolean to true to represent that the card is on the table
-    cardsInPlay_[suit][rank] = true;
+    cardsInPlay_[suit * 13 + rank] = true;
 }
 
 //method to check if card can be played next
@@ -23,7 +23,7 @@ bool Table::isLegalCard (Card c) const {
     Rank rank = c.getRank();
 
     //if 7S has not yet been played, only 7S can be played
-    if (!cardsInPlay_[SPADE][SEVEN]) {
+    if (!cardsInPlay_[SPADE * 13 + SEVEN]) {
         if (rank == (Rank)SEVEN && suit == (Suit)SPADE) {
             return true;
         }
@@ -46,7 +46,7 @@ bool Table::isLegalCard (Card c) const {
     }
     
     //if a card with matching suit, and rank above or rank below has been played, this card can be played
-    return cardsInPlay_[suit][rankAbove] || cardsInPlay_[suit][rankBelow];
+    return cardsInPlay_[suit * 13 + rankAbove] || cardsInPlay_[suit * 13 +rankBelow];
 }
 
 //method to print current cards on table
@@ -68,7 +68,7 @@ void Table::printTable () const {
         }
         for (int j = 0; j < RANK_COUNT; j++) {
             // output the card rank if it is on the table
-            if (cardsInPlay_[i][j]) {
+            if (cardsInPlay_[i * 13 + j]) {
                 std::cout<<" "<<ranks[j];
             }
         }
@@ -81,11 +81,11 @@ void Table::clearTable () {
     for (int i = 0; i < SUIT_COUNT; i++) {
         for (int j = 0; j < RANK_COUNT; j++) {
             //initially, no cards are on table
-            cardsInPlay_[i][j] = false;
+            cardsInPlay_[i * 13 + j] = false;
         }
     }
 }
 
-bool** Table::getTable() const {
+bool* Table::getTable() {
     return cardsInPlay_;
 }
