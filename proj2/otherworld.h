@@ -29,6 +29,8 @@ private:
     Gtk::Table                      table;
     Gtk::Button                     newGameButton;
     Gtk::Button                     endGameButton;
+
+    void startGame();   // Brings up four dialog boxes to set each player.
 }; // OtherWorld
 
 #endif
