@@ -28,7 +28,10 @@ OtherWorld::OtherWorld( Controller* c, Game* g)
 
     // Add the horizontal box for laying out the images to the frame.
     frame.add( table );
-    
+   
+    // Links the startGame method to the New Game button
+    newGameButton.signal_clicked().connect( sigc::mem_fun( *this, &OtherWorld::startGame ) );
+
     hbox[0].add(newGameButton);
     hbox[0].add(endGameButton);
 
@@ -87,4 +90,50 @@ void OtherWorld::update() {
         
     }
     button[ 13 ].set_image( *card[0] );	
+} // OtherWorld::~OtherWorld()
+
+// Creates dialog boxes to allow the user to choose whether each
+// player is human or computer
+void OtherWorld::startGame() {
+
+    // Create the dialog box with a message and two buttons, Human and Computer.
+    Gtk::Dialog dialog( "Player Type Selection", *this );
+    Gtk::Label message("");
+    Gtk::VBox* contentArea = dialog.get_vbox();
+    contentArea->pack_start(message, true, false);
+    message.show();
+
+    // Link each button to an integer response when clicked.
+    enum PlayerType {HUMAN, COMPUTER};
+    Gtk::Button* humanButton = dialog.add_button("Human", (int)HUMAN);
+    Gtk::Button* compButton = dialog.add_button("Computer", (int)COMPUTER);
+
+    // Stores the value of each player type, as a string.
+    std::string playerTypes[4];
+
+    for (int i = 1; i <= 4; i = i + 1) {
+
+        // Sets the dialog box message
+        std::stringstream sstream;
+        sstream << "Is Player " << i << " a human or a computer?";
+        message.set_label(sstream.str());
+
+        // Wait for a response from the dialog box.
+        int result = dialog.run();
+
+        // Store the selection type for each player. If the dialog box is closed (Cancel),
+        // the function returns with no players set.
+        switch (result) {
+            case (int)HUMAN:
+                playerTypes[i - 1] = "h";
+                break;
+            case (int)COMPUTER:
+                playerTypes[i - 1] = "c";
+                break;
+            default:
+                return;
+                break;
+        } // switch
+   
+    } 
 }

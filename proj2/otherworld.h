@@ -39,7 +39,7 @@ private:
 
     void update();
     void newGameButtonClicked();
-
+    void startGame();   // Brings up four dialog boxes to set each player.
 }; // OtherWorld
 
 #endif
