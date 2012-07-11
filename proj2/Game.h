@@ -7,6 +7,9 @@
 #include "Command.h"
 #include "Subject.h"
 #include "Facade.h"
+#include <string>
+
+enum GameState { NEWGAME, TAKETURN, FINISHEDGAME };
 
 class Game : public Subject, public Facade {
 public:
@@ -22,7 +25,6 @@ public:
     void printTable () const;           //method to print current cards on the table
     void run ();                        //method to start the game
 
-    void newGame();
 
     int getScore(int);
     int getDiscarded(int);
@@ -30,6 +32,13 @@ public:
     bool* getTable();
     int getCurrentPlayer();
     bool getCurrentPlayerType();
+
+    void newGame();
+    GameState getCurrentState();
+
+    void setPlayers(std::string[]);
+
+    void startGame();
     
 private:
     Deck deck_;
@@ -38,6 +47,7 @@ private:
     Table table_;
     int currentPlayer_;
     int currentTurn_;
+    GameState state_;
 };
 
 #endif

@@ -11,18 +11,18 @@ Game::Game() : currentPlayer_(0), currentTurn_(1) {
     table_ = Table();
     std::string strategy = "";
     /*for (int i = 1; i <= NUM_PLAYERS; i++) {
-        //create 4 new players
-        std::cout<<"Is player "<<i<<" a human(h) or a computer(c)?\n>";
-        std::cin>>strategy;
-        assert (strategy == "c" || strategy == "C" || strategy == "H" || strategy == "h");
+    //create 4 new players
+    std::cout<<"Is player "<<i<<" a human(h) or a computer(c)?\n>";
+    std::cin>>strategy;
+    assert (strategy == "c" || strategy == "C" || strategy == "H" || strategy == "h");
 
-        //table_ will link the new player to the table
-        //strategy determines the type of player; human or computer
-        //deck_ will link the new player to the deck (required only because of the deck command)
-        players_[i-1] = new Player(table_, strategy, deck_);
-        
-        //set the players' score to 0 initially
-        playerScores_[i-1] = 0;
+    //table_ will link the new player to the table
+    //strategy determines the type of player; human or computer
+    //deck_ will link the new player to the deck (required only because of the deck command)
+    players_[i-1] = new Player(table_, strategy, deck_);
+
+    //set the players' score to 0 initially
+    playerScores_[i-1] = 0;
     }*/
 }
 
@@ -199,5 +199,49 @@ bool Game::getCurrentPlayerType() {
 void Game::newGame() {
     currentPlayer_ = 12;
     std::cout<<"something";
+
+    state_ = NEWGAME;
+    notify();
+}
+
+GameState Game::getCurrentState() {
+    return state_;
+}
+
+void Game::setPlayers(std::string playerTypes[]) {
+    for (int i = 1; i <= NUM_PLAYERS; i++) {
+        //table_ will link the new player to the table
+        //strategy determines the type of player; human or computer
+        //deck_ will link the new player to the deck (required only because of the deck command)
+        players_[i-1] = new Player(table_, playerTypes[i - 1], deck_);
+
+        //set the players' score to 0 initially
+        playerScores_[i-1] = 0;
+    }
+
+    startGame();
+}
+
+void Game::startGame() {
+    currentTurn_ = 1;
+    deck_.shuffle();
+
+    //clear the table of any cards on it
+    table_.clearTable();
+
+    //clear each player of their hand and discarded pile, and deal a new hand to each player
+    for (int i = 1; i <= NUM_PLAYERS; i++) {
+        players_[i-1]->clearPlayer();
+        std::vector<Card> hand = deck_.deal(i);
+        players_[i-1]->assignHand(hand);
+    }
+
+    //figure out the first player and set currentPlayer_.
+    determineFirstPlayer();
+
+    state_ = TAKETURN;
+
+    //run();
+
     notify();
 }

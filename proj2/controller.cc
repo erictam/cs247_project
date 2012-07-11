@@ -25,3 +25,7 @@ void Controller::newGameButtonClicked() {
 void Controller::resetButtonClicked() {
      //game_->resetCards();
 } 
+
+void Controller::setPlayers(std::string playerTypes[]) {
+    game_->setPlayers(playerTypes);
+}

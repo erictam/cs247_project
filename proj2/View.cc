@@ -1,4 +1,4 @@
-#include "otherworld.h"
+#include "View.h"
 #include "Game.h"
 #include "controller.h"
 #include <iostream>
@@ -9,7 +9,7 @@
 // with an image in it.
 //
 // Since widgets cannot be shared, must use pixel buffers to share images.
-OtherWorld::OtherWorld( Controller* c, Game* g) 
+View::View( Controller* c, Game* g) 
     : table( 5, 4, false), newGameButton("New Game"), endGameButton("End Game"),
         game_(g), controller_(c) {
 
@@ -30,7 +30,7 @@ OtherWorld::OtherWorld( Controller* c, Game* g)
     frame.add( table );
    
     // Links the startGame method to the New Game button
-    newGameButton.signal_clicked().connect( sigc::mem_fun( *this, &OtherWorld::startGame ) );
+    newGameButton.signal_clicked().connect( sigc::mem_fun( *this, &View::setPlayerTypes ) );
 
     hbox[0].add(newGameButton);
     hbox[0].add(endGameButton);
@@ -44,17 +44,17 @@ OtherWorld::OtherWorld( Controller* c, Game* g)
     // Initialize 4 empty cards and place them in the box.
     for (int j = 0; j < 4; j++) {
         for (int i = 0; i < 13; i++ ) {
-            card[0] = new Gtk::Image( deck.getCardImage( (Faces)(i), (Suits)(j) ) );
+            //card[0] = new Gtk::Image( deck.getCardImage( (Faces)(i), (Suits)(j) ) );
+            card[0] = new Gtk::Image ( deck.getNullCardImage() );
             button[j * 13 + i].set_image( *card[0] );	
             hbox[j + 1].add( button[j * 13 + i] );
-            button[j*13+i].signal_clicked().connect( sigc::mem_fun( *this, &OtherWorld::newGameButtonClicked ) );
+            //button[j*13+i].signal_clicked().connect( sigc::mem_fun( *this, &View::newGameButtonClicked ) );
 
         } // for
     }
 
-    std::cout<<"something";
 
-    newGameButton.signal_clicked().connect( sigc::mem_fun( *this, &OtherWorld::newGameButtonClicked ) );
+    //newGameButton.signal_clicked().connect( sigc::mem_fun( *this, &View::newGameButtonClicked ) );
     //newGameButton.signal_clicked().connect( sigc::ptr_fun( &newGameButtonClicked ) );
 
     // Initialize the 5th card and place the image into the button.
@@ -70,11 +70,11 @@ OtherWorld::OtherWorld( Controller* c, Game* g)
     game_->subscribe(this);
 } 
 
-OtherWorld::~OtherWorld() {
+View::~View() {
     for (int i = 0; i < 52; i++ ) delete card[i];
 } 
 
-void OtherWorld::newGameButtonClicked() {
+void View::newGameButtonClicked() {
     controller_->newGameButtonClicked();
 }
 
@@ -82,19 +82,31 @@ void newGameButtonClicked() {
     std::cout<<"something";
 }
 
-void OtherWorld::update() {
-    int currentPlayer = game_->getCurrentPlayer();
+void View::update() {
+    int currentState = game_->getCurrentState();
 
-    if (currentPlayer == 12) {
-         card[0] = new Gtk::Image ( deck.getNullCardImage() );
+    if (currentState == NEWGAME) {
+
+        //popup boxes prompting player types
         
+        setPlayerTypes();
+
+        //card[0] = new Gtk::Image ( deck.getNullCardImage() );
+        //button[ 13 ].set_image( *card[0] );	
     }
-    button[ 13 ].set_image( *card[0] );	
-} // OtherWorld::~OtherWorld()
+
+    if (currentState == TAKETURN) {
+        int currentPlayer = game_->getCurrentPlayer();
+        std::vector<Card> hand = game_->getHand(currentPlayer - 1);
+
+
+    }
+
+} // View::~View()
 
 // Creates dialog boxes to allow the user to choose whether each
 // player is human or computer
-void OtherWorld::startGame() {
+void View::setPlayerTypes() {
 
     // Create the dialog box with a message and two buttons, Human and Computer.
     Gtk::Dialog dialog( "Player Type Selection", *this );
@@ -105,8 +117,8 @@ void OtherWorld::startGame() {
 
     // Link each button to an integer response when clicked.
     enum PlayerType {HUMAN, COMPUTER};
-    Gtk::Button* humanButton = dialog.add_button("Human", (int)HUMAN);
-    Gtk::Button* compButton = dialog.add_button("Computer", (int)COMPUTER);
+    dialog.add_button("Human", (int)HUMAN);
+    dialog.add_button("Computer", (int)COMPUTER);
 
     // Stores the value of each player type, as a string.
     std::string playerTypes[4];
@@ -136,4 +148,7 @@ void OtherWorld::startGame() {
         } // switch
    
     } 
+
+    controller_->setPlayers(playerTypes);
+
 }

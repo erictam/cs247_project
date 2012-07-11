@@ -15,10 +15,10 @@
 class Game;
 class Controller;
 
-class OtherWorld : public Observer, public Gtk::Window {
+class View : public Observer, public Gtk::Window {
 public:
-	OtherWorld( Controller*, Game* );
-	virtual ~OtherWorld();
+	View( Controller*, Game* );
+	virtual ~View();
 	
 private:
 	DeckGUI                         deck;             // Knows all of the card pixel buffers.
@@ -39,7 +39,7 @@ private:
 
     void update();
     void newGameButtonClicked();
-    void startGame();   // Brings up four dialog boxes to set each player.
-}; // OtherWorld
+    void setPlayerTypes();   // Brings up four dialog boxes to set each player.
+}; // View
 
 #endif

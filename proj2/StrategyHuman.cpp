@@ -22,7 +22,7 @@ Command StrategyHuman::takeTurn ( std::vector<Card>& playableCards) {
     std::cout<<std::endl;
 
     //loop until valid command is input
-    while (true) {
+    while (false) {
         std::cout<<">";
         //std::cin>>c;
         if (c.type == QUIT) {

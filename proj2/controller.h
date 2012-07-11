@@ -15,6 +15,7 @@
 
 
 #include <gtkmm.h>
+#include <string>
 
 class Game;
 
@@ -23,6 +24,7 @@ public:
    Controller( Game* );
    void newGameButtonClicked();
    void resetButtonClicked();
+   void setPlayers(std::string[]);
 private:
    Game* game_;
 }; // Controller
