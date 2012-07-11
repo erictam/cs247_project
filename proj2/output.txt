@@ -1,0 +1,108 @@
+Is player 1 a human(h) or a computer(c)?
+>Is player 2 a human(h) or a computer(c)?
+>Is player 3 a human(h) or a computer(c)?
+>Is player 4 a human(h) or a computer(c)?
+>A new round begins. It's player 3's turn to play.
+Cards on the table:
+Clubs:
+Diamonds:
+Hearts:
+Spades:
+Your hand: 7S 7C QD 6C 2H 6D 3C 9C 5H 3D AD 5S 8H
+Legal Plays: 7S
+>Player 3 plays 7S.
+Cards on the table:
+Clubs:
+Diamonds:
+Hearts:
+Spades: 7
+Your hand: QC 2S 8D JS QS AS JD 4C 7H 9D 5C AH 9H
+Legal Plays: 7H
+>You have a legal play. You may not discard.
+>This is not a legal play.
+>This is not a legal play.
+>Player 4 plays 7H.
+Cards on the table:
+Clubs:
+Diamonds:
+Hearts: 7
+Spades: 7
+Your hand: 10S 2D 3S KH 3H 2C 5D 10C 8S 10D AC KC QH
+Legal Plays: 8S
+>This is not a legal play.
+>This is not a legal play.
+>You have a legal play. You may not discard.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>Player 1 plays 8S.
+Cards on the table:
+Clubs:
+Diamonds:
+Hearts: 7
+Spades: 7 8
+Your hand: 4D JH 6H JC KD 8C 7D 10H 4H 9S 6S 4S KS
+Legal Plays: 6H 7D 9S 6S
+>This is not a legal play.
+>This is not a legal play.
+>Player 2 plays 9S.
+Cards on the table:
+Clubs:
+Diamonds:
+Hearts: 7
+Spades: 7 8 9
+Your hand: 7C QD 6C 2H 6D 3C 9C 5H 3D AD 5S 8H
+Legal Plays: 7C 8H
+>This is not a legal play.
+>This is not a legal play.
+>You have a legal play. You may not discard.
+>This is not a legal play.
+>Player 3 plays 7C.
+Cards on the table:
+Clubs: 7
+Diamonds:
+Hearts: 7
+Spades: 7 8 9
+Your hand: QC 2S 8D JS QS AS JD 4C 9D 5C AH 9H
+Legal Plays:
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>You do not hold the card. You may not discard it.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>You do not hold the card. You may not discard it.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>This is not a legal play.
+>Player 4 discards QC.
+Cards on the table:
+Clubs: 7
+Diamonds:
+Hearts: 7
+Spades: 7 8 9
+Your hand: 10S 2D 3S KH 3H 2C 5D 10C 10D AC KC QH
+Legal Plays: 10S
+>This is not a legal play.
+>This is not a legal play.
+>You have a legal play. You may not discard.
+>You have a legal play. You may not discard.
+>This is not a legal play.
+>This is not a legal play.
+>You have a legal play. You may not discard.
+>This is not a legal play.
+>
