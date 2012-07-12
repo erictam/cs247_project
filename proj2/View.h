@@ -43,6 +43,8 @@ private:
     Gtk::Button                     playerCardButton[13];
     Gtk::Button                     discardButton[13];
 
+    Gtk::SpinButton                 seedButton;
+
     Gtk::Label                      pointsLabel[4];
     Gtk::Label                      discardsLabel[4];
     Gtk::Frame                      playedCardsFrame;
