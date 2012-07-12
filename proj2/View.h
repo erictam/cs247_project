@@ -26,12 +26,17 @@ private:
 	// Member widgets:
 	Gtk::Image                    * card[52];          // Images to display.
 	Gtk::Button                     button[52];           // Button that will hold an image.
-	Gtk::HBox                       hbox[5];             // Horizontal box for aligning widgets in the window.
+    Gtk::HBox                       topHBox;
+    Gtk::HBox                       rageVBox[4];
+	Gtk::HBox                       tableHBox[4];             // Horizontal box for aligning widgets in the window.
+    Gtk::HBox                       playerHBox;
 	Gtk::Frame                      frame;            // Create a nice framed border for the box.
     Gtk::VBox                       vbox[13];
     Gtk::Table                      table;
     Gtk::Button                     newGameButton;
     Gtk::Button                     endGameButton;
+    Gtk::Button                     rageButton[4];
+    Gtk::Button                     playerCardButton[13];
 
     Game*                           game_;
 

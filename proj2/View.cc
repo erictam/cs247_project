@@ -10,7 +10,7 @@
 //
 // Since widgets cannot be shared, must use pixel buffers to share images.
 View::View( Controller* c, Game* g) 
-    : table( 5, 4, false), newGameButton("New Game"), endGameButton("End Game"),
+    : table( 7, 4, false), newGameButton("New Game"), endGameButton("End Game"),
         game_(g), controller_(c) {
 
     //const Glib::RefPtr<Gdk::Pixbuf> cardPixbuf     = deck.getCardImage( TEN, SPADE );
@@ -32,14 +32,17 @@ View::View( Controller* c, Game* g)
     // Links the startGame method to the New Game button
     newGameButton.signal_clicked().connect( sigc::mem_fun( *this, &View::setPlayerTypes ) );
 
-    hbox[0].add(newGameButton);
-    hbox[0].add(endGameButton);
+    topHBox.add(newGameButton);
+    topHBox.add(endGameButton);
 
-
-    table.attach(hbox[0], 0, 4, 0, 1);
-    for (int i = 1; i < 5; i++) {
-        table.attach(hbox[i], 0, 4, i, i + 1);
+    table.attach(topHBox, 0, 4, 0, 1);
+    for (int i = 0; i < 4; i++) {
+        table.attach(tableHBox[i], 0, 4, i + 1, i + 2);
     }
+    for (int i = 0; i < 4; i++) {
+        table.attach(rageVBox[i], i, i + 1, 5, 6);
+    }
+    table.attach(playerHBox, 0, 4, 6, 7);
 
     // Initialize 4 empty cards and place them in the box.
     for (int j = 0; j < 4; j++) {
@@ -47,11 +50,25 @@ View::View( Controller* c, Game* g)
             //card[0] = new Gtk::Image( deck.getCardImage( (Faces)(i), (Suits)(j) ) );
             card[0] = new Gtk::Image ( deck.getNullCardImage() );
             button[j * 13 + i].set_image( *card[0] );	
-            hbox[j + 1].add( button[j * 13 + i] );
+            tableHBox[j].add( button[j * 13 + i] );
             //button[j*13+i].signal_clicked().connect( sigc::mem_fun( *this, &View::newGameButtonClicked ) );
 
         } // for
     }
+
+    for (int i = 0; i < 4; i++) {
+        rageButton[i].set_label("Rage!");
+        rageVBox[i].add(rageButton[i]);
+    }
+
+    for (int i = 0; i < 13; i++ ) {
+        //card[0] = new Gtk::Image( deck.getCardImage( (Faces)(i), (Suits)(j) ) );
+        card[0] = new Gtk::Image ( deck.getNullCardImage() );
+        playerCardButton[i].set_image( *card[0] );	
+        playerHBox.add( playerCardButton[i] );
+        //button[j*13+i].signal_clicked().connect( sigc::mem_fun( *this, &View::newGameButtonClicked ) );
+
+    } // for
 
 
     //newGameButton.signal_clicked().connect( sigc::mem_fun( *this, &View::newGameButtonClicked ) );
