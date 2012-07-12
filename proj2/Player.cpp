@@ -55,6 +55,12 @@ std::vector<Card> Player::getPlayableCards () const {
 Command Player::takeTurn () {
     // get list of playable cards
     std::vector<Card> playableCards = getPlayableCards();
+
+    printHand();
+    for (unsigned int i = 0; i < playableCards.size(); i++) {
+        std::cout<<playableCards[i]<<" ";
+    }
+    std::cout<<std::endl;
     
     //call the takeTurn method of the strategy
     Command c = currentStrategy_->takeTurn( playableCards );

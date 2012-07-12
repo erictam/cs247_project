@@ -8,6 +8,7 @@ class Facade {
     public:
         virtual ~Facade() {}
         virtual int getScore(int player) = 0;
+        virtual int const* getScores() const = 0;
         virtual int getDiscarded(int player) = 0;
         virtual std::vector<Card> getHand(int player) = 0;
         virtual bool const* getTable() const = 0;

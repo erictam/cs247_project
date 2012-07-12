@@ -24,6 +24,10 @@ Game::Game() : currentPlayer_(0), currentTurn_(1) {
     //set the players' score to 0 initially
     playerScores_[i-1] = 0;
     }*/
+
+    for (int i = 1; i <= NUM_PLAYERS; i++) {
+        playerScores_[i - 1] = 0;
+    }
 }
 
 //public destructor
@@ -59,6 +63,7 @@ void Game::takeTurn () {
     }
     else if (c.type == DISCARD) {
         std::cout<<"Player "<<currentPlayer_<<" discards "<<c.card<<"."<<std::endl;
+        playerScores_[currentPlayer_ - 1] += (int)c.card.getRank() + 1;
     }
     else if (c.type == RAGEQUIT) {
         std::cout<<"Player "<<currentPlayer_<<" ragequits. A computer will now take over."<<std::endl;
@@ -68,11 +73,10 @@ void Game::takeTurn () {
     //increment the currentTurn_.  It starts at 1, and goes to 52.
     currentTurn_++;
 
+
+
     //increment currentPlayer_ and loop back to 1st player.
-    currentPlayer_++;
-    if (currentPlayer_ == NUM_PLAYERS + 1) {
-        currentPlayer_ = 1;
-    }
+
 }
 
 //method to determine the player holding the SEVEN SPADES card, who will go first
@@ -114,7 +118,7 @@ void Game::run () {
         //so takeTurn 52 times
         while (currentTurn_ <= CARD_COUNT) {
             try {
-                takeTurn();
+                //takeTurn();
             }
             catch (QuitException& err ) {
                 //if we enter here, quit command was input
@@ -173,6 +177,10 @@ int Game::getScore(int player) {
     return playerScores_[player];
 }
 
+int const* Game::getScores() const {
+    return playerScores_;
+}
+
 //int player parameter passed in from 0 to 3
 int Game::getDiscarded(int player) {
     return players_[player]->getDiscarded().size();
@@ -180,7 +188,6 @@ int Game::getDiscarded(int player) {
 
 //int player parameter passed in from 0 to 3
 std::vector<Card> Game::getHand(int player) {
-    std::cout<<player;
     return players_[player]->getHand();
 }
 
@@ -226,6 +233,7 @@ void Game::setPlayers(std::string playerTypes[], int seed) {
 }
 
 void Game::startGame() {
+    bool gameIsComplete = false;
     currentTurn_ = 1;
     deck_.shuffle();
 
@@ -242,16 +250,37 @@ void Game::startGame() {
     //figure out the first player and set currentPlayer_.
     determineFirstPlayer();
 
-    if (!getCurrentPlayerType()) {
-        autoTurn();
+    while (!getCurrentPlayerType() && currentTurn_ <= CARD_COUNT) {
+        //std::cout<<"COMPUTER";
+
+        takeTurn();
+
+        if (playerScores_[currentPlayer_ - 1] >= MAX_SCORE) {
+            gameIsComplete = true;
+        }
+
+        currentPlayer_++;
+        if (currentPlayer_ == NUM_PLAYERS + 1) {
+            currentPlayer_ = 1;
+        }
     }
-    //run();
 
     state_ = TAKETURN;
+
+    if (currentTurn_ > CARD_COUNT) {
+        if (gameIsComplete) {
+            state_ = FINISHEDGAME;
+        }
+        else {
+            state_ = NEXTROUND;
+        }
+    }
+
     notify();
 }
 
 void Game::tryPlayingCard(Card c) {
+    bool gameIsComplete = false;
     if (players_[currentPlayer_ - 1]->playCard(c)) {
         currentPlayer_++;
         if (currentPlayer_ == NUM_PLAYERS + 1) 
@@ -262,23 +291,34 @@ void Game::tryPlayingCard(Card c) {
         return;
     }
 
-    if (!getCurrentPlayerType()) {
-        //autoTurn();
+    while (!getCurrentPlayerType() && currentTurn_ <= CARD_COUNT) {
+
+        takeTurn();
+
+        if (playerScores_[currentPlayer_ - 1] >= MAX_SCORE) {
+            gameIsComplete = true;
+        }
+
+        currentPlayer_++;
+        if (currentPlayer_ == NUM_PLAYERS + 1) {
+            currentPlayer_ = 1;
+        }
     }
 
     state_ = TAKETURN;
 
-    /*if (currentTurn_ > CARD_COUNT) {
-        if (playerScores_[currentPlayer_] >= MAX_SCORE)
+    if (currentTurn_ > CARD_COUNT) {
+        if (gameIsComplete)
             state_ = FINISHEDGAME;
         else
             state_ = NEXTROUND;
-    }*/
+    }
 
     notify();
 }
 
 void Game::tryDiscardingCard(Card c) {
+    bool gameIsComplete = false;
     if (players_[currentPlayer_ - 1]->discardCard(c)) {
         playerScores_[currentPlayer_ - 1] += (int)c.getRank() + 1;
         currentPlayer_++;
@@ -290,22 +330,26 @@ void Game::tryDiscardingCard(Card c) {
         return;
     }
 
-    if (!getCurrentPlayerType()) {
-        //autoTurn();
-    }
-    state_ = TAKETURN;
+    while (!getCurrentPlayerType() && currentTurn_ <= CARD_COUNT) {
 
-    /*if (currentTurn_ > CARD_COUNT) {
-        if (playerScores_[currentPlayer_] >= MAX_SCORE)
+        takeTurn();
+
+        if (playerScores_[currentPlayer_ - 1] >= MAX_SCORE) {
+            gameIsComplete = true;
+        }
+
+        currentPlayer_++;
+        if (currentPlayer_ == NUM_PLAYERS + 1) {
+            currentPlayer_ = 1;
+        }
+    }
+
+    if (currentTurn_ > CARD_COUNT) {
+        if (gameIsComplete)
             state_ = FINISHEDGAME;
         else
             state_ = NEXTROUND;
-    }*/
+    }
     notify();
 }
 
-void Game::autoTurn() {
-    while (!getCurrentPlayerType()) {
-        takeTurn();
-    }
-}

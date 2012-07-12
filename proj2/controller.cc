@@ -34,7 +34,5 @@ void Controller::tryPlayingCard(Card c) {
 }
 #include <iostream>
 void Controller::tryDiscardingCard(Card c) {
-
-    std::cout<<"Discard : "<<c<<std::endl;
     game_->tryDiscardingCard(c);
 }

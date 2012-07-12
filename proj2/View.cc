@@ -125,18 +125,11 @@ void View::newGameButtonClicked() {
 
 void View::update() {
     GameState currentState = game_->getCurrentState();
-
-    bool const* table = game_->getTable();
-    std::cout<<table[0];
-    std::cout<<std::endl;
-    for (int i = 0; i < 52; i++) {
-        std::cout<<table[i];
-    }
-    
-    std::cout<<std::endl;
-    std::cout<<std::endl;
+        bool const* table = game_->getTable();
+    int const* scores = game_->getScores();
 
     for (int j = 0; j < 4; j++) {
+        //pointsLabel[i].set_label(scores[i] + " points");
         for (int i = 0; i < 13; i++ ) {
             if (table[j * 13 + i])
                 card[0] = new Gtk::Image( deck.getCardImage( (Rank)(i), (Suit)(j) ) );
@@ -176,9 +169,23 @@ void View::update() {
 
     if (currentState == NEXTROUND) {
         game_->startGame();
+        updateScores();
     }
 
     if (currentState == FINISHEDGAME) {
+        updateScores();
+
+        int currentPlayer = game_->getCurrentPlayer();
+        std::vector<Card> hand = game_->getHand(currentPlayer - 1);
+
+        for (int i = 0; (unsigned)i < hand.size(); i++) {
+            card[0] = new Gtk::Image( deck.getCardImage( hand[i].getRank(), hand[i].getSuit() ) );
+            playerCardButton[i].set_image( *card[0] );
+        }
+        for (int i = hand.size(); i < 13; i++) {
+            card[0] = new Gtk::Image( deck.getNullCardImage() );
+            playerCardButton[i].set_image( *card[0] );
+        }
     }
 
 } // View::~View()
@@ -270,11 +277,7 @@ void View::playerCardButtonClicked(unsigned int cardClicked) {
     //tableButton[ cardClicked ].set_image( *card[0] );	
     //
     //
-    bool const* table = game_->getTable();
-    for (int i = 0; i < 52; i++) {
-        std::cout<<table[i];
-    }
-std::cout<<std::endl;
+
     int currentPlayer = game_->getCurrentPlayer();
     std::vector<Card> hand = game_->getHand(currentPlayer - 1);
     if (cardClicked < hand.size())
@@ -283,11 +286,6 @@ std::cout<<std::endl;
 
 void View::discardButtonClicked(unsigned int cardClicked) {
 
-    bool const* table = game_->getTable();
-    for (int i = 0; i < 52; i++) {
-        std::cout<<table[i];
-    }
-std::cout<<std::endl;
     int currentPlayer = game_->getCurrentPlayer();
     std::vector<Card> hand = game_->getHand(currentPlayer - 1);
     if (cardClicked < hand.size())

@@ -24,7 +24,7 @@ Command StrategyComputer::takeTurn ( std::vector<Card>& playableCards) {
         command += suits[playableCards[0].getSuit()];
 
         //play the card
-        p_->playCard (playableCards[0], playableCards);
+        p_->playCard (playableCards[0]);
     }
     else {
         //build command string to discard first card if we have no playable cards
@@ -33,11 +33,11 @@ Command StrategyComputer::takeTurn ( std::vector<Card>& playableCards) {
         command += suits[p_->hand_[0].getSuit()];
 
         //discard the card
-        p_->discardCard (p_->hand_[0], playableCards);
+        p_->discardCard (p_->hand_[0]);
     }
 
     //convert the command string to a command object
     std::stringstream ss(command);
-    //ss>>c;
+    ss>>c;
     return c;
 }

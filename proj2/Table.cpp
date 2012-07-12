@@ -10,27 +10,11 @@ Table::Table () {
 
 //method to add new card to table
 void Table::addCardToTable (Card c) {
-std::cout<<"**************************"<<std::endl;
-    std::cout<<"Adding Card : "<<c<<std::endl;
-
-    
-    for (int i = 0; i < 52; i++) {
-        std::cout<<cardsInPlay_[i];
-    }
-    std::cout<<std::endl;
-
     Suit suit = c.getSuit();
     Rank rank = c.getRank();
     
     //set the boolean to true to represent that the card is on the table
     cardsInPlay_[suit * 13 + rank] = true;
-
-for (int i = 0; i < 52; i++) {
-        std::cout<<cardsInPlay_[i];
-    }
-    std::cout<<std::endl;
-
-std::cout<<"**************************"<<std::endl;
 }
 
 //method to check if card can be played next
