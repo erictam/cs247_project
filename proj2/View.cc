@@ -159,6 +159,8 @@ void View::update() {
     }
 
     if (currentState == TAKETURN) {
+        updateScores();
+
         int currentPlayer = game_->getCurrentPlayer();
         std::vector<Card> hand = game_->getHand(currentPlayer - 1);
 
@@ -180,6 +182,21 @@ void View::update() {
     }
 
 } // View::~View()
+
+void View::updateScores() {
+    int score;
+    for (int i = 0; i < 4; i++) {
+        std::stringstream sstream;
+        score = game_->getScore(i);
+        if (score == 1) {
+            sstream << score << " point";
+        }
+        else {
+            sstream << score << " points";
+        }
+        pointsLabel[i].set_label(sstream.str());
+    }
+}
 
 // Creates dialog boxes to allow the user to choose whether each
 // player is human or computer

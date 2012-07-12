@@ -170,7 +170,7 @@ void Game::run () {
 
 //int player parameter passed in from 0 to 3
 int Game::getScore(int player) {
-    return players_[player]->getScore();
+    return playerScores_[player];
 }
 
 //int player parameter passed in from 0 to 3
@@ -280,7 +280,7 @@ void Game::tryPlayingCard(Card c) {
 
 void Game::tryDiscardingCard(Card c) {
     if (players_[currentPlayer_ - 1]->discardCard(c)) {
-        playerScores_[currentPlayer_] += (int)c.getRank();
+        playerScores_[currentPlayer_ - 1] += (int)c.getRank() + 1;
         currentPlayer_++;
         if (currentPlayer_ == NUM_PLAYERS + 1) 
             currentPlayer_ = 1;

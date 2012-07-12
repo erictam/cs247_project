@@ -56,6 +56,8 @@ private:
     Controller*                     controller_;
 
     void update();
+    void updateScores();
+
     void newGameButtonClicked();
     void setPlayerTypes();   // Brings up four dialog boxes to set each player.
     void playerCardButtonClicked(unsigned int);
