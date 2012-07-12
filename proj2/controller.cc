@@ -25,8 +25,8 @@ void Controller::resetButtonClicked() {
      //game_->resetCards();
 } 
 
-void Controller::setPlayers(std::string playerTypes[]) {
-    game_->setPlayers(playerTypes);
+void Controller::setPlayers(std::string playerTypes[], int seed) {
+    game_->setPlayers(playerTypes, seed);
 }
 
 void Controller::tryPlayingCard(Card c) {

@@ -25,7 +25,7 @@ public:
    Controller( Game* );
    void newGameButtonClicked();
    void resetButtonClicked();
-   void setPlayers(std::string[]);
+   void setPlayers(std::string[], int);
    void tryPlayingCard(Card);
    void tryDiscardingCard(Card);
 private:

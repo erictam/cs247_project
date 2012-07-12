@@ -209,7 +209,7 @@ GameState Game::getCurrentState() {
     return state_;
 }
 
-void Game::setPlayers(std::string playerTypes[]) {
+void Game::setPlayers(std::string playerTypes[], int seed) {
     for (int i = 1; i <= NUM_PLAYERS; i++) {
         //table_ will link the new player to the table
         //strategy determines the type of player; human or computer
@@ -219,6 +219,8 @@ void Game::setPlayers(std::string playerTypes[]) {
         //set the players' score to 0 initially
         playerScores_[i-1] = 0;
     }
+
+    srand48(seed);
 
     //startGame();
 }

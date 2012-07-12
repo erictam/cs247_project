@@ -243,9 +243,9 @@ void View::setPlayerTypes() {
                 return;
                 break;
         } // switch
-    } 
-    controller_->setPlayers(playerTypes);
-    //controller_->setPlayer(playerTypes, seedValue);
+    }
+
+    controller_->setPlayers(playerTypes, seedValue);
 }
 
 void View::playerCardButtonClicked(unsigned int cardClicked) {

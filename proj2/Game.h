@@ -36,7 +36,7 @@ public:
     void newGame();
     GameState getCurrentState();
 
-    void setPlayers(std::string[]);
+    void setPlayers(std::string[], int);
 
     void startGame();
     void tryPlayingCard(Card);
