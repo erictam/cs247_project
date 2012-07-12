@@ -179,17 +179,37 @@ void View::update() {
 // Creates dialog boxes to allow the user to choose whether each
 // player is human or computer
 void View::setPlayerTypes() {
-
-    // Create the dialog box with a message and two buttons, Human and Computer.
-    Gtk::Dialog dialog( "Player Type Selection", *this );
-    Gtk::Label message("");
-    Gtk::VBox* contentArea = dialog.get_vbox();
-    contentArea->pack_start(message, true, false);
-    message.show();
-
-    // Link each button to an integer response when clicked.
     enum PlayerType {HUMAN, COMPUTER};
-    dialog.add_button("Human", (int)HUMAN);
+
+    Gtk::Dialog dialog("Start Game", *this);
+    Gtk::VBox* contentArea = dialog.get_vbox();
+
+    Gtk::Label message("Seed Value");
+    message.show();
+    contentArea->pack_start(message, true, false);
+
+    seedButton.set_digits(0);
+    seedButton.set_increments(1, 1);
+    seedButton.set_range(0, 999);
+    seedButton.set_value(0);
+    contentArea->pack_start(seedButton, false, false);
+    seedButton.show();
+
+    Gtk::Button* Button1 = dialog.add_button("Next", (int)HUMAN);
+    int result = dialog.run();
+    int seedValue = 0;
+
+    switch (result) {
+        case 0:
+            seedValue = (int)seedButton.get_value();
+            break;
+        default:
+            return;
+    }
+
+    contentArea->remove(seedButton);
+    Button1->set_label("Human");
+
     dialog.add_button("Computer", (int)COMPUTER);
 
     // Stores the value of each player type, as a string.
@@ -220,6 +240,7 @@ void View::setPlayerTypes() {
         } // switch
     } 
     controller_->setPlayers(playerTypes);
+    //controller_->setPlayer(playerTypes, seedValue);
 }
 
 void View::playerCardButtonClicked(int cardClicked) {
