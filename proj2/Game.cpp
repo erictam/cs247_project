@@ -199,6 +199,7 @@ bool Game::getCurrentPlayerType() {
 void Game::newGame() {
     table_.clearTable();
 
+
     state_ = NEWGAME;
     notify();
 }
@@ -237,7 +238,7 @@ void Game::startGame() {
 
     //figure out the first player and set currentPlayer_.
     determineFirstPlayer();
-    
+
     if (!getCurrentPlayerType()) {
         autoTurn();
     }
@@ -252,34 +253,55 @@ void Game::tryPlayingCard(Card c) {
         currentPlayer_++;
         if (currentPlayer_ == NUM_PLAYERS + 1) 
             currentPlayer_ = 1;
+        currentTurn_++;
     }
     else {
         return;
     }
-    
+
     if (!getCurrentPlayerType()) {
         //autoTurn();
     }
 
     state_ = TAKETURN;
+
+    if (currentTurn_ > CARD_COUNT) {
+        if (playerScores_[currentPlayer_] >= MAX_SCORE)
+            state_ = FINISHEDGAME;
+        else
+            state_ = NEXTROUND;
+    }
+
     notify();
 }
 
 void Game::tryDiscardingCard(Card c) {
     if (players_[currentPlayer_ - 1]->discardCard(c)) {
+        playerScores_[currentPlayer_] += (int)c.getRank();
         currentPlayer_++;
         if (currentPlayer_ == NUM_PLAYERS + 1) 
             currentPlayer_ = 1;
+
+        
+        currentTurn_++;
     }
     else {
         return;
     }
-    
+
     if (!getCurrentPlayerType()) {
         //autoTurn();
     }
 
+
     state_ = TAKETURN;
+
+    if (currentTurn_ > CARD_COUNT) {
+        if (playerScores_[currentPlayer_] >= MAX_SCORE)
+            state_ = FINISHEDGAME;
+        else
+            state_ = NEXTROUND;
+    }
     notify();
 }
 

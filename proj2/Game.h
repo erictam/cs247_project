@@ -9,7 +9,7 @@
 #include "Facade.h"
 #include <string>
 
-enum GameState { NEWGAME, TAKETURN,  FINISHEDGAME };
+enum GameState { NEWGAME, TAKETURN, NEXTROUND, FINISHEDGAME };
 
 class Game : public Subject, public Facade {
 public:

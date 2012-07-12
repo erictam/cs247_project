@@ -88,6 +88,7 @@ View::View( Controller* c, Game* g)
             //card[0] = new Gtk::Image( deck.getCardImage( (Rank)(i), (Suit)(j) ) );
             card[0] = new Gtk::Image ( deck.getNullCardImage() );
             playerCardButton[i].set_image( *card[0] );	
+            playerCardButton[i].signal_clicked().connect( sigc::bind( sigc::mem_fun( *this, &View::playerCardButtonClicked ), i ));
             playerHBox.add( playerCardButton[i] );
             //button[j*13+i].signal_clicked().connect( sigc::mem_fun( *this, &View::newGameButtonClicked ) );
             
@@ -159,12 +160,18 @@ void View::update() {
         for (int i = 0; (unsigned)i < hand.size(); i++) {
             card[0] = new Gtk::Image( deck.getCardImage( hand[i].getRank(), hand[i].getSuit() ) );
             playerCardButton[i].set_image( *card[0] );
-            playerCardButton[i].signal_clicked().connect( sigc::bind( sigc::mem_fun( *this, &View::playerCardButtonClicked ), i ));
         }
         for (int i = hand.size(); i < 13; i++) {
             card[0] = new Gtk::Image( deck.getNullCardImage() );
             playerCardButton[i].set_image( *card[0] );
         } 
+    }
+
+    if (currentState == NEXTROUND) {
+        
+    }
+
+    if (currentState == FINISHEDGAME) {
     }
 
 } // View::~View()
