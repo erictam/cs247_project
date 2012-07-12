@@ -29,7 +29,7 @@ public:
     int getScore(int);
     int getDiscarded(int);
     std::vector<Card> getHand(int);
-    bool* getTable();
+    bool const* getTable() const;
     int getCurrentPlayer();
     bool getCurrentPlayerType();
 

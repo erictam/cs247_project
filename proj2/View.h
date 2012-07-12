@@ -56,8 +56,8 @@ private:
     void update();
     void newGameButtonClicked();
     void setPlayerTypes();   // Brings up four dialog boxes to set each player.
-    void playerCardButtonClicked(int);
-    void discardButtonClicked(int);
+    void playerCardButtonClicked(unsigned int);
+    void discardButtonClicked(unsigned int);
 
 }; // View
 

@@ -63,6 +63,7 @@ Command Player::takeTurn () {
 
 //method to get player to play a card onto table
 void Player::playCard (Card c, std::vector<Card>& playableCards) {
+    /*std::cout<<"Something";
     for (int i = 0; (unsigned)i < playableCards.size(); i++) {
         // add card to table of played cards if valid
         if (c == playableCards[i]) {
@@ -75,15 +76,16 @@ void Player::playCard (Card c, std::vector<Card>& playableCards) {
         }
     }
     //if the card is not a playable card, throw exception
-    throw StrategyHuman::IllegalMoveException("This is not a legal play.");
+    throw StrategyHuman::IllegalMoveException("This is not a legal play.");*/
 }
 
 bool Player::playCard (Card c) {
+    //std::cout<<"Playing : "<<c<<std::endl;
     std::vector<Card> playableCards = getPlayableCards();
     for (int i = 0; (unsigned)i < playableCards.size(); i++) {
         // add card to table of played cards if valid
         if (c == playableCards[i]) {
-
+            
             //add the card to the table, and remove the card from your hand
             currentTable_->addCardToTable( c );
             removeCardInHand( c ); 
@@ -113,12 +115,13 @@ void Player::discardCard (Card c, std::vector<Card>& playableCards) {
 
 //method to get player to discard card into discard pile
 bool Player::discardCard (Card c) {
+    //std::cout<<"Discarding : "<<c<<std::endl;
     std::vector<Card> playableCards = getPlayableCards();
     if (playableCards.size() != 0) {
         //throw StrategyHuman::IllegalMoveException("You have a legal play. You may not discard.");
         return false;
     }
-    for (int i = 0; (unsigned)i < hand_.size(); i++) {
+    for (unsigned int i = 0; i < hand_.size(); i++) {
         if (c == hand_[i]) {
 
             //add card to discarded pile, and remove the card from your hand
@@ -128,12 +131,12 @@ bool Player::discardCard (Card c) {
         }
     }
     //throw StrategyHuman::IllegalMoveException("You do not hold the card. You may not discard it.");
-    return true;
+    return false;
 }
 
 //method to remove card from hand
 void Player::removeCardInHand (Card c) {
-    for (int i = 0; (unsigned)i < hand_.size(); i++) {
+    for (unsigned int i = 0; i < hand_.size(); i++) {
         if (hand_[i] == c) {
             hand_.erase(hand_.begin() + i);
         }

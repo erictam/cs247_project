@@ -11,7 +11,7 @@ public:
     bool isLegalCard (Card) const;      //method to check if card can be played next
     void printTable() const;            //method to print current cards on table
     void clearTable();                  //method to clear the table of cards
-    bool* getTable();
+    bool const* getTable() const;
 private:
     bool cardsInPlay_[52];
 };

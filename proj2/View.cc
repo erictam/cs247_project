@@ -123,14 +123,18 @@ void View::newGameButtonClicked() {
     controller_->newGameButtonClicked();
 }
 
-void newGameButtonClicked() {
-    std::cout<<"something";
-}
-
 void View::update() {
     GameState currentState = game_->getCurrentState();
 
-    bool* table = game_->getTable();
+    bool const* table = game_->getTable();
+    std::cout<<table[0];
+    std::cout<<std::endl;
+    for (int i = 0; i < 52; i++) {
+        std::cout<<table[i];
+    }
+    
+    std::cout<<std::endl;
+    std::cout<<std::endl;
 
     for (int j = 0; j < 4; j++) {
         for (int i = 0; i < 13; i++ ) {
@@ -138,6 +142,7 @@ void View::update() {
                 card[0] = new Gtk::Image( deck.getCardImage( (Rank)(i), (Suit)(j) ) );
             else
                 card[0] = new Gtk::Image( deck.getNullCardImage() );
+            
             tableButton[j * 13 + i].set_image( *card[0] );	
         } 
     }
@@ -164,11 +169,11 @@ void View::update() {
         for (int i = hand.size(); i < 13; i++) {
             card[0] = new Gtk::Image( deck.getNullCardImage() );
             playerCardButton[i].set_image( *card[0] );
-        } 
+        }
     }
 
     if (currentState == NEXTROUND) {
-        
+        game_->startGame();
     }
 
     if (currentState == FINISHEDGAME) {
@@ -222,17 +227,31 @@ void View::setPlayerTypes() {
     controller_->setPlayers(playerTypes);
 }
 
-void View::playerCardButtonClicked(int cardClicked) {
+void View::playerCardButtonClicked(unsigned int cardClicked) {
     //card[0] = new Gtk::Image( deck.getCardImage( (Rank)(0), (Suit)(0) ) );
     //tableButton[ cardClicked ].set_image( *card[0] );	
-
+    //
+    //
+    bool const* table = game_->getTable();
+    for (int i = 0; i < 52; i++) {
+        std::cout<<table[i];
+    }
+std::cout<<std::endl;
     int currentPlayer = game_->getCurrentPlayer();
     std::vector<Card> hand = game_->getHand(currentPlayer - 1);
-    controller_->tryPlayingCard(hand[cardClicked]); 
+    if (cardClicked < hand.size())
+        controller_->tryPlayingCard(hand[cardClicked]); 
 }
 
-void View::discardButtonClicked(int cardClicked) {
+void View::discardButtonClicked(unsigned int cardClicked) {
+
+    bool const* table = game_->getTable();
+    for (int i = 0; i < 52; i++) {
+        std::cout<<table[i];
+    }
+std::cout<<std::endl;
     int currentPlayer = game_->getCurrentPlayer();
     std::vector<Card> hand = game_->getHand(currentPlayer - 1);
-    controller_->tryDiscardingCard(hand[cardClicked]); 
+    if (cardClicked < hand.size())
+        controller_->tryDiscardingCard(hand[cardClicked]); 
 }

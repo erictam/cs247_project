@@ -180,10 +180,11 @@ int Game::getDiscarded(int player) {
 
 //int player parameter passed in from 0 to 3
 std::vector<Card> Game::getHand(int player) {
+    std::cout<<player;
     return players_[player]->getHand();
 }
 
-bool* Game::getTable() {
+bool const* Game::getTable() const {
     return table_.getTable();
 }
 
@@ -265,12 +266,12 @@ void Game::tryPlayingCard(Card c) {
 
     state_ = TAKETURN;
 
-    if (currentTurn_ > CARD_COUNT) {
+    /*if (currentTurn_ > CARD_COUNT) {
         if (playerScores_[currentPlayer_] >= MAX_SCORE)
             state_ = FINISHEDGAME;
         else
             state_ = NEXTROUND;
-    }
+    }*/
 
     notify();
 }
@@ -281,8 +282,6 @@ void Game::tryDiscardingCard(Card c) {
         currentPlayer_++;
         if (currentPlayer_ == NUM_PLAYERS + 1) 
             currentPlayer_ = 1;
-
-        
         currentTurn_++;
     }
     else {
@@ -292,16 +291,14 @@ void Game::tryDiscardingCard(Card c) {
     if (!getCurrentPlayerType()) {
         //autoTurn();
     }
-
-
     state_ = TAKETURN;
 
-    if (currentTurn_ > CARD_COUNT) {
+    /*if (currentTurn_ > CARD_COUNT) {
         if (playerScores_[currentPlayer_] >= MAX_SCORE)
             state_ = FINISHEDGAME;
         else
             state_ = NEXTROUND;
-    }
+    }*/
     notify();
 }
 

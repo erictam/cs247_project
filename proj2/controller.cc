@@ -32,7 +32,9 @@ void Controller::setPlayers(std::string playerTypes[]) {
 void Controller::tryPlayingCard(Card c) {
     game_->tryPlayingCard(c); 
 }
-
+#include <iostream>
 void Controller::tryDiscardingCard(Card c) {
+
+    std::cout<<"Discard : "<<c<<std::endl;
     game_->tryDiscardingCard(c);
 }

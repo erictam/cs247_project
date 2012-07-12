@@ -1,6 +1,6 @@
 CXX= g++
 #CXXFLAGS = -g `/opt/local/bin/pkg-config gtkmm-2.4 --cflags --libs`
-CXXFLAGS = -Wall -O -g `pkg-config gtkmm-2.4 --cflags --libs`
+CXXFLAGS = -Wall -O -g -Wextra `pkg-config gtkmm-2.4 --cflags --libs`
 OBJS = DeckGUI.o View.o driver.o Subject.o controller.o Game.o Card.o Table.o Player.o Deck.o Strategy.o StrategyHuman.o StrategyComputer.o
 EXEC = straights
 
