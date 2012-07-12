@@ -10,6 +10,8 @@ StrategyHuman::StrategyHuman (Player* p)
 Command StrategyHuman::takeTurn ( std::vector<Card>& playableCards) {
     Command c;
 
+    return c;
+
     //print current table and current hand
     p_->printTable();
     p_->printHand();

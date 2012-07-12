@@ -11,7 +11,6 @@
 
 
 #include "controller.h"
-#include "Game.h"
 
 
 Controller::Controller(Game *game) : game_(game) {}
@@ -28,4 +27,12 @@ void Controller::resetButtonClicked() {
 
 void Controller::setPlayers(std::string playerTypes[]) {
     game_->setPlayers(playerTypes);
+}
+
+void Controller::tryPlayingCard(Card c) {
+    game_->tryPlayingCard(c); 
+}
+
+void Controller::tryDiscardingCard(Card c) {
+    game_->tryDiscardingCard(c);
 }

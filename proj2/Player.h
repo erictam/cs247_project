@@ -18,7 +18,9 @@ public:
     std::vector<Card> getPlayableCards() const;                     //method to get a list of playable cards in the player's hand
     Command takeTurn ();                                            //method to get player to take his turn
     void playCard (Card c, std::vector<Card>& playableCards);       //method to get player to play a card onto table
+    bool playCard( Card c);
     void discardCard (Card c, std::vector<Card>& playableCards);    //method to get player to discard card into discard pile
+    bool discardCard (Card c);
     void removeCardInHand (Card c);                                 //method to remove card from hand
     int getScore () const;                                          //method to get score calculated based on discard pile
     std::vector<Card> getDiscarded () const;                        //method to get list of discarded cards
@@ -27,6 +29,9 @@ public:
     void printTable () const;                                       //method to print cards currently on table
     void rageQuit ();                                               //method to get player to ragequit
     void printDeck() const;                                         //method to print the deck (only needed to deck command) 
+    
+    bool getIsHuman() const;
+
 private:
     std::vector<Card> hand_;
     std::vector<Card> discarded_;
@@ -34,6 +39,8 @@ private:
     Strategy* currentStrategy_;
     Deck* deck_;
     friend class StrategyComputer;
+
+    bool isHuman_;
 };
 
 #endif

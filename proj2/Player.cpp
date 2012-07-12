@@ -9,9 +9,11 @@ Player::Player ( Table& table, std::string strategy, Deck& deck)
     //set the appropriate type of strategy
     if (strategy == "h" || strategy == "H") {
         currentStrategy_ = new StrategyHuman(this);
+        isHuman_ = true;
     }
     else if (strategy == "c" || strategy == "C") {
         currentStrategy_ = new StrategyComputer(this);
+        isHuman_ = false;
     }
 }
 
@@ -76,6 +78,22 @@ void Player::playCard (Card c, std::vector<Card>& playableCards) {
     throw StrategyHuman::IllegalMoveException("This is not a legal play.");
 }
 
+bool Player::playCard (Card c) {
+    std::vector<Card> playableCards = getPlayableCards();
+    for (int i = 0; (unsigned)i < playableCards.size(); i++) {
+        // add card to table of played cards if valid
+        if (c == playableCards[i]) {
+
+            //add the card to the table, and remove the card from your hand
+            currentTable_->addCardToTable( c );
+            removeCardInHand( c ); 
+            
+            return true;
+        }
+    }
+    return false;  
+}
+
 //method to get player to discard card into discard pile
 void Player::discardCard (Card c, std::vector<Card>& playableCards) {
     if (playableCards.size() != 0) {
@@ -91,6 +109,26 @@ void Player::discardCard (Card c, std::vector<Card>& playableCards) {
         }
     }
     throw StrategyHuman::IllegalMoveException("You do not hold the card. You may not discard it.");
+}
+
+//method to get player to discard card into discard pile
+bool Player::discardCard (Card c) {
+    std::vector<Card> playableCards = getPlayableCards();
+    if (playableCards.size() != 0) {
+        //throw StrategyHuman::IllegalMoveException("You have a legal play. You may not discard.");
+        return false;
+    }
+    for (int i = 0; (unsigned)i < hand_.size(); i++) {
+        if (c == hand_[i]) {
+
+            //add card to discarded pile, and remove the card from your hand
+            discarded_.push_back(c);    
+            removeCardInHand( c );
+            return true; 
+        }
+    }
+    //throw StrategyHuman::IllegalMoveException("You do not hold the card. You may not discard it.");
+    return true;
 }
 
 //method to remove card from hand
@@ -148,3 +186,8 @@ void Player::rageQuit () {
 void Player::printDeck() const {                                              
         deck_->printDeck();
 }
+
+bool Player::getIsHuman() const {
+    return isHuman_;
+}
+

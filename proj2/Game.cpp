@@ -193,12 +193,11 @@ int Game::getCurrentPlayer() {
 }
 
 bool Game::getCurrentPlayerType() {
-    return true;
+    return players_[currentPlayer_ - 1]->getIsHuman();
 }
 
 void Game::newGame() {
-    currentPlayer_ = 12;
-    std::cout<<"something";
+    table_.clearTable();
 
     state_ = NEWGAME;
     notify();
@@ -219,7 +218,7 @@ void Game::setPlayers(std::string playerTypes[]) {
         playerScores_[i-1] = 0;
     }
 
-    startGame();
+    //startGame();
 }
 
 void Game::startGame() {
@@ -238,10 +237,54 @@ void Game::startGame() {
 
     //figure out the first player and set currentPlayer_.
     determineFirstPlayer();
-
-    state_ = TAKETURN;
-
+    
+    if (!getCurrentPlayerType()) {
+        autoTurn();
+    }
     //run();
 
+    state_ = TAKETURN;
     notify();
+}
+
+void Game::tryPlayingCard(Card c) {
+    if (players_[currentPlayer_ - 1]->playCard(c)) {
+        currentPlayer_++;
+        if (currentPlayer_ == NUM_PLAYERS + 1) 
+            currentPlayer_ = 1;
+    }
+    else {
+        return;
+    }
+    
+    if (!getCurrentPlayerType()) {
+        //autoTurn();
+    }
+
+    state_ = TAKETURN;
+    notify();
+}
+
+void Game::tryDiscardingCard(Card c) {
+    if (players_[currentPlayer_ - 1]->discardCard(c)) {
+        currentPlayer_++;
+        if (currentPlayer_ == NUM_PLAYERS + 1) 
+            currentPlayer_ = 1;
+    }
+    else {
+        return;
+    }
+    
+    if (!getCurrentPlayerType()) {
+        //autoTurn();
+    }
+
+    state_ = TAKETURN;
+    notify();
+}
+
+void Game::autoTurn() {
+    while (!getCurrentPlayerType()) {
+        takeTurn();
+    }
 }

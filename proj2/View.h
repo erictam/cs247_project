@@ -24,19 +24,30 @@ private:
 	DeckGUI                         deck;             // Knows all of the card pixel buffers.
 	
 	// Member widgets:
-	Gtk::Image                    * card[52];          // Images to display.
-	Gtk::Button                     button[52];           // Button that will hold an image.
+	Gtk::Image                     *card[52];          // Images to display.
+
     Gtk::HBox                       topHBox;
-    Gtk::HBox                       rageVBox[4];
 	Gtk::HBox                       tableHBox[4];             // Horizontal box for aligning widgets in the window.
+    Gtk::VBox                       rageVBox[4];
     Gtk::HBox                       playerHBox;
-	Gtk::Frame                      frame;            // Create a nice framed border for the box.
-    Gtk::VBox                       vbox[13];
-    Gtk::Table                      table;
+    Gtk::HBox                       discardHBox;
+	
+    Gtk::Frame                      frame;            // Create a nice framed border for the box.
+    Gtk::Table                      mainTable;
+    Gtk::Table                      playedCardsTable;
+
     Gtk::Button                     newGameButton;
     Gtk::Button                     endGameButton;
+	Gtk::Button                     tableButton[52];           // Button that will hold an image.
     Gtk::Button                     rageButton[4];
     Gtk::Button                     playerCardButton[13];
+    Gtk::Button                     discardButton[13];
+
+    Gtk::Label                      pointsLabel[4];
+    Gtk::Label                      discardsLabel[4];
+    Gtk::Frame                      playedCardsFrame;
+    Gtk::Frame                      playerFrame[4];
+    Gtk::Frame                      yourHandFrame;
 
     Game*                           game_;
 
@@ -45,6 +56,9 @@ private:
     void update();
     void newGameButtonClicked();
     void setPlayerTypes();   // Brings up four dialog boxes to set each player.
+    void playerCardButtonClicked(int);
+    void discardButtonClicked(int);
+
 }; // View
 
 #endif
