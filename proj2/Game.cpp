@@ -7,7 +7,7 @@ const int CARD_COUNT = 52;
 const int MAX_SCORE = 80;
 
 //public constructor
-Game::Game() : currentPlayer_(0), currentTurn_(1) {
+Game::Game() : currentPlayer_(0), currentTurn_(0) {
     table_ = Table();
     std::string strategy = "";
     /*for (int i = 1; i <= NUM_PLAYERS; i++) {
@@ -27,6 +27,7 @@ Game::Game() : currentPlayer_(0), currentTurn_(1) {
 
     for (int i = 1; i <= NUM_PLAYERS; i++) {
         playerScores_[i - 1] = 0;
+        players_[i - 1] = NULL;
     }
 }
 
@@ -187,7 +188,11 @@ int Game::getDiscard (int player) {
 
 //int player parameter passed in from 0 to 3
 std::vector<Card> Game::getDiscarded(int player) {
-    return players_[player]->getDiscarded();
+    if (players_[player])
+        return players_[player]->getDiscarded();
+
+    std::vector<Card> emptyVector;
+    return emptyVector; 
 }
 
 //int player parameter passed in from 0 to 3
@@ -209,10 +214,12 @@ bool Game::getCurrentPlayerType() {
 }
 
 void Game::endGame() {
+    currentTurn_ = 0;
     table_.clearTable();
     for (int i = 0; i < 4; i++) {
         playerScores_[i] = 0;
-        players_[i]->clearPlayer();
+        if (players_[i])
+            players_[i]->clearPlayer();
     }
     state_ = QUITGAME;
     notify();
@@ -302,7 +309,6 @@ void Game::tryPlayingCard(int cardClicked) {
     if (getCurrentState() != TAKETURN) {
         return;
     }
-
 
     std::vector<Card> hand = players_[currentPlayer_ - 1]->getHand();
     Card c = hand[cardClicked];
