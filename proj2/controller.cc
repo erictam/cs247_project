@@ -5,7 +5,7 @@
 Controller::Controller(Game *game) : game_(game) {}
 
 // Calls start game when the new game button is clicked.
-void Controller::newGameButtonClicked() {
+void Controller::newGame() {
     game_->startGame();
 } 
 
@@ -30,18 +30,6 @@ void Controller::tryDiscardingCard(int cardClicked) {
     game_->tryDiscardingCard(cardClicked);
 }
 
-bool const* Controller::getTable() const {
-    return game_->getTable();
-}
-
-int const* Controller::getScores() const {
-    return game_->getScores();
-}
-
-int Controller::getCurrentPlayer() const {
-    return game_->getCurrentPlayer();
-}
-
-int Controller::getCurrentTurn() const {
-    return game_->getCurrentTurn();
+void Controller::rageQuit(int player) {
+    game_->rageQuit(player);
 }

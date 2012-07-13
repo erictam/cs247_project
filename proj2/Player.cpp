@@ -25,16 +25,6 @@ Player::~Player () {
         delete currentStrategy_;
     }
 }
-
-//method to print the hand of the player
-void Player::printHand() const {
-    std::cout<<"Your hand:";
-    for (int i = 0; (unsigned)i < hand_.size(); i++) {
-        std::cout<<" "<<hand_[i];
-    }
-    std::cout<<std::endl;
-}
-
 std::vector<Card> Player::getHand () const {
     return hand_;
 }
@@ -56,7 +46,6 @@ Command Player::takeTurn () {
     // get list of playable cards
     std::vector<Card> playableCards = getPlayableCards();
 
-    printHand();
     for (unsigned int i = 0; i < playableCards.size(); i++) {
         std::cout<<playableCards[i]<<" ";
     }
@@ -65,24 +54,6 @@ Command Player::takeTurn () {
     //call the takeTurn method of the strategy
     Command c = currentStrategy_->takeTurn( playableCards );
     return c;
-}
-
-//method to get player to play a card onto table
-void Player::playCard (Card c, std::vector<Card>& playableCards) {
-    /*std::cout<<"Something";
-    for (int i = 0; (unsigned)i < playableCards.size(); i++) {
-        // add card to table of played cards if valid
-        if (c == playableCards[i]) {
-
-            //add the card to the table, and remove the card from your hand
-            currentTable_->addCardToTable( c );
-            removeCardInHand( c ); 
-
-            return;
-        }
-    }
-    //if the card is not a playable card, throw exception
-    throw StrategyHuman::IllegalMoveException("This is not a legal play.");*/
 }
 
 bool Player::playCard (Card c) {
@@ -95,28 +66,10 @@ bool Player::playCard (Card c) {
             //add the card to the table, and remove the card from your hand
             currentTable_->addCardToTable( c );
             removeCardInHand( c ); 
-            
             return true;
         }
     }
     return false;  
-}
-
-//method to get player to discard card into discard pile
-void Player::discardCard (Card c, std::vector<Card>& playableCards) {
-    if (playableCards.size() != 0) {
-        throw StrategyHuman::IllegalMoveException("You have a legal play. You may not discard.");
-    }
-    for (int i = 0; (unsigned)i < hand_.size(); i++) {
-        if (c == hand_[i]) {
-
-            //add card to discarded pile, and remove the card from your hand
-            discarded_.push_back(c);    
-            removeCardInHand( c );
-            return; 
-        }
-    }
-    throw StrategyHuman::IllegalMoveException("You do not hold the card. You may not discard it.");
 }
 
 //method to get player to discard card into discard pile
@@ -149,16 +102,6 @@ void Player::removeCardInHand (Card c) {
     }
 }
 
-//method to get score calculated based on discard pile
-int Player::getScore () const {
-    int score = 0;
-    for (int i = 0; (unsigned)i < discarded_.size(); i++) {
-        //sum up the ranks of each discarded card.  A = 1, J = 11, Q = 12, K = 13
-        score += (int)discarded_[i].getRank() + 1;
-    }
-    return score;
-}
-
 //method to get list of discarded cards
 std::vector<Card> Player::getDiscarded() const {
     return discarded_;
@@ -175,11 +118,6 @@ void Player::assignHand (std::vector<Card> cards) {
     hand_ = cards;
 }
 
-//method to print cards currently on table
-void Player::printTable () const {
-    std::cout<<"Cards on the table:"<<std::endl;
-    currentTable_->printTable();
-}
 
 //method to get player to ragequit
 void Player::rageQuit () {
@@ -191,11 +129,6 @@ void Player::rageQuit () {
     delete temp;
 
     isHuman_ = false;
-}
-
-//method to print the deck (only needed to deck command) 
-void Player::printDeck() const {                                              
-        deck_->printDeck();
 }
 
 bool Player::getIsHuman() const {

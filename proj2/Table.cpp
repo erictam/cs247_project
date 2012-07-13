@@ -49,33 +49,6 @@ bool Table::isLegalCard (Card c) const {
     return cardsInPlay_[suit * 13 + rankAbove] || cardsInPlay_[suit * 13 +rankBelow];
 }
 
-//method to print current cards on table
-void Table::printTable () const {
-    std::string ranks[RANK_COUNT] = {"A", "2", "3", "4", "5", "6",
-		"7", "8", "9", "10", "J", "Q", "K"};
-    for (int i = 0; i < SUIT_COUNT; i++) {
-        if (i == 0) {
-            std::cout<<"Clubs:";
-        }
-        else if (i == 1) {
-            std::cout<<"Diamonds:";
-        }
-        else if (i == 2) {
-            std::cout<<"Hearts:";
-        }
-        else if (i == 3) {
-            std::cout<<"Spades:";
-        }
-        for (int j = 0; j < RANK_COUNT; j++) {
-            // output the card rank if it is on the table
-            if (cardsInPlay_[i * 13 + j]) {
-                std::cout<<" "<<ranks[j];
-            }
-        }
-        std::cout<<std::endl;
-    }
-}
-
 //method to clear the table of cards
 void Table::clearTable () {
     for (int i = 0; i < SUIT_COUNT; i++) {

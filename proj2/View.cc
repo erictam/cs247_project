@@ -4,9 +4,9 @@
 #include <iostream>
 #include <stdlib.h>
 
-View::View( Controller* c, Game* g) 
+View::View( Controller* c, Facade* f) 
     : mainTable( 5, 4, false), playedCardsTable(4,1,false), newGameButton("New Game"),
-    endGameButton("End Game"), game_(g), controller_(c) {
+    endGameButton("End Game"), facade_(f), controller_(c) {
 
         // Sets the border width of the window.
         set_border_width( 10 );
@@ -77,7 +77,7 @@ View::View( Controller* c, Game* g)
         // The final step is to display this newly created widget.
         show_all();
 
-        game_->subscribe(this);
+        facade_->subscribe(this);
 
     } 
 
@@ -87,14 +87,14 @@ View::~View() {
 
 void View::newGameButtonClicked() {
     if (setPlayerTypes()) {
-        controller_->newGameButtonClicked(); 
+        controller_->newGame(); 
     }
 }
 
 void View::update() {
-    GameState currentState = game_->getCurrentState();
-    int currentPlayer = controller_->getCurrentPlayer();
-    int currentTurn = game_->getCurrentTurn();
+    GameState currentState = facade_->getCurrentState();
+    int currentPlayer = facade_->getCurrentPlayer();
+    int currentTurn = facade_->getCurrentTurn();
 
     //Disable all rage buttons
     for (int i = 0; i < 4; i++) {
@@ -103,11 +103,15 @@ void View::update() {
 
     //Update the player frame 
     std::stringstream sstream;
-    sstream << "Player " << currentPlayer << "'s Hand";
+    sstream << "Player";
+    if (currentPlayer > 0)
+        sstream << " " << currentPlayer; 
+    sstream << "'s Hand";
     yourHandFrame.set_label(sstream.str());
 
     updateTable();
     updatePlayerInfo();
+    updatePlayerHand();
 
     if (currentTurn == 1)
         firstTurnPopup();
@@ -122,25 +126,22 @@ void View::update() {
 
     else if (currentState == TAKETURN) {
         rageButton[currentPlayer - 1].set_sensitive(true);
-
-        updatePlayerHand();
     }
 
     else if (currentState == NEXTROUND) {
         recapPopup(); 
-        game_->startGame();
+        controller_->newGame();
     }
     else if (currentState == FINISHEDGAME) {
         recapPopup();
 
         rageButton[currentPlayer - 1].set_sensitive(false);
-        updatePlayerHand();  
         resultPopup();      
     }
 }
 
 void View::recapPopup() {
-    int const* scores = controller_->getScores();
+    int const* scores = facade_->getScores();
     int incrementalScores[4] = {0};
 
     Gtk::Dialog dialog("Results", *this);
@@ -149,7 +150,7 @@ void View::recapPopup() {
     std::stringstream resultStream;
 
     for (int i = 0; i < 4; i++) {
-        std::vector<Card> discarded = game_->getDiscarded(i);
+        std::vector<Card> discarded = facade_->getDiscarded(i);
 
         resultStream << "Player " << i + 1 << " discarded:";
         for (unsigned j = 0; j < discarded.size(); j++) {
@@ -174,7 +175,7 @@ void View::recapPopup() {
 
 void View::resultPopup() {
     int winner = 0;
-    int const* scores = game_->getScores();
+    int const* scores = facade_->getScores();
 
     Gtk::Dialog dialog("Results", *this);
     Gtk::VBox* contentArea = dialog.get_vbox();
@@ -196,7 +197,7 @@ void View::resultPopup() {
 }
 
 void View::firstTurnPopup() {
-    int currentPlayer = controller_->getCurrentPlayer();
+    int currentPlayer = facade_->getCurrentPlayer();
     Gtk::Dialog dialog("First Turn", *this);
     Gtk::VBox* contentArea = dialog.get_vbox();
 
@@ -222,7 +223,7 @@ void View::updateScores() {
     int score;
     for (int i = 0; i < 4; i++) {
         std::stringstream sstream;
-        score = game_->getScore(i);
+        score = facade_->getScore(i);
         if (score == 1) {
             sstream << score << " point";
         }
@@ -237,7 +238,7 @@ void View::updateDiscards() {
     int discards;
     for (int i = 0; i < 4; i++) {
         std::stringstream sstream;
-        discards = game_->getDiscard(i);
+        discards = facade_->getDiscard(i);
         if (discards == 1) {
             sstream << discards << " discard";
         }
@@ -251,7 +252,7 @@ void View::updateDiscards() {
 
 void View::updateTable() {
     //Update the displayed cards on the table
-    bool const* table = controller_->getTable();
+    bool const* table = facade_->getTable();
     for (int i = 0; i < 52; i++ ) {
         if (table[i])
             card[0] = new Gtk::Image( deck.getCardImage( (Rank)(i % 13), (Suit)(i / 13) ) );
@@ -263,8 +264,11 @@ void View::updateTable() {
 }
 
 void View::updatePlayerHand() {
-    int currentPlayer = game_->getCurrentPlayer();
-    std::vector<Card> hand = game_->getHand(currentPlayer - 1);
+    int currentPlayer = facade_->getCurrentPlayer();
+
+    std::vector<Card> hand;
+    if (currentPlayer > 0)
+        hand = facade_->getHand(currentPlayer - 1);
 
     for (int i = 0; (unsigned)i < hand.size(); i++) {
         card[0] = new Gtk::Image( deck.getCardImage( hand[i].getRank(), hand[i].getSuit() ) );
@@ -351,23 +355,14 @@ void View::endGameButtonClicked() {
 }
 
 void View::playerCardButtonClicked(unsigned int cardClicked) {
-    //int currentPlayer = game_->getCurrentPlayer();
-    //std::vector<Card> hand = game_->getHand(currentPlayer - 1);
-
-    //if (cardClicked < hand.size()) 
-        controller_->tryPlayingCard(cardClicked);
-    
+    controller_->tryPlayingCard(cardClicked);
 }
 
 void View::discardButtonClicked(unsigned int cardClicked) {
-    //int currentPlayer = game_->getCurrentPlayer();
-    //std::vector<Card> hand = game_->getHand(currentPlayer - 1);
-    //if (cardClicked < hand.size())
-        controller_->tryDiscardingCard(cardClicked); 
+    controller_->tryDiscardingCard(cardClicked); 
 }
 
 void View::rageButtonClicked( unsigned int buttonClicked ) {
-    std::cout<<"RAGE";
 
-    game_->rageQuit(buttonClicked);
+    controller_->rageQuit(buttonClicked);
 }

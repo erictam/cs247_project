@@ -9,9 +9,9 @@
 #include "Facade.h"
 #include <string>
 
-enum GameState { NEWGAME, TAKETURN, NEXTROUND, FINISHEDGAME, QUITGAME };
 
-class Game : public Subject, public Facade {
+
+class Game : public Facade {
 public:
     class QuitException {               //quit exception class for QUIT command
     public:
@@ -19,23 +19,19 @@ public:
     };
     Game ();                            //public constructor
     ~Game ();                           //public destructor
-    void printPlayerHand (int p) const; //method to print player p's hand
     void takeTurn ();                   //method to go through one player's turn
     void determineFirstPlayer ();       //method to determine the player holding the SEVEN SPADES card, who will go first
-    void printTable () const;           //method to print current cards on the table
-    void run ();                        //method to start the game
 
-
-    int getScore(int);
+    int getScore(int) const;
     int const* getScores() const;
     int getDiscard(int);
     std::vector<Card> getDiscarded(int);
     std::vector<Card> getHand(int);
     bool const* getTable() const;
-    int getCurrentPlayer();
-    bool getCurrentPlayerType();
-
-    GameState getCurrentState();
+    int getCurrentPlayer() const;
+    bool getCurrentPlayerType() const;
+    int getCurrentTurn() const;
+    GameState getCurrentState() const;
 
     void setPlayers(std::string[], int);
 
@@ -49,7 +45,6 @@ public:
 
     void rageQuit(int);
 
-    int getCurrentTurn() const;
 
 private:
     Deck deck_;

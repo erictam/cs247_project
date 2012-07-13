@@ -9,7 +9,6 @@ public:
     Table ();                           //public constructor
     void addCardToTable (Card);         //method to add new card to table
     bool isLegalCard (Card) const;      //method to check if card can be played next
-    void printTable() const;            //method to print current cards on table
     void clearTable();                  //method to clear the table of cards
     bool const* getTable() const;
 private:

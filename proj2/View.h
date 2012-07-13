@@ -9,7 +9,7 @@
 
 //#include <gtkmm.h>
 #include "Observer.h"
-
+#include "Facade.h"
 #include "DeckGUI.h"
 
 class Game;
@@ -17,7 +17,7 @@ class Controller;
 
 class View : public Observer, public Gtk::Window {
 public:
-	View( Controller*, Game* );
+	View( Controller*, Facade* );
 	virtual ~View();
 	
 private:
@@ -51,7 +51,7 @@ private:
     Gtk::Frame                      playerFrame[4];
     Gtk::Frame                      yourHandFrame;
 
-    Game*                           game_;
+    Facade*                         facade_;
 
     Controller*                     controller_;
 

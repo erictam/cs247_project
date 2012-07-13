@@ -11,7 +11,7 @@ class Game;
 class Controller {
 public:
    Controller( Game* );                     // Constructor
-   void newGameButtonClicked();             // Starts a new game
+   void newGame();             // Starts a new game
    void endGameButtonClicked();             // Ends a game
    void setPlayers(std::string[], int);     // Sets all player types and seed
    void tryPlayingCard(int);               // Attempts to play a card
@@ -21,6 +21,8 @@ public:
     int const* getScores() const;
     int getCurrentPlayer() const;
     int getCurrentTurn() const;
+
+    void rageQuit(int);
 private:
    Game* game_;                             // Model Game class
 }; // Controller

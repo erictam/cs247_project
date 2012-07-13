@@ -39,12 +39,6 @@ Game::~Game() {
     }
 }
 
-//method to print player p's hand
-void Game::printPlayerHand (int p) const {
-    assert (1 <= p && p <= NUM_PLAYERS);
-    std::cout<<"Player "<< p <<"'s hand : ";
-    players_[p - 1]->printHand();;
-}
 
 //method to go through one player's turn
 void Game::takeTurn () {
@@ -86,95 +80,9 @@ void Game::determineFirstPlayer () {
     std::cout<<"A new round begins. It's player "<<currentPlayer_<<"'s turn to play."<<std::endl;
 }
 
-//method to print current cards on the table
-void Game::printTable () const {
-    std::cout<<"Cards on the table:"<<std::endl;
-    table_.printTable();
-}
-
-//method to start the game
-void Game::run () {
-    bool gameIsComplete = false;
-
-    //loop until game is finished (any player has a score of 80+)
-    while (gameIsComplete == false) {
-        //restart game so set currentTurn_ to 1 and shuffle deck
-        currentTurn_ = 1;
-        deck_.shuffle();
-
-        //clear the table of any cards on it
-        table_.clearTable();
-
-        //clear each player of their hand and discarded pile, and deal a new hand to each player
-        for (int i = 1; i <= NUM_PLAYERS; i++) {
-            players_[i-1]->clearPlayer();
-            std::vector<Card> hand = deck_.deal(i);
-            players_[i-1]->assignHand(hand);
-        }
-
-        //figure out the first player and set currentPlayer_.
-        determineFirstPlayer();
-
-        //we will always have 52 turns in one round.
-        //so takeTurn 52 times
-        while (currentTurn_ <= CARD_COUNT) {
-            try {
-                //takeTurn();
-            }
-            catch (QuitException& err ) {
-                //if we enter here, quit command was input
-                return;
-            }
-        }
-
-        //this will hold the score of a player from the most recent round
-        int score;
-
-        //this will hold the discard pile of the player
-        std::vector<Card> discarded;
-
-        for (int i = 1; i <= NUM_PLAYERS; i++) {
-            //get discarded pile
-            discarded = players_[i-1]->getDiscarded();
-
-            //get score from recent round
-            score = players_[i-1]->getScore();
-
-            //print out discards
-            std::cout<<"Player "<<i<<"'s discards:";
-            for (int j = 0; (unsigned)j < discarded.size(); j++) {
-                std::cout<<" "<<discarded[j];
-            }
-            std::cout<<std::endl;
-
-            //print out score
-            std::cout<<"Player "<<i<<"'s score: "<<playerScores_[i-1]<<" + "<<score<<" = "<<playerScores_[i-1] + score<<std::endl;
-
-            //increment score accordingly
-            playerScores_[i-1] += score;
-
-            //game is finished ONLY if someone has a score of 80+ (max score)
-            if (playerScores_[i-1] >= MAX_SCORE) {
-                gameIsComplete = true;
-            }
-        }
-    }
-
-    //figure out who the winner and print a message about the winner
-    int winner = 0;
-    for (int i = 1; i < NUM_PLAYERS; i++) {
-        if (playerScores_[i] < playerScores_[winner]) {
-            winner = i;
-        }
-    }
-
-    std::cout<<"Player "<<winner + 1<<" wins!"<<std::endl;
-
-}
-
 
 //int player parameter passed in from 0 to 3
-int Game::getScore(int player) {
+int Game::getScore(int player) const {
     return playerScores_[player];
 }
 
@@ -197,7 +105,11 @@ std::vector<Card> Game::getDiscarded(int player) {
 
 //int player parameter passed in from 0 to 3
 std::vector<Card> Game::getHand(int player) {
-    return players_[player]->getHand();
+    if (players_[player])
+        return players_[player]->getHand();
+
+    std::vector<Card> emptyVector;
+    return emptyVector; 
 }
 
 bool const* Game::getTable() const {
@@ -205,16 +117,17 @@ bool const* Game::getTable() const {
 }
 
 //Returns player 1 to 4
-int Game::getCurrentPlayer() {
+int Game::getCurrentPlayer() const {
     return currentPlayer_;
 }
 
-bool Game::getCurrentPlayerType() {
+bool Game::getCurrentPlayerType() const {
     return players_[currentPlayer_ - 1]->getIsHuman();
 }
 
 void Game::endGame() {
     currentTurn_ = 0;
+    currentPlayer_ = 0;
     table_.clearTable();
     for (int i = 0; i < 4; i++) {
         playerScores_[i] = 0;
@@ -225,7 +138,7 @@ void Game::endGame() {
     notify();
 }
 
-GameState Game::getCurrentState() {
+GameState Game::getCurrentState() const {
     return state_;
 }
 
@@ -241,10 +154,6 @@ void Game::setPlayers(std::string playerTypes[], int seed) {
     }
 
     srand48(seed);
-
-
-
-    //startGame();
 }
 
 // Lets the computer take their turns
@@ -290,9 +199,11 @@ void Game::startGame() {
 
     //clear each player of their hand and discarded pile, and deal a new hand to each player
     for (int i = 1; i <= NUM_PLAYERS; i++) {
-        players_[i-1]->clearPlayer();
-        std::vector<Card> hand = deck_.deal(i);
-        players_[i-1]->assignHand(hand);
+        if (players_[i-1]) {
+            players_[i-1]->clearPlayer();
+            std::vector<Card> hand = deck_.deal(i);
+            players_[i-1]->assignHand(hand);
+        }
     }
 
     //figure out the first player and set currentPlayer_.
@@ -338,7 +249,6 @@ void Game::tryDiscardingCard(int cardClicked) {
     std::vector<Card> hand = players_[currentPlayer_ - 1]->getHand();
     Card c = hand[cardClicked];
 
-
     if (players_[currentPlayer_ - 1]->discardCard(c)) {
         playerScores_[currentPlayer_ - 1] += (int)c.getRank() + 1;
         currentPlayer_++;
@@ -369,3 +279,5 @@ void Game::rageQuit( int player) {
 int Game::getCurrentTurn() const {
     return currentTurn_;
 }
+
+
