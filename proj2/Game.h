@@ -28,7 +28,7 @@ public:
 
     int getScore(int);
     int const* getScores() const;
-    int getDiscarded(int);
+    std::vector<Card> getDiscarded(int);
     std::vector<Card> getHand(int);
     bool const* getTable() const;
     int getCurrentPlayer();

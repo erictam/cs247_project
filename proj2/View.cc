@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "controller.h"
 #include <iostream>
+#include <stdlib.h>
 
 // Sets the horizontal box to have homogeneous spacing (all elements are of the same size), and to put 10 pixels
 // between each widget. Initializes the pixel buffer for the null place holder card, and the 10 of spades.
@@ -175,26 +176,34 @@ void View::update() {
     }
 
     if (currentState == NEXTROUND) {
-        /*Gtk::Dialog dialog("Start Game", *this);
+        updateScores();
+
+        Gtk::Dialog dialog("Start Game", *this);
         Gtk::VBox* contentArea = dialog.get_vbox();
 
-        std::string resultString = "";
+        std::stringstream resultStream;
 
 
         for (int i = 0; i < 4; i++) {
             std::vector<Card> discarded = game_->getDiscarded(i);
             
-            resultString = "player
-
+            resultStream << "player " << i << " discarded:";
+            for (unsigned j = 0; j < discarded.size(); j++) {
+                resultStream << " " << discarded[j];
+            }
+            resultStream << std::endl;
         }
 
-        Gtk::Label message("Seed Value");
+        Gtk::Label message(resultStream.str());
         message.show();
-        contentArea->pack_start(message, true, false);*/
+        contentArea->pack_start(message, true, false);
+        dialog.add_button("Next Round", 1);
+
+        dialog.run();
 
         game_->startGame();
-        updateScores();
-
+        
+        
 
     }
 
