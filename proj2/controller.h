@@ -24,6 +24,7 @@ class Controller {
 public:
    Controller( Game* );
    void newGameButtonClicked();
+   void endGameButtonClicked();
    void resetButtonClicked();
    void setPlayers(std::string[], int);
    void tryPlayingCard(Card);

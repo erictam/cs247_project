@@ -212,6 +212,12 @@ void Game::newGame() {
     notify();
 }
 
+void Game::endGame() {
+    table_.clearTable();
+    state_ = QUITGAME;
+    notify();
+}
+
 GameState Game::getCurrentState() {
     return state_;
 }
@@ -280,6 +286,10 @@ void Game::startGame() {
 }
 
 void Game::tryPlayingCard(Card c) {
+    if (getCurrentState() != TAKETURN) {
+        return;
+    }
+
     bool gameIsComplete = false;
     if (players_[currentPlayer_ - 1]->playCard(c)) {
         currentPlayer_++;
@@ -318,6 +328,10 @@ void Game::tryPlayingCard(Card c) {
 }
 
 void Game::tryDiscardingCard(Card c) {
+    if (getCurrentState() != TAKETURN) {
+        return;
+    }
+
     bool gameIsComplete = false;
     if (players_[currentPlayer_ - 1]->discardCard(c)) {
         playerScores_[currentPlayer_ - 1] += (int)c.getRank() + 1;

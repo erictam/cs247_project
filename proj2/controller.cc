@@ -11,18 +11,22 @@
 
 
 #include "controller.h"
+#include <iostream>
 
 
 Controller::Controller(Game *game) : game_(game) {}
 
 
 void Controller::newGameButtonClicked() {
-     game_->newGame();
+    game_->newGame();
 } 
 
+void Controller::endGameButtonClicked() {
+    game_->endGame();
+}
 
 void Controller::resetButtonClicked() {
-     //game_->resetCards();
+    //game_->resetCards();
 } 
 
 void Controller::setPlayers(std::string playerTypes[], int seed) {
@@ -32,7 +36,7 @@ void Controller::setPlayers(std::string playerTypes[], int seed) {
 void Controller::tryPlayingCard(Card c) {
     game_->tryPlayingCard(c); 
 }
-#include <iostream>
+
 void Controller::tryDiscardingCard(Card c) {
     game_->tryDiscardingCard(c);
 }

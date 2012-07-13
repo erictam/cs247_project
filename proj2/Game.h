@@ -9,7 +9,7 @@
 #include "Facade.h"
 #include <string>
 
-enum GameState { NEWGAME, TAKETURN, NEXTROUND, FINISHEDGAME };
+enum GameState { NEWGAME, TAKETURN, NEXTROUND, FINISHEDGAME, QUITGAME };
 
 class Game : public Subject, public Facade {
 public:
@@ -40,6 +40,7 @@ public:
     void setPlayers(std::string[], int);
 
     void startGame();
+    void endGame();
     void tryPlayingCard(Card);
     void tryDiscardingCard(Card);
 
