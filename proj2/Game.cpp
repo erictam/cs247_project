@@ -208,12 +208,6 @@ bool Game::getCurrentPlayerType() {
     return players_[currentPlayer_ - 1]->getIsHuman();
 }
 
-void Game::newGame() {
-    table_.clearTable();
-    state_ = NEWGAME;
-    notify();
-}
-
 void Game::endGame() {
     table_.clearTable();
     state_ = QUITGAME;

@@ -1,17 +1,5 @@
-/*
- * MVC example of GTKmm program
- *
- * Controller class.  Is responsible for translating UI events (from the View)
- * into method calls to the Model.
- *
- *  Created by Jo Atlee on 06/07/09.
- *  Copyright 2009 UW. All rights reserved.
- *
- */
-
-
-#ifndef MVC_CONTROLLER_H
-#define MVC_CONTROLLER_H
+#ifndef CONTROLLER_H
+#define CONTROLLER_H
 
 
 #include <gtkmm.h>
@@ -22,15 +10,15 @@ class Game;
 
 class Controller {
 public:
-   Controller( Game* );
-   void newGameButtonClicked();
-   void endGameButtonClicked();
-   void resetButtonClicked();
-   void setPlayers(std::string[], int);
-   void tryPlayingCard(Card);
-   void tryDiscardingCard(Card);
+   Controller( Game* );                     // Constructor
+   void newGameButtonClicked();             // Starts a new game
+   void endGameButtonClicked();             // Ends a game
+   void setPlayers(std::string[], int);     // Sets all player types and seed
+   void tryPlayingCard(Card);               // Attempts to play a card
+   void tryDiscardingCard(Card);            // Attempts to discard a card
+
 private:
-   Game* game_;
+   Game* game_;                             // Model Game class
 }; // Controller
 
 

@@ -3,6 +3,7 @@
 #include <sstream>
 using namespace std;
 
+// Takes in commands for the game
 istream &operator>>(istream &in, Command &c){
 	c.type = BAD_COMMAND;
 	

@@ -35,7 +35,6 @@ public:
     int getCurrentPlayer();
     bool getCurrentPlayerType();
 
-    void newGame();
     GameState getCurrentState();
 
     void setPlayers(std::string[], int);

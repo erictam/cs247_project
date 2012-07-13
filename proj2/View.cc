@@ -18,18 +18,6 @@ View::View( Controller* c, Game* g)
         // Sets the border width of the window.
         set_border_width( 10 );
 
-        // Set the look of the frame.
-        //frame.set_label( "Cards:" );
-        //frame.set_label_align( Gtk::ALIGN_LEFT, Gtk::ALIGN_TOP );
-        //frame.set_shadow_type( Gtk::SHADOW_ETCHED_OUT );
-
-        // Add the frame to the window. Windows can only hold one widget, same for frames.
-        //add( frame );
-
-        // Add the horizontal box for laying out the images to the frame.
-        //frame.add( table );
-        //
-
         add(mainTable);
 
         // Links the startGame method to the New Game button
@@ -102,16 +90,6 @@ View::View( Controller* c, Game* g)
 
         } // for
 
-
-        //newGameButton.signal_clicked().connect( sigc::ptr_fun( &newGameButtonClicked ) );
-
-        // Initialize the 5th card and place the image into the button.
-        //card[4] = new Gtk::Image( cardPixbuf );	
-        //button.set_image( *card[4] );	
-
-        // Add the button to the box.
-        //hbox.add( button );
-
         // The final step is to display this newly created widget.
         show_all();
 
@@ -155,19 +133,7 @@ void View::update() {
     sstream << "Player " << currentPlayer << "'s Hand";
     yourHandFrame.set_label(sstream.str());
 
-    /*
-    if (currentState == NEWGAME) {
-
-        //popup boxes prompting player types
-        setPlayerTypes();
-
-        //card[0] = new Gtk::Image ( deck.getNullCardImage() );
-        //button[ 13 ].set_image( *card[0] );
-
-        game_->startGame();
-    }
-
-    else */if (currentState == QUITGAME) {
+    if (currentState == QUITGAME) {
         for (int i = 0; i < 13; i++) {
             card[0] = new Gtk::Image( deck.getNullCardImage() );
             playerCardButton[i].set_image( *card[0] );
@@ -386,12 +352,6 @@ void View::endGameButtonClicked() {
 }
 
 void View::playerCardButtonClicked(unsigned int cardClicked) {
-    //card[0] = new Gtk::Image( deck.getCardImage( (Rank)(0), (Suit)(0) ) );
-    //tableButton[ cardClicked ].set_image( *card[0] );	
-    //
-    //
-    //
-
     int currentPlayer = game_->getCurrentPlayer();
     std::vector<Card> hand = game_->getHand(currentPlayer - 1);
 
@@ -401,7 +361,6 @@ void View::playerCardButtonClicked(unsigned int cardClicked) {
 }
 
 void View::discardButtonClicked(unsigned int cardClicked) {
-    
     int currentPlayer = game_->getCurrentPlayer();
     std::vector<Card> hand = game_->getHand(currentPlayer - 1);
     if (cardClicked < hand.size())
