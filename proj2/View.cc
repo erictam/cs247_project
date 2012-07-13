@@ -13,8 +13,6 @@ View::View( Controller* c, Game* g)
     : mainTable( 5, 4, false), playedCardsTable(4,1,false), newGameButton("New Game"),
     endGameButton("End Game"), game_(g), controller_(c) {
         //const Glib::RefPtr<Gdk::Pixbuf> cardPixbuf     = deck.getCardImage( TEN, SPADE );
-std::cout<<"RAGE";
-std::cout<<"RAGE";
 
         // Sets the border width of the window.
         set_border_width( 10 );
@@ -81,6 +79,8 @@ std::cout<<"RAGE";
 
             discardsLabel[i].set_label("0 discards");
             rageVBox[i].add(discardsLabel[i]);
+
+            rageButton[i].set_sensitive(false);
         }
 
         yourHandFrame.set_label("Your hand");
@@ -285,7 +285,6 @@ void View::playerCardButtonClicked(unsigned int cardClicked) {
     //
     //
 
-    std::cout<<"SOMETHING";
     int currentPlayer = game_->getCurrentPlayer();
     std::vector<Card> hand = game_->getHand(currentPlayer - 1);
     if (cardClicked < hand.size())
