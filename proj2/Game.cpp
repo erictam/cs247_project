@@ -397,6 +397,8 @@ void Game::rageQuit( int player) {
     }
 
     notify();
+}
 
-
+int Game::getCurrentTurn() const {
+    return currentTurn_;
 }

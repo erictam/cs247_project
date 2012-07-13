@@ -94,6 +94,7 @@ void View::newGameButtonClicked() {
 void View::update() {
     GameState currentState = game_->getCurrentState();
     int currentPlayer = controller_->getCurrentPlayer();
+    int currentTurn = game_->getCurrentTurn();
 
     //Disable all rage buttons
     for (int i = 0; i < 4; i++) {
@@ -107,6 +108,9 @@ void View::update() {
 
     updateTable();
     updatePlayerInfo();
+
+    if (currentTurn == 1)
+        firstTurnPopup();
 
     if (currentState == QUITGAME) {
         //Remove all cards from hand display.
@@ -189,6 +193,24 @@ void View::resultPopup() {
     dialog.add_button("OK", GTK_RESPONSE_CLOSE);
 
     dialog.run();
+}
+
+void View::firstTurnPopup() {
+    int currentPlayer = controller_->getCurrentPlayer();
+    Gtk::Dialog dialog("First Turn", *this);
+    Gtk::VBox* contentArea = dialog.get_vbox();
+
+    std::stringstream resultStream;
+
+    resultStream << "New round.  Player " << currentPlayer << " starts!" << std::endl;
+
+    Gtk::Label message(resultStream.str());
+    message.show();
+    contentArea->pack_start(message, true, false);
+    dialog.add_button("OK", GTK_RESPONSE_CLOSE);
+
+    dialog.run();
+
 }
 
 void View::updatePlayerInfo() {

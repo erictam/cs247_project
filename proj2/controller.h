@@ -20,6 +20,7 @@ public:
     bool const* getTable() const;
     int const* getScores() const;
     int getCurrentPlayer() const;
+    int getCurrentTurn() const;
 private:
    Game* game_;                             // Model Game class
 }; // Controller

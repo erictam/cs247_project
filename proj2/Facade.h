@@ -14,6 +14,7 @@ class Facade {
         virtual bool const* getTable() const = 0;
         virtual int getCurrentPlayer() = 0;
         virtual bool getCurrentPlayerType() = 0;
+        virtual int getCurrentTurn() const = 0;
     protected:
         Facade() {} //abstract base class
     private:

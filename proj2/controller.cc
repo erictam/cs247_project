@@ -42,5 +42,6 @@ int Controller::getCurrentPlayer() const {
     return game_->getCurrentPlayer();
 }
 
-
-
+int Controller::getCurrentTurn() const {
+    return game_->getCurrentTurn();
+}

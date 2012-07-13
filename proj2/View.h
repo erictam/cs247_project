@@ -64,6 +64,7 @@ private:
 
     void recapPopup();
     void resultPopup();
+    void firstTurnPopup();
 
     void newGameButtonClicked();
     void endGameButtonClicked();

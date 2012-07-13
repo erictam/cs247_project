@@ -48,6 +48,8 @@ public:
 
     void rageQuit(int);
 
+    int getCurrentTurn() const;
+
 private:
     Deck deck_;
     Player* players_[4];
