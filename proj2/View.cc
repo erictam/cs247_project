@@ -34,7 +34,7 @@ View::View( Controller* c, Game* g)
 
         // Links the startGame method to the New Game button
         //newGameButton.signal_clicked().connect( sigc::mem_fun( *this, &View::setPlayerTypes ) );
-        newGameButton.signal_clicked().connect( sigc::mem_fun( *this, &View::newGameButtonClicked ) );
+        newGameButton.signal_clicked().connect( sigc::mem_fun( *this, &View::setPlayerTypes ) );
         endGameButton.signal_clicked().connect( sigc::mem_fun( *this, &View::endGameButtonClicked ) );
 
         topHBox.add(newGameButton);
@@ -153,6 +153,7 @@ void View::update() {
     sstream << "Player " << currentPlayer << "'s Hand";
     yourHandFrame.set_label(sstream.str());
 
+    /*
     if (currentState == NEWGAME) {
 
         //popup boxes prompting player types
@@ -164,7 +165,7 @@ void View::update() {
         game_->startGame();
     }
 
-    else if (currentState == QUITGAME) {
+    else */if (currentState == QUITGAME) {
         for (int i = 0; i < 13; i++) {
             card[0] = new Gtk::Image( deck.getNullCardImage() );
             playerCardButton[i].set_image( *card[0] );
