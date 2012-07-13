@@ -60,6 +60,8 @@ private:
     void updateScores();
     void updateDiscards();
 
+    void recapPopup();
+
     void newGameButtonClicked();
     void endGameButtonClicked();
     void setPlayerTypes();   // Brings up four dialog boxes to set each player.

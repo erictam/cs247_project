@@ -191,30 +191,7 @@ void View::update() {
     else if (currentState == NEXTROUND) {
         updatePlayerInfo();
 
-        Gtk::Dialog dialog("Start Game", *this);
-
-        Gtk::VBox* contentArea = dialog.get_vbox();
-
-        std::stringstream resultStream;
-
-
-        for (int i = 0; i < 4; i++) {
-            std::vector<Card> discarded = game_->getDiscarded(i);
-            
-            resultStream << "player " << i << " discarded:";
-            for (unsigned j = 0; j < discarded.size(); j++) {
-                resultStream << " " << discarded[j];
-            }
-            resultStream << std::endl;
-        }
-
-        Gtk::Label message(resultStream.str());
-        message.show();
-        contentArea->pack_start(message, true, false);
-        dialog.add_button("Next Round", 0);
-
-        dialog.run();
-        dialog.~Dialog();
+        recapPopup(); 
 
         game_->startGame();
         
@@ -222,6 +199,7 @@ void View::update() {
 
     else if (currentState == FINISHEDGAME) {
         updatePlayerInfo();
+        recapPopup();
         int winner = 0;
 
         rageButton[currentPlayer - 1].set_sensitive(false);
@@ -235,7 +213,7 @@ void View::update() {
             card[0] = new Gtk::Image( deck.getNullCardImage() );
             playerCardButton[i].set_image( *card[0] );
         }
-
+        
         Gtk::Dialog dialog("Start Game", *this);
         Gtk::VBox* contentArea = dialog.get_vbox();
 
@@ -257,6 +235,42 @@ void View::update() {
     }
 
 } // View::~View()
+
+void View::recapPopup() {
+    int const* scores = game_->getScores();
+    int incrementalScores[4] = {0};
+    Gtk::Dialog dialog("Start Game", *this);
+
+    Gtk::VBox* contentArea = dialog.get_vbox();
+
+    std::stringstream resultStream;
+
+    for (int i = 0; i < 4; i++) {
+        std::vector<Card> discarded = game_->getDiscarded(i);
+
+        resultStream << "player " << i + 1 << " discarded:";
+        for (unsigned j = 0; j < discarded.size(); j++) {
+            resultStream << " " << discarded[j];
+            incrementalScores[i] += (int)discarded[j].getRank() + 1;
+        }
+        resultStream << std::endl;
+        resultStream << "player " << i + 1 << " score: ";
+        resultStream << scores[i] - incrementalScores[i] << " + ";
+        resultStream << incrementalScores[i] << " = " << scores[i];
+        resultStream << std::endl << std::endl;
+    }
+
+    Gtk::Label message(resultStream.str());
+    message.show();
+
+    contentArea->pack_start(message, true, false);
+    dialog.add_button("Next Round", 0);
+
+    dialog.run();
+    dialog.~Dialog();
+
+
+}
 
 void View::updatePlayerInfo() {
     updateScores();
