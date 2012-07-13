@@ -11,18 +11,12 @@ class Game;
 class Controller {
 public:
    Controller( Game* );                     // Constructor
-   void newGame();             // Starts a new game
+   void newGame();                          // Starts a new game
    void endGameButtonClicked();             // Ends a game
    void setPlayers(std::string[], int);     // Sets all player types and seed
-   void tryPlayingCard(int);               // Attempts to play a card
-   void tryDiscardingCard(int);            // Attempts to discard a card
-
-    bool const* getTable() const;
-    int const* getScores() const;
-    int getCurrentPlayer() const;
-    int getCurrentTurn() const;
-
-    void rageQuit(int);
+   void tryPlayingCard(int);                // Attempts to play a card
+   void tryDiscardingCard(int);             // Attempts to discard a card
+   void rageQuit(int);                      // Changes a human player into a computer
 private:
    Game* game_;                             // Model Game class
 }; // Controller

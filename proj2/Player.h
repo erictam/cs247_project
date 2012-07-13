@@ -16,15 +16,14 @@ public:
     std::vector<Card> getHand() const;
     std::vector<Card> getPlayableCards() const;                     //method to get a list of playable cards in the player's hand
     Command takeTurn ();                                            //method to get player to take his turn
-    bool playCard( Card c);
-    bool discardCard (Card c);
+    bool playCard( Card c);                                         // Checks if a card can be played
+    bool discardCard (Card c);                                      // Checks if a card can be discarded
     void removeCardInHand (Card c);                                 //method to remove card from hand
     std::vector<Card> getDiscarded () const;                        //method to get list of discarded cards
     void clearPlayer();                                             //method to clear player's hand, discard pile
     void assignHand (std::vector<Card> cards);                      //method to assign new hand to player
     void rageQuit ();                                               //method to get player to ragequit
-    
-    bool getIsHuman() const;
+    bool getIsHuman() const;                                        // Checks if a player is human
 
 private:
     std::vector<Card> hand_;
