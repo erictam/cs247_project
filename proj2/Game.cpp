@@ -137,6 +137,17 @@ GameState Game::getCurrentState() const {
     return state_;
 }
 
+int Game::getWinner() const {
+    int winner = 0;
+
+    //find out who the winner is
+    for (int i = 1; i < 4; i++) {
+        if (playerScores_[i] < playerScores_[winner])
+            winner = i;
+    }
+    return winner;
+}
+
 // Create and set each player's strategy, along with the random seed, before the deck
 // is shuffled.
 void Game::setPlayers(std::string playerTypes[], int seed) {

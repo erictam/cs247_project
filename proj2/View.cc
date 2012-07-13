@@ -27,6 +27,7 @@ View::View( Controller* c, Facade* f)
         playedCardsFrame.set_label("Cards on the table");
         for (int j = 0; j < 4; j++) {
             playedCardsTable.attach(tableHBox[j], 0, 1, j, j+1);
+            //set all displayed cards to show blank cards
             for (int i = 0; i < 13; i++ ) {
                 card[0] = new Gtk::Image ( deck.getNullCardImage() );
                 tableButton[j * 13 + i].set_image( *card[0] );
@@ -40,15 +41,18 @@ View::View( Controller* c, Facade* f)
             std::stringstream sstream;
             sstream << "Player "<< i + 1;
             playerFrame[i].set_label(sstream.str());
-
+            
+            //set rageButton label and event handlers
             rageButton[i].set_label("Rage!");
             rageVBox[i].add(rageButton[i]);
             rageButton[i].signal_clicked().connect( sigc::bind( sigc::mem_fun( *this, &View::rageButtonClicked), i ));
             rageButton[i].set_sensitive(false);
-
+            
+            //set points labels
             pointsLabel[i].set_label("0 points");
             rageVBox[i].add(pointsLabel[i]);
 
+            //set discards labels
             discardsLabel[i].set_label("0 discards");
             rageVBox[i].add(discardsLabel[i]);
 
@@ -60,6 +64,9 @@ View::View( Controller* c, Facade* f)
         //PLAYER HAND, DISCARD BUTTONS
         yourHandFrame.set_label("Player's Hand");
         yourHandFrame.add(playerHBox);
+        
+        //set all displayed cards in player's hand to show blank cards
+        //Connect event handlers to card buttons and discard buttons
         for (int i = 0; i < 13; i++ ) {
             card[0] = new Gtk::Image ( deck.getNullCardImage() );
             playerCardButton[i].set_image( *card[0] );	
@@ -78,19 +85,20 @@ View::View( Controller* c, Facade* f)
         show_all();
 
         facade_->subscribe(this);
-
     } 
 
 View::~View() {
     for (int i = 0; i < 52; i++ ) delete card[i];
 } 
 
+//event handler for new game button
 void View::newGameButtonClicked() {
     if (setPlayerTypes()) {
         controller_->newGame(); 
     }
 }
 
+//Observer update of the view
 void View::update() {
     GameState currentState = facade_->getCurrentState();
     int currentPlayer = facade_->getCurrentPlayer();
@@ -108,55 +116,62 @@ void View::update() {
         sstream << " " << currentPlayer; 
     sstream << "'s Hand";
     yourHandFrame.set_label(sstream.str());
-
+    
+    //update the various sections of view
     updateTable();
     updatePlayerInfo();
     updatePlayerHand();
 
     if (currentTurn == 1)
+        //display the popup for first turn of new round.
+        //this only happens if the first player of the round is a human
         firstTurnPopup();
-
-    if (currentState == QUITGAME) {
-        //Remove all cards from hand display.
-        for (int i = 0; i < 13; i++) {
-            card[0] = new Gtk::Image( deck.getNullCardImage() );
-            playerCardButton[i].set_image( *card[0] );
-        }
-    }
-
-    else if (currentState == TAKETURN) {
+    
+    if (currentState == TAKETURN) {
+        //enable the ragebutton of the current player
         rageButton[currentPlayer - 1].set_sensitive(true);
     }
 
     else if (currentState == NEXTROUND) {
+        //display a recap of the discards and points of the last round
         recapPopup(); 
+
+        //start next round after
         controller_->newGame();
     }
     else if (currentState == FINISHEDGAME) {
+        //display a recap of the discards and points of the last round
         recapPopup();
-
-        rageButton[currentPlayer - 1].set_sensitive(false);
+        
+        //display results of entire game
         resultPopup();      
     }
 }
 
+//Create a dialog box to display recap of last round
 void View::recapPopup() {
     int const* scores = facade_->getScores();
     int incrementalScores[4] = {0};
-
+   
     Gtk::Dialog dialog("Results", *this);
     Gtk::VBox* contentArea = dialog.get_vbox();
 
     std::stringstream resultStream;
-
+    
+    //build the stringstream using information from discard pile, and current score
     for (int i = 0; i < 4; i++) {
         std::vector<Card> discarded = facade_->getDiscarded(i);
 
         resultStream << "Player " << i + 1 << " discarded:";
+
+        //get the score increment this round
+        //and add the discarded cards to stringstream
         for (unsigned j = 0; j < discarded.size(); j++) {
             resultStream << " " << discarded[j];
             incrementalScores[i] += (int)discarded[j].getRank() + 1;
         }
+
+        //add the "previous score + increment = total score" to stringstream
         resultStream << std::endl;
         resultStream << "Player " << i + 1 << " score: ";
         resultStream << scores[i] - incrementalScores[i] << " + ";
@@ -164,6 +179,7 @@ void View::recapPopup() {
         resultStream << std::endl << std::endl;
     }
 
+    //display message box with string
     Gtk::Label message(resultStream.str());
     message.show();
 
@@ -173,21 +189,18 @@ void View::recapPopup() {
     dialog.run();
 }
 
+//create a dialog box to show results of entire game
 void View::resultPopup() {
-    int winner = 0;
-    int const* scores = facade_->getScores();
-
     Gtk::Dialog dialog("Results", *this);
     Gtk::VBox* contentArea = dialog.get_vbox();
 
     std::stringstream resultStream;
-
-    for (int i = 1; i < 4; i++) {
-        if (scores[i] < scores[winner])
-            winner = i;
-    }
+    
+    //find out who the winner is
+    int winner = facade_->getWinner();
     resultStream << "Player " << winner + 1 << " wins!" << std::endl;
 
+    //display message box with string
     Gtk::Label message(resultStream.str());
     message.show();
     contentArea->pack_start(message, true, false);
@@ -196,8 +209,13 @@ void View::resultPopup() {
     dialog.run();
 }
 
+//create a dialog box to display that a new round has started.
+//and who the first player is
+//only if the first player is human
+//otherwise, computers will go straight to end of round
 void View::firstTurnPopup() {
     int currentPlayer = facade_->getCurrentPlayer();
+
     Gtk::Dialog dialog("First Turn", *this);
     Gtk::VBox* contentArea = dialog.get_vbox();
 
@@ -205,6 +223,7 @@ void View::firstTurnPopup() {
 
     resultStream << "New round.  Player " << currentPlayer << " starts!" << std::endl;
 
+    //display message box with string
     Gtk::Label message(resultStream.str());
     message.show();
     contentArea->pack_start(message, true, false);
@@ -214,16 +233,19 @@ void View::firstTurnPopup() {
 
 }
 
+//update the player info box
 void View::updatePlayerInfo() {
     updateScores();
     updateDiscards();
 }
 
+//update the score in the player info box
 void View::updateScores() {
     int score;
     for (int i = 0; i < 4; i++) {
         std::stringstream sstream;
         score = facade_->getScore(i);
+        //check for plural
         if (score == 1) {
             sstream << score << " point";
         }
@@ -234,11 +256,13 @@ void View::updateScores() {
     }
 }
 
+//update the discard count in player info box
 void View::updateDiscards() {
     int discards;
     for (int i = 0; i < 4; i++) {
         std::stringstream sstream;
         discards = facade_->getDiscard(i);
+        //check for plural
         if (discards == 1) {
             sstream << discards << " discard";
         }
@@ -250,10 +274,12 @@ void View::updateDiscards() {
     }
 }
 
+//Update the displayed cards on the table
 void View::updateTable() {
-    //Update the displayed cards on the table
     bool const* table = facade_->getTable();
     for (int i = 0; i < 52; i++ ) {
+        //if true, get card image and display
+        //if false, display empty card image
         if (table[i])
             card[0] = new Gtk::Image( deck.getCardImage( (Rank)(i % 13), (Suit)(i / 13) ) );
         else
@@ -263,17 +289,21 @@ void View::updateTable() {
     } 
 }
 
+//update the player's hand of cards
 void View::updatePlayerHand() {
     int currentPlayer = facade_->getCurrentPlayer();
 
     std::vector<Card> hand;
-    if (currentPlayer > 0)
+    if (currentPlayer >= 1 && currentPlayer <= 4)
         hand = facade_->getHand(currentPlayer - 1);
 
+    //display each card in the hand
     for (int i = 0; (unsigned)i < hand.size(); i++) {
         card[0] = new Gtk::Image( deck.getCardImage( hand[i].getRank(), hand[i].getSuit() ) );
         playerCardButton[i].set_image( *card[0] );
     }
+
+    //set remaining card slots to show empty card image
     for (int i = hand.size(); i < 13; i++) {
         card[0] = new Gtk::Image( deck.getNullCardImage() );
         playerCardButton[i].set_image( *card[0] );
@@ -282,6 +312,7 @@ void View::updatePlayerHand() {
 
 // Creates dialog boxes to allow the user to choose whether each
 // player is human or computer
+// and get seeding values
 bool View::setPlayerTypes() {
     enum PlayerType {HUMAN, COMPUTER};
 
@@ -292,6 +323,7 @@ bool View::setPlayerTypes() {
     message.show();
     contentArea->pack_start(message, true, false);
 
+    //limit seed range from 0-999
     seedButton.set_digits(0);
     seedButton.set_increments(1, 1);
     seedButton.set_range(0, 999);
@@ -345,7 +377,6 @@ bool View::setPlayerTypes() {
     }
 
     controller_->setPlayers(playerTypes, seedValue);
-
     return true;
 
 }

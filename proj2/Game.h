@@ -32,6 +32,7 @@ public:
     bool getCurrentPlayerType() const;
     int getCurrentTurn() const;
     GameState getCurrentState() const;
+    int getWinner() const;
 
     void setPlayers(std::string[], int);
 

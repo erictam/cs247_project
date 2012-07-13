@@ -21,6 +21,7 @@ class Facade : public Subject {
         virtual GameState getCurrentState() const = 0;
 
         virtual int getDiscard(int) = 0;
+        virtual int getWinner() const = 0;
     protected:
         Facade() {} //abstract base class
     private:
