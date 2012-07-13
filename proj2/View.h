@@ -56,7 +56,9 @@ private:
     Controller*                     controller_;
 
     void update();
+    void updatePlayerInfo();
     void updateScores();
+    void updateDiscards();
 
     void newGameButtonClicked();
     void endGameButtonClicked();

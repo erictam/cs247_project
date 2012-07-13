@@ -181,6 +181,10 @@ int const* Game::getScores() const {
     return playerScores_;
 }
 
+int Game::getDiscard (int player) {
+    return getDiscarded(player).size();
+}
+
 //int player parameter passed in from 0 to 3
 std::vector<Card> Game::getDiscarded(int player) {
     return players_[player]->getDiscarded();

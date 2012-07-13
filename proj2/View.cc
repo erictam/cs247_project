@@ -85,7 +85,7 @@ View::View( Controller* c, Game* g)
             rageButton[i].set_sensitive(false);
         }
 
-        yourHandFrame.set_label("Your hand");
+        yourHandFrame.set_label("Player's Hand");
         yourHandFrame.add(playerHBox);
 
         for (int i = 0; i < 13; i++ ) {
@@ -131,7 +131,7 @@ void View::update() {
     int currentPlayer = game_->getCurrentPlayer();
     for (int i = 0; i < 4; i++) {
         rageButton[i].set_sensitive(false);
-    } 
+    }
  
     GameState currentState = game_->getCurrentState();
     bool const* table = game_->getTable();
@@ -148,6 +148,10 @@ void View::update() {
             tableButton[j * 13 + i].set_image( *card[0] );	
         } 
     }
+
+    std::stringstream sstream;
+    sstream << "Player " << currentPlayer << "'s Hand";
+    yourHandFrame.set_label(sstream.str());
 
     if (currentState == NEWGAME) {
 
@@ -168,7 +172,7 @@ void View::update() {
     }
 
     else if (currentState == TAKETURN) {
-        updateScores();
+        updatePlayerInfo();
 
         rageButton[currentPlayer - 1].set_sensitive(true);
 
@@ -185,7 +189,7 @@ void View::update() {
     }
 
     else if (currentState == NEXTROUND) {
-        updateScores();
+        updatePlayerInfo();
 
         Gtk::Dialog dialog("Start Game", *this);
 
@@ -217,7 +221,7 @@ void View::update() {
     }
 
     else if (currentState == FINISHEDGAME) {
-        updateScores();
+        updatePlayerInfo();
         int winner = 0;
 
         rageButton[currentPlayer - 1].set_sensitive(false);
@@ -254,6 +258,11 @@ void View::update() {
 
 } // View::~View()
 
+void View::updatePlayerInfo() {
+    updateScores();
+    updateDiscards();
+}
+
 void View::updateScores() {
     int score;
     for (int i = 0; i < 4; i++) {
@@ -266,6 +275,22 @@ void View::updateScores() {
             sstream << score << " points";
         }
         pointsLabel[i].set_label(sstream.str());
+    }
+}
+
+void View::updateDiscards() {
+    int discards;
+    for (int i = 0; i < 4; i++) {
+        std::stringstream sstream;
+        discards = game_->getDiscard(i);
+        if (discards == 1) {
+            sstream << discards << " discard";
+        }
+        else {
+            sstream << discards << " discards";
+        }
+        discardsLabel[i].set_label(sstream.str());
+
     }
 }
 
