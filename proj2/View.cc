@@ -217,7 +217,7 @@ void View::update() {
             playerCardButton[i].set_image( *card[0] );
         }
         
-        Gtk::Dialog dialog("Start Game", *this);
+        Gtk::Dialog dialog("Results", *this);
         Gtk::VBox* contentArea = dialog.get_vbox();
 
         std::stringstream resultStream;
@@ -242,7 +242,7 @@ void View::update() {
 void View::recapPopup() {
     int const* scores = game_->getScores();
     int incrementalScores[4] = {0};
-    Gtk::Dialog dialog("Start Game", *this);
+    Gtk::Dialog dialog("Results", *this);
 
     Gtk::VBox* contentArea = dialog.get_vbox();
 
@@ -251,13 +251,13 @@ void View::recapPopup() {
     for (int i = 0; i < 4; i++) {
         std::vector<Card> discarded = game_->getDiscarded(i);
 
-        resultStream << "player " << i + 1 << " discarded:";
+        resultStream << "Player " << i + 1 << " discarded:";
         for (unsigned j = 0; j < discarded.size(); j++) {
             resultStream << " " << discarded[j];
             incrementalScores[i] += (int)discarded[j].getRank() + 1;
         }
         resultStream << std::endl;
-        resultStream << "player " << i + 1 << " score: ";
+        resultStream << "Player " << i + 1 << " score: ";
         resultStream << scores[i] - incrementalScores[i] << " + ";
         resultStream << incrementalScores[i] << " = " << scores[i];
         resultStream << std::endl << std::endl;
