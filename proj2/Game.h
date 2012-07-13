@@ -41,8 +41,8 @@ public:
 
     void startGame();
     void endGame();
-    void tryPlayingCard(Card);
-    void tryDiscardingCard(Card);
+    void tryPlayingCard(int);
+    void tryDiscardingCard(int);
 
     void autoTurn();
     void checkForRoundComplete();

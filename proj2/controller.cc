@@ -21,13 +21,13 @@ void Controller::setPlayers(std::string playerTypes[], int seed) {
 }
 
 // Attempts to play a card
-void Controller::tryPlayingCard(Card c) {
-    game_->tryPlayingCard(c); 
+void Controller::tryPlayingCard(int cardClicked) {
+    game_->tryPlayingCard(cardClicked); 
 }
 
 // Attempts to discard a card
-void Controller::tryDiscardingCard(Card c) {
-    game_->tryDiscardingCard(c);
+void Controller::tryDiscardingCard(int cardClicked) {
+    game_->tryDiscardingCard(cardClicked);
 }
 
 bool const* Controller::getTable() const {

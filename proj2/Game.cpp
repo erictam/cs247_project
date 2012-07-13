@@ -210,6 +210,10 @@ bool Game::getCurrentPlayerType() {
 
 void Game::endGame() {
     table_.clearTable();
+    for (int i = 0; i < 4; i++) {
+        playerScores_[i] = 0;
+        players_[i]->clearPlayer();
+    }
     state_ = QUITGAME;
     notify();
 }
@@ -231,7 +235,7 @@ void Game::setPlayers(std::string playerTypes[], int seed) {
 
     srand48(seed);
 
-    
+
 
     //startGame();
 }
@@ -257,7 +261,7 @@ void Game::checkForRoundComplete() {
             gameIsComplete = true;
         }
     }
-    
+
     // If all cards have been played, change the state to
     // Finished Game or Next Round depending on the boolean
     if (currentTurn_ > CARD_COUNT) {
@@ -294,10 +298,14 @@ void Game::startGame() {
     notify();
 }
 
-void Game::tryPlayingCard(Card c) {
+void Game::tryPlayingCard(int cardClicked) {
     if (getCurrentState() != TAKETURN) {
         return;
     }
+
+
+    std::vector<Card> hand = players_[currentPlayer_ - 1]->getHand();
+    Card c = hand[cardClicked];
 
     if (players_[currentPlayer_ - 1]->playCard(c)) {
         currentPlayer_++;
@@ -316,10 +324,14 @@ void Game::tryPlayingCard(Card c) {
     notify();
 }
 
-void Game::tryDiscardingCard(Card c) {
+void Game::tryDiscardingCard(int cardClicked) {
     if (getCurrentState() != TAKETURN) {
         return;
     }
+
+    std::vector<Card> hand = players_[currentPlayer_ - 1]->getHand();
+    Card c = hand[cardClicked];
+
 
     if (players_[currentPlayer_ - 1]->discardCard(c)) {
         playerScores_[currentPlayer_ - 1] += (int)c.getRank() + 1;

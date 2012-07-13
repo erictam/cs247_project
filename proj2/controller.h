@@ -14,8 +14,8 @@ public:
    void newGameButtonClicked();             // Starts a new game
    void endGameButtonClicked();             // Ends a game
    void setPlayers(std::string[], int);     // Sets all player types and seed
-   void tryPlayingCard(Card);               // Attempts to play a card
-   void tryDiscardingCard(Card);            // Attempts to discard a card
+   void tryPlayingCard(int);               // Attempts to play a card
+   void tryDiscardingCard(int);            // Attempts to discard a card
 
     bool const* getTable() const;
     int const* getScores() const;

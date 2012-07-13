@@ -351,19 +351,19 @@ void View::endGameButtonClicked() {
 }
 
 void View::playerCardButtonClicked(unsigned int cardClicked) {
-    int currentPlayer = game_->getCurrentPlayer();
-    std::vector<Card> hand = game_->getHand(currentPlayer - 1);
+    //int currentPlayer = game_->getCurrentPlayer();
+    //std::vector<Card> hand = game_->getHand(currentPlayer - 1);
 
-    if (cardClicked < hand.size()) {
-        controller_->tryPlayingCard(hand[cardClicked]);
-    }
+    //if (cardClicked < hand.size()) 
+        controller_->tryPlayingCard(cardClicked);
+    
 }
 
 void View::discardButtonClicked(unsigned int cardClicked) {
-    int currentPlayer = game_->getCurrentPlayer();
-    std::vector<Card> hand = game_->getHand(currentPlayer - 1);
-    if (cardClicked < hand.size())
-        controller_->tryDiscardingCard(hand[cardClicked]); 
+    //int currentPlayer = game_->getCurrentPlayer();
+    //std::vector<Card> hand = game_->getHand(currentPlayer - 1);
+    //if (cardClicked < hand.size())
+        controller_->tryDiscardingCard(cardClicked); 
 }
 
 void View::rageButtonClicked( unsigned int buttonClicked ) {
