@@ -45,6 +45,7 @@ public:
     void tryDiscardingCard(Card);
 
     void autoTurn();
+    void checkForRoundComplete();
 
     void rageQuit(int);
 

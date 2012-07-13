@@ -236,8 +236,41 @@ void Game::setPlayers(std::string playerTypes[], int seed) {
     //startGame();
 }
 
-void Game::startGame() {
+// Lets the computer take their turns
+void Game::autoTurn() {
+    // While the current player is not human...
+    while (!getCurrentPlayerType() && currentTurn_ <= CARD_COUNT) {
+        takeTurn();
+        // Increment and mod the result such that it returns 1 to 4
+        currentPlayer_++;
+        currentPlayer_ = (currentPlayer_ - 1) % NUM_PLAYERS + 1;
+    }
+}
+
+// Checks to see if the round or game is complete
+void Game::checkForRoundComplete() {
     bool gameIsComplete = false;
+
+    // Checks each player's score for any over MAX_SCORE
+    for (int i = 0; i < 4; i++) {
+        if (playerScores_[i] >= MAX_SCORE) {
+            gameIsComplete = true;
+        }
+    }
+    
+    // If all cards have been played, change the state to
+    // Finished Game or Next Round depending on the boolean
+    if (currentTurn_ > CARD_COUNT) {
+        if (gameIsComplete) {
+            state_ = FINISHEDGAME;
+        }
+        else {
+            state_ = NEXTROUND;
+        }
+    }
+}
+
+void Game::startGame() {
     currentTurn_ = 1;
     deck_.shuffle();
 
@@ -254,31 +287,9 @@ void Game::startGame() {
     //figure out the first player and set currentPlayer_.
     determineFirstPlayer();
 
-    while (!getCurrentPlayerType() && currentTurn_ <= CARD_COUNT) {
-        //std::cout<<"COMPUTER";
-
-        takeTurn();
-
-        if (playerScores_[currentPlayer_ - 1] >= MAX_SCORE) {
-            gameIsComplete = true;
-        }
-
-        currentPlayer_++;
-        if (currentPlayer_ == NUM_PLAYERS + 1) {
-            currentPlayer_ = 1;
-        }
-    }
-
+    autoTurn();
     state_ = TAKETURN;
-
-    if (currentTurn_ > CARD_COUNT) {
-        if (gameIsComplete) {
-            state_ = FINISHEDGAME;
-        }
-        else {
-            state_ = NEXTROUND;
-        }
-    }
+    checkForRoundComplete();
 
     notify();
 }
@@ -288,7 +299,6 @@ void Game::tryPlayingCard(Card c) {
         return;
     }
 
-    bool gameIsComplete = false;
     if (players_[currentPlayer_ - 1]->playCard(c)) {
         currentPlayer_++;
         if (currentPlayer_ == NUM_PLAYERS + 1) 
@@ -299,28 +309,9 @@ void Game::tryPlayingCard(Card c) {
         return;
     }
 
-    while (!getCurrentPlayerType() && currentTurn_ <= CARD_COUNT) {
-
-        takeTurn();
-
-        if (playerScores_[currentPlayer_ - 1] >= MAX_SCORE) {
-            gameIsComplete = true;
-        }
-
-        currentPlayer_++;
-        if (currentPlayer_ == NUM_PLAYERS + 1) {
-            currentPlayer_ = 1;
-        }
-    }
-
+    autoTurn();
     state_ = TAKETURN;
-
-    if (currentTurn_ > CARD_COUNT) {
-        if (gameIsComplete)
-            state_ = FINISHEDGAME;
-        else
-            state_ = NEXTROUND;
-    }
+    checkForRoundComplete();
 
     notify();
 }
@@ -330,7 +321,6 @@ void Game::tryDiscardingCard(Card c) {
         return;
     }
 
-    bool gameIsComplete = false;
     if (players_[currentPlayer_ - 1]->discardCard(c)) {
         playerScores_[currentPlayer_ - 1] += (int)c.getRank() + 1;
         currentPlayer_++;
@@ -342,61 +332,18 @@ void Game::tryDiscardingCard(Card c) {
         return;
     }
 
-    while (!getCurrentPlayerType() && currentTurn_ <= CARD_COUNT) {
+    autoTurn();
+    checkForRoundComplete();
 
-        takeTurn();
-
-        if (playerScores_[currentPlayer_ - 1] >= MAX_SCORE) {
-            gameIsComplete = true;
-        }
-
-        currentPlayer_++;
-        if (currentPlayer_ == NUM_PLAYERS + 1) {
-            currentPlayer_ = 1;
-        }
-    }
-
-    if (currentTurn_ > CARD_COUNT) {
-        if (gameIsComplete)
-            state_ = FINISHEDGAME;
-        else
-            state_ = NEXTROUND;
-    }
     notify();
 }
 
 void Game::rageQuit( int player) {
-    bool gameIsComplete = false;
-
-    std::cout<<"SOMETHING";
     players_[player]->rageQuit();
 
-    while (!getCurrentPlayerType() && currentTurn_ <= CARD_COUNT) {
-
-        takeTurn();
-
-        if (playerScores_[currentPlayer_ - 1] >= MAX_SCORE) {
-            gameIsComplete = true;
-        }
-
-        currentPlayer_++;
-        if (currentPlayer_ == NUM_PLAYERS + 1) {
-            currentPlayer_ = 1;
-        }
-    }
-
+    autoTurn();
     state_ = TAKETURN;
-
-    if (currentTurn_ > CARD_COUNT) {
-        if (gameIsComplete) {
-            state_ = FINISHEDGAME;
-        }
-        else {
-            state_ = NEXTROUND;
-        }
-    }
+    checkForRoundComplete();
 
     notify();
-
-
 }
