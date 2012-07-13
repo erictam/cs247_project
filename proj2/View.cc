@@ -4,16 +4,9 @@
 #include <iostream>
 #include <stdlib.h>
 
-// Sets the horizontal box to have homogeneous spacing (all elements are of the same size), and to put 10 pixels
-// between each widget. Initializes the pixel buffer for the null place holder card, and the 10 of spades.
-// Puts a frame in the window, and lays out the widgets horizontally. Four widgets are images, the fifth is a button
-// with an image in it.
-//
-// Since widgets cannot be shared, must use pixel buffers to share images.
 View::View( Controller* c, Game* g) 
     : mainTable( 5, 4, false), playedCardsTable(4,1,false), newGameButton("New Game"),
     endGameButton("End Game"), game_(g), controller_(c) {
-        //const Glib::RefPtr<Gdk::Pixbuf> cardPixbuf     = deck.getCardImage( TEN, SPADE );
 
         // Sets the border width of the window.
         set_border_width( 10 );
@@ -21,48 +14,37 @@ View::View( Controller* c, Game* g)
         add(mainTable);
 
         // Links the startGame method to the New Game button
-        //newGameButton.signal_clicked().connect( sigc::mem_fun( *this, &View::setPlayerTypes ) );
         newGameButton.signal_clicked().connect( sigc::mem_fun( *this, &View::newGameButtonClicked ) );
         endGameButton.signal_clicked().connect( sigc::mem_fun( *this, &View::endGameButtonClicked ) );
 
+        //TOP BOX
         topHBox.add(newGameButton);
         topHBox.add(endGameButton);
-
         mainTable.attach(topHBox, 0, 4, 0, 1);
-        mainTable.attach(playedCardsFrame, 0, 4, 1, 2);
-        for (int i = 0; i < 4; i++) {
-            mainTable.attach(playerFrame[i], i, i + 1, 2, 3);
-        }
-        mainTable.attach(yourHandFrame, 0, 4, 3, 4);
-        mainTable.attach(discardHBox, 0, 4, 4, 5);
 
+        //PLAYED CARDS
         playedCardsFrame.add(playedCardsTable);
         playedCardsFrame.set_label("Cards on the table");
-
-
-
-        // Initialize 4 empty cards and place them in the box.
         for (int j = 0; j < 4; j++) {
             playedCardsTable.attach(tableHBox[j], 0, 1, j, j+1);
             for (int i = 0; i < 13; i++ ) {
-                //card[0] = new Gtk::Image( deck.getCardImage( (Rank)(i), (Suit)(j) ) );
                 card[0] = new Gtk::Image ( deck.getNullCardImage() );
                 tableButton[j * 13 + i].set_image( *card[0] );
                 tableHBox[j].add( tableButton[j * 13 + i] );
-                //button[j*13+i].signal_clicked().connect( sigc::mem_fun( *this, &View::newGameButtonClicked ) );
-
-            } // for
+            }
         }
+        mainTable.attach(playedCardsFrame, 0, 4, 1, 2);
 
+        //RAGE, POINTS, DISCARDS
         for (int i = 0; i < 4; i++) {
             std::stringstream sstream;
             sstream << "Player "<< i + 1;
             playerFrame[i].set_label(sstream.str());
-            playerFrame[i].add(rageVBox[i]);
 
             rageButton[i].set_label("Rage!");
             rageVBox[i].add(rageButton[i]);
             rageButton[i].signal_clicked().connect( sigc::bind( sigc::mem_fun( *this, &View::rageButtonClicked), i ));
+            rageButton[i].set_sensitive(false);
 
             pointsLabel[i].set_label("0 points");
             rageVBox[i].add(pointsLabel[i]);
@@ -70,25 +52,27 @@ View::View( Controller* c, Game* g)
             discardsLabel[i].set_label("0 discards");
             rageVBox[i].add(discardsLabel[i]);
 
-            rageButton[i].set_sensitive(false);
+            playerFrame[i].add(rageVBox[i]);
+
+            mainTable.attach(playerFrame[i], i, i + 1, 2, 3);
         }
 
+        //PLAYER HAND, DISCARD BUTTONS
         yourHandFrame.set_label("Player's Hand");
         yourHandFrame.add(playerHBox);
-
         for (int i = 0; i < 13; i++ ) {
-            //card[0] = new Gtk::Image( deck.getCardImage( (Rank)(i), (Suit)(j) ) );
             card[0] = new Gtk::Image ( deck.getNullCardImage() );
             playerCardButton[i].set_image( *card[0] );	
             playerCardButton[i].signal_clicked().connect( sigc::bind( sigc::mem_fun( *this, &View::playerCardButtonClicked ), i ));
             playerHBox.add( playerCardButton[i] );
-            //button[j*13+i].signal_clicked().connect( sigc::mem_fun( *this, &View::newGameButtonClicked ) );
 
             discardButton[i].set_label("Discard");
             discardHBox.add(discardButton[i]);
             discardButton[i].signal_clicked().connect( sigc::bind( sigc::mem_fun( *this, &View::discardButtonClicked ), i ));
+        }
 
-        } // for
+        mainTable.attach(yourHandFrame, 0, 4, 3, 4);
+        mainTable.attach(discardHBox, 0, 4, 4, 5);
 
         // The final step is to display this newly created widget.
         show_all();
@@ -103,37 +87,29 @@ View::~View() {
 
 void View::newGameButtonClicked() {
     if (setPlayerTypes()) {
-        game_->startGame(); 
+        controller_->newGameButtonClicked(); 
     }
 }
 
 void View::update() {
-    int currentPlayer = game_->getCurrentPlayer();
+    GameState currentState = game_->getCurrentState();
+    int currentPlayer = controller_->getCurrentPlayer();
+
+    //Disable all rage buttons
     for (int i = 0; i < 4; i++) {
         rageButton[i].set_sensitive(false);
     }
- 
-    GameState currentState = game_->getCurrentState();
-    bool const* table = game_->getTable();
-    int const* scores = game_->getScores();
 
-    for (int j = 0; j < 4; j++) {
-        //pointsLabel[i].set_label(scores[i] + " points");
-        for (int i = 0; i < 13; i++ ) {
-            if (table[j * 13 + i])
-                card[0] = new Gtk::Image( deck.getCardImage( (Rank)(i), (Suit)(j) ) );
-            else
-                card[0] = new Gtk::Image( deck.getNullCardImage() );
-
-            tableButton[j * 13 + i].set_image( *card[0] );	
-        } 
-    }
-
+    //Update the player frame 
     std::stringstream sstream;
     sstream << "Player " << currentPlayer << "'s Hand";
     yourHandFrame.set_label(sstream.str());
 
+    updateTable();
+    updatePlayerInfo();
+
     if (currentState == QUITGAME) {
+        //Remove all cards from hand display.
         for (int i = 0; i < 13; i++) {
             card[0] = new Gtk::Image( deck.getNullCardImage() );
             playerCardButton[i].set_image( *card[0] );
@@ -141,75 +117,28 @@ void View::update() {
     }
 
     else if (currentState == TAKETURN) {
-        updatePlayerInfo();
-
         rageButton[currentPlayer - 1].set_sensitive(true);
 
-        std::vector<Card> hand = game_->getHand(currentPlayer - 1);
-
-        for (int i = 0; (unsigned)i < hand.size(); i++) {
-            card[0] = new Gtk::Image( deck.getCardImage( hand[i].getRank(), hand[i].getSuit() ) );
-            playerCardButton[i].set_image( *card[0] );
-        }
-        for (int i = hand.size(); i < 13; i++) {
-            card[0] = new Gtk::Image( deck.getNullCardImage() );
-            playerCardButton[i].set_image( *card[0] );
-        }
+        updatePlayerHand();
     }
 
     else if (currentState == NEXTROUND) {
-        updatePlayerInfo();
-
         recapPopup(); 
-
         game_->startGame();
-        
     }
-
     else if (currentState == FINISHEDGAME) {
-        updatePlayerInfo();
         recapPopup();
-        int winner = 0;
 
         rageButton[currentPlayer - 1].set_sensitive(false);
-        std::vector<Card> hand = game_->getHand(currentPlayer - 1);
-
-        for (int i = 0; (unsigned)i < hand.size(); i++) {
-            card[0] = new Gtk::Image( deck.getCardImage( hand[i].getRank(), hand[i].getSuit() ) );
-            playerCardButton[i].set_image( *card[0] );
-        }
-        for (int i = hand.size(); i < 13; i++) {
-            card[0] = new Gtk::Image( deck.getNullCardImage() );
-            playerCardButton[i].set_image( *card[0] );
-        }
-        
-        Gtk::Dialog dialog("Results", *this);
-        Gtk::VBox* contentArea = dialog.get_vbox();
-
-        std::stringstream resultStream;
-        for (int i = 1; i < 4; i++) {
-            if (scores[i] < scores[winner])
-                winner = i;
-        }
-
-        resultStream << "Player " << winner + 1 << " wins!" << std::endl;
-
-        Gtk::Label message(resultStream.str());
-        message.show();
-        contentArea->pack_start(message, true, false);
-        dialog.add_button("OK", 0);
-
-        dialog.run();
-
+        updatePlayerHand();        
     }
-
-} // View::~View()
+}
 
 void View::recapPopup() {
-    int const* scores = game_->getScores();
+    int const* scores = controller_->getScores();
     int incrementalScores[4] = {0};
-    Gtk::Dialog dialog("Results", *this);
 
+    Gtk::Dialog dialog("Results", *this);
     Gtk::VBox* contentArea = dialog.get_vbox();
 
     std::stringstream resultStream;
@@ -236,9 +165,29 @@ void View::recapPopup() {
     dialog.add_button("Next Round", GTK_RESPONSE_CLOSE);
 
     dialog.run();
-    //dialog.~Dialog();
+}
 
+void View::resultPopup() {
+    int winner = 0;
+    int const* scores = game_->getScores();
 
+    Gtk::Dialog dialog("Results", *this);
+    Gtk::VBox* contentArea = dialog.get_vbox();
+
+    std::stringstream resultStream;
+
+    for (int i = 1; i < 4; i++) {
+        if (scores[i] < scores[winner])
+            winner = i;
+    }
+    resultStream << "Player " << winner + 1 << " wins!" << std::endl;
+
+    Gtk::Label message(resultStream.str());
+    message.show();
+    contentArea->pack_start(message, true, false);
+    dialog.add_button("OK", GTK_RESPONSE_CLOSE);
+
+    dialog.run();
 }
 
 void View::updatePlayerInfo() {
@@ -274,6 +223,33 @@ void View::updateDiscards() {
         }
         discardsLabel[i].set_label(sstream.str());
 
+    }
+}
+
+void View::updateTable() {
+    //Update the displayed cards on the table
+    bool const* table = controller_->getTable();
+    for (int i = 0; i < 52; i++ ) {
+        if (table[i])
+            card[0] = new Gtk::Image( deck.getCardImage( (Rank)(i % 13), (Suit)(i / 13) ) );
+        else
+            card[0] = new Gtk::Image( deck.getNullCardImage() );
+
+        tableButton[i].set_image( *card[0] );	
+    } 
+}
+
+void View::updatePlayerHand() {
+    int currentPlayer = game_->getCurrentPlayer();
+    std::vector<Card> hand = game_->getHand(currentPlayer - 1);
+
+    for (int i = 0; (unsigned)i < hand.size(); i++) {
+        card[0] = new Gtk::Image( deck.getCardImage( hand[i].getRank(), hand[i].getSuit() ) );
+        playerCardButton[i].set_image( *card[0] );
+    }
+    for (int i = hand.size(); i < 13; i++) {
+        card[0] = new Gtk::Image( deck.getNullCardImage() );
+        playerCardButton[i].set_image( *card[0] );
     }
 }
 

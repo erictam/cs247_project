@@ -59,8 +59,11 @@ private:
     void updatePlayerInfo();
     void updateScores();
     void updateDiscards();
+    void updateTable();
+    void updatePlayerHand();
 
     void recapPopup();
+    void resultPopup();
 
     void newGameButtonClicked();
     void endGameButtonClicked();

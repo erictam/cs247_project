@@ -29,3 +29,18 @@ void Controller::tryPlayingCard(Card c) {
 void Controller::tryDiscardingCard(Card c) {
     game_->tryDiscardingCard(c);
 }
+
+bool const* Controller::getTable() const {
+    return game_->getTable();
+}
+
+int const* Controller::getScores() const {
+    return game_->getScores();
+}
+
+int Controller::getCurrentPlayer() const {
+    return game_->getCurrentPlayer();
+}
+
+
+

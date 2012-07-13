@@ -17,6 +17,9 @@ public:
    void tryPlayingCard(Card);               // Attempts to play a card
    void tryDiscardingCard(Card);            // Attempts to discard a card
 
+    bool const* getTable() const;
+    int const* getScores() const;
+    int getCurrentPlayer() const;
 private:
    Game* game_;                             // Model Game class
 }; // Controller
