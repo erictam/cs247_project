@@ -131,6 +131,7 @@ void Player::rageQuit () {
     isHuman_ = false;
 }
 
+// Checks to see if the player is a human or computer
 bool Player::getIsHuman() const {
     return isHuman_;
 }

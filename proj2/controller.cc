@@ -30,6 +30,7 @@ void Controller::tryDiscardingCard(int cardClicked) {
     game_->tryDiscardingCard(cardClicked);
 }
 
+// Turns a human player into a computer player
 void Controller::rageQuit(int player) {
     game_->rageQuit(player);
 }
