@@ -12,8 +12,9 @@
 View::View( Controller* c, Game* g) 
     : mainTable( 5, 4, false), playedCardsTable(4,1,false), newGameButton("New Game"),
     endGameButton("End Game"), game_(g), controller_(c) {
-
         //const Glib::RefPtr<Gdk::Pixbuf> cardPixbuf     = deck.getCardImage( TEN, SPADE );
+std::cout<<"RAGE";
+std::cout<<"RAGE";
 
         // Sets the border width of the window.
         set_border_width( 10 );
@@ -73,6 +74,7 @@ View::View( Controller* c, Game* g)
 
             rageButton[i].set_label("Rage!");
             rageVBox[i].add(rageButton[i]);
+            rageButton[i].signal_clicked().connect( sigc::bind( sigc::mem_fun( *this, &View::rageButtonClicked), i ));
 
             pointsLabel[i].set_label("0 points");
             rageVBox[i].add(pointsLabel[i]);
@@ -91,11 +93,11 @@ View::View( Controller* c, Game* g)
             playerCardButton[i].signal_clicked().connect( sigc::bind( sigc::mem_fun( *this, &View::playerCardButtonClicked ), i ));
             playerHBox.add( playerCardButton[i] );
             //button[j*13+i].signal_clicked().connect( sigc::mem_fun( *this, &View::newGameButtonClicked ) );
-            
+
             discardButton[i].set_label("Discard");
             discardHBox.add(discardButton[i]);
             discardButton[i].signal_clicked().connect( sigc::bind( sigc::mem_fun( *this, &View::discardButtonClicked ), i ));
-            
+
         } // for
 
 
@@ -124,8 +126,15 @@ void View::newGameButtonClicked() {
 }
 
 void View::update() {
+    int currentPlayer = game_->getCurrentPlayer();
+
+    for (int i = 0; i < 4; i++) {
+        rageButton[i].set_sensitive(false);
+    }
+    rageButton[currentPlayer - 1].set_sensitive(true);
+ 
     GameState currentState = game_->getCurrentState();
-        bool const* table = game_->getTable();
+    bool const* table = game_->getTable();
     int const* scores = game_->getScores();
 
     for (int j = 0; j < 4; j++) {
@@ -135,11 +144,11 @@ void View::update() {
                 card[0] = new Gtk::Image( deck.getCardImage( (Rank)(i), (Suit)(j) ) );
             else
                 card[0] = new Gtk::Image( deck.getNullCardImage() );
-            
+
             tableButton[j * 13 + i].set_image( *card[0] );	
         } 
     }
-    
+
     if (currentState == NEWGAME) {
 
         //popup boxes prompting player types
@@ -154,7 +163,6 @@ void View::update() {
     if (currentState == TAKETURN) {
         updateScores();
 
-        int currentPlayer = game_->getCurrentPlayer();
         std::vector<Card> hand = game_->getHand(currentPlayer - 1);
 
         for (int i = 0; (unsigned)i < hand.size(); i++) {
@@ -175,7 +183,6 @@ void View::update() {
     if (currentState == FINISHEDGAME) {
         updateScores();
 
-        int currentPlayer = game_->getCurrentPlayer();
         std::vector<Card> hand = game_->getHand(currentPlayer - 1);
 
         for (int i = 0; (unsigned)i < hand.size(); i++) {
@@ -278,6 +285,7 @@ void View::playerCardButtonClicked(unsigned int cardClicked) {
     //
     //
 
+    std::cout<<"SOMETHING";
     int currentPlayer = game_->getCurrentPlayer();
     std::vector<Card> hand = game_->getHand(currentPlayer - 1);
     if (cardClicked < hand.size())
@@ -285,9 +293,15 @@ void View::playerCardButtonClicked(unsigned int cardClicked) {
 }
 
 void View::discardButtonClicked(unsigned int cardClicked) {
-
+    
     int currentPlayer = game_->getCurrentPlayer();
     std::vector<Card> hand = game_->getHand(currentPlayer - 1);
     if (cardClicked < hand.size())
         controller_->tryDiscardingCard(hand[cardClicked]); 
+}
+
+void View::rageButtonClicked( unsigned int buttonClicked ) {
+    std::cout<<"RAGE";
+
+    game_->rageQuit(buttonClicked);
 }

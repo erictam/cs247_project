@@ -45,6 +45,8 @@ public:
 
     void autoTurn();
 
+    void rageQuit(int);
+
 private:
     Deck deck_;
     Player* players_[4];

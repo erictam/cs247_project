@@ -353,3 +353,38 @@ void Game::tryDiscardingCard(Card c) {
     notify();
 }
 
+void Game::rageQuit( int player) {
+    bool gameIsComplete = false;
+
+    std::cout<<"SOMETHING";
+    players_[player]->rageQuit();
+
+    while (!getCurrentPlayerType() && currentTurn_ <= CARD_COUNT) {
+
+        takeTurn();
+
+        if (playerScores_[currentPlayer_ - 1] >= MAX_SCORE) {
+            gameIsComplete = true;
+        }
+
+        currentPlayer_++;
+        if (currentPlayer_ == NUM_PLAYERS + 1) {
+            currentPlayer_ = 1;
+        }
+    }
+
+    state_ = TAKETURN;
+
+    if (currentTurn_ > CARD_COUNT) {
+        if (gameIsComplete) {
+            state_ = FINISHEDGAME;
+        }
+        else {
+            state_ = NEXTROUND;
+        }
+    }
+
+    notify();
+
+
+}

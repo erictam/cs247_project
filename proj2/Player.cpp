@@ -189,6 +189,8 @@ void Player::rageQuit () {
     currentStrategy_ = new StrategyComputer(this);
     // delete human strategy associated with this player
     delete temp;
+
+    isHuman_ = true;
 }
 
 //method to print the deck (only needed to deck command) 
