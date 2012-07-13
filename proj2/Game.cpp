@@ -237,7 +237,7 @@ void Game::setPlayers(std::string playerTypes[], int seed) {
 
     srand48(seed);
 
-    startGame();
+    
 
     //startGame();
 }

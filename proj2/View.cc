@@ -34,7 +34,7 @@ View::View( Controller* c, Game* g)
 
         // Links the startGame method to the New Game button
         //newGameButton.signal_clicked().connect( sigc::mem_fun( *this, &View::setPlayerTypes ) );
-        newGameButton.signal_clicked().connect( sigc::mem_fun( *this, &View::setPlayerTypes ) );
+        newGameButton.signal_clicked().connect( sigc::mem_fun( *this, &View::newGameButtonClicked ) );
         endGameButton.signal_clicked().connect( sigc::mem_fun( *this, &View::endGameButtonClicked ) );
 
         topHBox.add(newGameButton);
@@ -124,7 +124,9 @@ View::~View() {
 } 
 
 void View::newGameButtonClicked() {
-    controller_->newGameButtonClicked();
+    if (setPlayerTypes()) {
+        game_->startGame(); 
+    }
 }
 
 void View::update() {
@@ -265,10 +267,10 @@ void View::recapPopup() {
     message.show();
 
     contentArea->pack_start(message, true, false);
-    dialog.add_button("Next Round", 0);
+    dialog.add_button("Next Round", GTK_RESPONSE_CLOSE);
 
     dialog.run();
-    dialog.~Dialog();
+    //dialog.~Dialog();
 
 
 }
@@ -311,7 +313,7 @@ void View::updateDiscards() {
 
 // Creates dialog boxes to allow the user to choose whether each
 // player is human or computer
-void View::setPlayerTypes() {
+bool View::setPlayerTypes() {
     enum PlayerType {HUMAN, COMPUTER};
 
     Gtk::Dialog dialog("Start Game", *this);
@@ -337,7 +339,7 @@ void View::setPlayerTypes() {
             seedValue = (int)seedButton.get_value();
             break;
         default:
-            return;
+            return false;
     }
 
     contentArea->remove(seedButton);
@@ -368,12 +370,15 @@ void View::setPlayerTypes() {
                 playerTypes[i - 1] = "c";
                 break;
             default:
-                return;
+                return false;
                 break;
         } // switch
     }
 
     controller_->setPlayers(playerTypes, seedValue);
+
+    return true;
+
 }
 
 void View::endGameButtonClicked() {
