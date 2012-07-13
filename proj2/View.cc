@@ -197,18 +197,19 @@ void View::update() {
         Gtk::Label message(resultStream.str());
         message.show();
         contentArea->pack_start(message, true, false);
-        dialog.add_button("Next Round", 1);
+        dialog.add_button("Next Round", 0);
 
         dialog.run();
+        dialog.~Dialog();
 
         game_->startGame();
         
-        
-
     }
 
     if (currentState == FINISHEDGAME) {
         updateScores();
+        int winner = 0;
+
         rageButton[currentPlayer - 1].set_sensitive(false);
         std::vector<Card> hand = game_->getHand(currentPlayer - 1);
 
@@ -220,6 +221,25 @@ void View::update() {
             card[0] = new Gtk::Image( deck.getNullCardImage() );
             playerCardButton[i].set_image( *card[0] );
         }
+
+        Gtk::Dialog dialog("Start Game", *this);
+        Gtk::VBox* contentArea = dialog.get_vbox();
+
+        std::stringstream resultStream;
+        for (int i = 1; i < 4; i++) {
+            if (scores[i] < scores[winner])
+                winner = i;
+        }
+
+        resultStream << "Player " << winner + 1 << " wins!" << std::endl;
+
+        Gtk::Label message(resultStream.str());
+        message.show();
+        contentArea->pack_start(message, true, false);
+        dialog.add_button("OK", 0);
+
+        dialog.run();
+
     }
 
 } // View::~View()
