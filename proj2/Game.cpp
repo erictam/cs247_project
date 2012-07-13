@@ -210,8 +210,6 @@ bool Game::getCurrentPlayerType() {
 
 void Game::newGame() {
     table_.clearTable();
-
-
     state_ = NEWGAME;
     notify();
 }
@@ -238,6 +236,8 @@ void Game::setPlayers(std::string playerTypes[], int seed) {
     }
 
     srand48(seed);
+
+    startGame();
 
     //startGame();
 }
