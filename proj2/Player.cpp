@@ -190,7 +190,7 @@ void Player::rageQuit () {
     // delete human strategy associated with this player
     delete temp;
 
-    isHuman_ = true;
+    isHuman_ = false;
 }
 
 //method to print the deck (only needed to deck command) 

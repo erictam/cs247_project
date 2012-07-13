@@ -127,7 +127,6 @@ void View::newGameButtonClicked() {
 
 void View::update() {
     int currentPlayer = game_->getCurrentPlayer();
-
     for (int i = 0; i < 4; i++) {
         rageButton[i].set_sensitive(false);
     }
@@ -176,13 +175,32 @@ void View::update() {
     }
 
     if (currentState == NEXTROUND) {
+        /*Gtk::Dialog dialog("Start Game", *this);
+        Gtk::VBox* contentArea = dialog.get_vbox();
+
+        std::string resultString = "";
+
+
+        for (int i = 0; i < 4; i++) {
+            std::vector<Card> discarded = game_->getDiscarded(i);
+            
+            resultString = "player
+
+        }
+
+        Gtk::Label message("Seed Value");
+        message.show();
+        contentArea->pack_start(message, true, false);*/
+
         game_->startGame();
         updateScores();
+
+
     }
 
     if (currentState == FINISHEDGAME) {
         updateScores();
-
+        rageButton[currentPlayer - 1].set_sensitive(false);
         std::vector<Card> hand = game_->getHand(currentPlayer - 1);
 
         for (int i = 0; (unsigned)i < hand.size(); i++) {
