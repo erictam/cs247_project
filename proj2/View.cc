@@ -35,6 +35,7 @@ View::View( Controller* c, Game* g)
         // Links the startGame method to the New Game button
         //newGameButton.signal_clicked().connect( sigc::mem_fun( *this, &View::setPlayerTypes ) );
         newGameButton.signal_clicked().connect( sigc::mem_fun( *this, &View::newGameButtonClicked ) );
+        endGameButton.signal_clicked().connect( sigc::mem_fun( *this, &View::endGameButtonClicked ) );
 
         topHBox.add(newGameButton);
         topHBox.add(endGameButton);
@@ -58,7 +59,7 @@ View::View( Controller* c, Game* g)
             for (int i = 0; i < 13; i++ ) {
                 //card[0] = new Gtk::Image( deck.getCardImage( (Rank)(i), (Suit)(j) ) );
                 card[0] = new Gtk::Image ( deck.getNullCardImage() );
-                tableButton[j * 13 + i].set_image( *card[0] );	
+                tableButton[j * 13 + i].set_image( *card[0] );
                 tableHBox[j].add( tableButton[j * 13 + i] );
                 //button[j*13+i].signal_clicked().connect( sigc::mem_fun( *this, &View::newGameButtonClicked ) );
 
@@ -130,8 +131,7 @@ void View::update() {
     int currentPlayer = game_->getCurrentPlayer();
     for (int i = 0; i < 4; i++) {
         rageButton[i].set_sensitive(false);
-    }
-    rageButton[currentPlayer - 1].set_sensitive(true);
+    } 
  
     GameState currentState = game_->getCurrentState();
     bool const* table = game_->getTable();
@@ -160,8 +160,17 @@ void View::update() {
         game_->startGame();
     }
 
-    if (currentState == TAKETURN) {
+    else if (currentState == QUITGAME) {
+        for (int i = 0; i < 13; i++) {
+            card[0] = new Gtk::Image( deck.getNullCardImage() );
+            playerCardButton[i].set_image( *card[0] );
+        }
+    }
+
+    else if (currentState == TAKETURN) {
         updateScores();
+
+        rageButton[currentPlayer - 1].set_sensitive(true);
 
         std::vector<Card> hand = game_->getHand(currentPlayer - 1);
 
@@ -175,10 +184,11 @@ void View::update() {
         }
     }
 
-    if (currentState == NEXTROUND) {
+    else if (currentState == NEXTROUND) {
         updateScores();
 
         Gtk::Dialog dialog("Start Game", *this);
+
         Gtk::VBox* contentArea = dialog.get_vbox();
 
         std::stringstream resultStream;
@@ -206,7 +216,7 @@ void View::update() {
         
     }
 
-    if (currentState == FINISHEDGAME) {
+    else if (currentState == FINISHEDGAME) {
         updateScores();
         int winner = 0;
 
@@ -326,16 +336,23 @@ void View::setPlayerTypes() {
     controller_->setPlayers(playerTypes, seedValue);
 }
 
+void View::endGameButtonClicked() {
+    controller_->endGameButtonClicked();
+}
+
 void View::playerCardButtonClicked(unsigned int cardClicked) {
     //card[0] = new Gtk::Image( deck.getCardImage( (Rank)(0), (Suit)(0) ) );
     //tableButton[ cardClicked ].set_image( *card[0] );	
     //
     //
+    //
 
     int currentPlayer = game_->getCurrentPlayer();
     std::vector<Card> hand = game_->getHand(currentPlayer - 1);
-    if (cardClicked < hand.size())
-        controller_->tryPlayingCard(hand[cardClicked]); 
+
+    if (cardClicked < hand.size()) {
+        controller_->tryPlayingCard(hand[cardClicked]);
+    }
 }
 
 void View::discardButtonClicked(unsigned int cardClicked) {
