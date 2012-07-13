@@ -130,7 +130,8 @@ void View::update() {
         recapPopup();
 
         rageButton[currentPlayer - 1].set_sensitive(false);
-        updatePlayerHand();        
+        updatePlayerHand();  
+        resultPopup();      
     }
 }
 
