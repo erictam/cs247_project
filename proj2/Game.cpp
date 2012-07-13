@@ -121,7 +121,7 @@ void Game::endGame() {
     // Clears the table of cards played.
     table_.clearTable();
     // Sets all four player's scores to zero and resets their hand
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < NUM_PLAYERS; i++) {
         playerScores_[i] = 0;
         if (players_[i])
             players_[i]->clearPlayer();
@@ -141,7 +141,7 @@ int Game::getWinner() const {
     int winner = 0;
 
     //find out who the winner is
-    for (int i = 1; i < 4; i++) {
+    for (int i = 1; i < NUM_PLAYERS; i++) {
         if (playerScores_[i] < playerScores_[winner])
             winner = i;
     }
@@ -181,7 +181,7 @@ void Game::checkForRoundComplete() {
     bool gameIsComplete = false;
 
     // Checks each player's score for any over MAX_SCORE
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < NUM_PLAYERS; i++) {
         if (playerScores_[i] >= MAX_SCORE) {
             gameIsComplete = true;
         }
